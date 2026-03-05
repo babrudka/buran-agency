@@ -1,0 +1,75 @@
+export const moon = {
+	id: 'moon',
+	name: 'Луна',
+	image: '/img/planets/themoon.png',
+	hasEarth: true,
+	tours: [],
+}
+
+export const planets = [
+	{
+		id: 'mercury',
+		name: 'Меркурий',
+		subtitle: 'Первая и самая маленькая планета солнечной системы',
+		image: '/img/planets/merkurij.png',
+		tours: ['Ближе некуда'],
+	},
+	{
+		id: 'venus',
+		name: 'Венера',
+		subtitle: 'Вторая и самая горячая планета солнечной системы',
+		image: '/img/planets/venera.svg',
+		tours: ['Золотая завеса'],
+	},
+	{
+		id: 'earth',
+		name: 'Земля',
+		subtitle: 'Ваше текущее местоположение',
+		showPin: true,
+		image: '/img/planets/theEarth.svg',
+		hasMoon: true,
+		tours: ['Полюс холода. Оймякон', 'Станция восток'],
+	},
+	{
+		id: 'mars',
+		name: 'Марс',
+		subtitle: 'Четвёртая и самая исследуемая планета солнечной системы',
+		image: '/img/planets/mars.svg',
+		tours: ['Сафари на марсоходах', 'Фотоохота на марсиан'],
+	},
+	{
+		id: 'jupiter',
+		name: 'Юпитер',
+		subtitle: 'Пятая и самая большая планета солнечной системы',
+		image: '/img/planets/jupiter.svg',
+		tours: ['Вихрь гигантов'],
+	},
+	{
+		id: 'saturn',
+		name: 'Сатурн',
+		subtitle: 'Шестая планета солнечной системы с самой маленькой плотностью',
+		image: '/img/planets/saturn.png',
+		tours: ['Кольцевая линия'],
+	},
+	{
+		id: 'uranus',
+		name: 'Уран',
+		subtitle: 'Седьмая и самая холодная планета солнечной системы',
+		image: '/img/planets/uran.png',
+		tours: ['Алмазный дождь', 'Ледяной штиль'],
+	},
+	{
+		id: 'neptune',
+		name: 'Нептун',
+		subtitle: 'Восьмая и самая удалённая от солнца',
+		image: '/img/planets/neptun.png',
+		tours: ['Синий предел'],
+	},
+	{
+		id: 'pluto',
+		name: 'Плутон',
+		subtitle: 'Карликовая планета',
+		image: '/img/planets/pluton.png',
+		tours: [],
+	},
+]

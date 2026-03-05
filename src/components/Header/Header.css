@@ -1,0 +1,24 @@
+header {
+    border-radius: 999px;
+    background-color: #222222;
+    max-width: 1060px;
+    height: 90px;
+    margin: 26px auto;
+    margin-bottom: 0;
+    display: flex;
+    padding: 0 30px;
+}
+
+nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: clamp(20px, 4vw, 70px);
+    justify-content: end;
+}
+
+@media (min-height: 1080px) {
+    header {
+        margin: 40px auto;
+    }
+}

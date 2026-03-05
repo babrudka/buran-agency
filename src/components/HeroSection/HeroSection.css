@@ -1,0 +1,44 @@
+.front {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.zag {
+    color: rgba(255, 255, 255, 0.5);
+    margin: 26px 0 30px;
+}
+
+.planet {
+    position: relative;
+    width: clamp(400px, 60vmin, 800px);
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(141, 190, 230, 0.09);
+    border-radius: 50%;
+    border: #FFFFFF dashed 2px;
+    margin-bottom: 34px;
+    overflow: visible;
+}
+
+.mainPlanet {
+    width: 85%;
+}
+
+.more-details {
+    position: relative;
+    z-index: 1;
+}
+
+
+@media (min-height: 1080px) {
+    .zag {
+        margin: 0 0 46px;
+    }
+
+    .planet {
+        margin-bottom: 46px;
+    }
+}

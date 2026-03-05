@@ -12,24 +12,20 @@
     font-style: normal;
 }
 
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-
 html {
     scroll-behavior: smooth;
 }
-
 
 body {
     background-color: #02060D;
     overflow-x: hidden;
 }
-
 
 h1 {
     font-family: 'Widock';
@@ -39,10 +35,6 @@ h1 {
 p {
     font-family: 'UNCAGE';
     font-size: 20px;
-}
-
-.link-active {
-    color: #FF0000;
 }
 
 a {
@@ -57,164 +49,12 @@ a:hover {
     opacity: 0.7;
 }
 
-header {
-    border-radius: 999px;
-    background-color: #222222;
-    max-width: 1060px;
-    height: 90px;
-    margin: 26px auto;
-    margin-bottom: 0;
-    display: flex;
-    padding: 0 30px;
-}
-
-nav {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap:clamp(20px,4vw,70px);
-    justify-content: end;
+.link-active {
+    color: #FF0000;
 }
 
 main {
     display: flex;
     align-items: center;
     flex-direction: column;
-}
-
-.front {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-
-.zag {
-    color: rgba(255, 255, 255, 0.5);
-    margin: 26px 0 30px;
-}
-
-.planet {
-    width: clamp(400px, 60vmin, 800px);
-    aspect-ratio: 1/1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(141, 190, 230, 0.09);
-    border-radius: 50%;
-    border: #FFFFFF dashed 2px;
-    margin-bottom: 34px;
-}
-
-.mainPlanet {
-    width: 85%;
-}
-
-.more-details {
-    position: relative;
-    z-index: 1;
-}
-
-.swipe-planet {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.btn-arrow {
-    background-color: black;
-    border: none;
-    height:clamp(100px,10vw,140px);
-    width:clamp(100px,10vw,140px);
-    border-radius: 140px;
-    cursor: pointer;
-    transition: opacity 0.2s;
-}
-
-.btn-arrow img {
-    width:clamp(50px,5vw,110px);
-}
-
-.btn-arrow:hover {
-    opacity: 0.8;
-}
-
-.swipe {
-    position: absolute;
-    z-index: 2;
-    bottom: 140px;
-}
-
-.swipe-left {
-    left: 40px;
-}
-
-.swipe-right {
-    right: 40px;
-}
-
-.onBtn {
-    font-size: 30px;
-}
-
-.modal {
-    width:clamp(320px,70vw,600px);
-    height:auto;
-    border-radius: 10px;
-    position: fixed;
-    z-index: 101;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 30px;
-}
-
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 100;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-.hovBtn {
-    opacity: 0.8;
-}
-
-.planet-left {
-    position: relative;
-    right: 128px;
-    opacity: 0.5;
-}
-
-.planet-right{
-    position: relative;
-    left: 100px;
-    opacity: 0.5;
-}
-
-
-@media (min-height: 1080px) {
-    header {
-        margin: 40px auto;
-    }
-    .zag {
-        margin: 0 0 46px;
-    }
-    .planet {
-        margin-bottom: 46px;
-    }
 }
