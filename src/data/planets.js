@@ -3,7 +3,7 @@ export const moon = {
 	name: 'Луна',
 	image: '/img/planets/themoon.png',
 	hasEarth: true,
-	tours: [],
+	tours: ['По следам Апполона-11'],
 }
 
 export const planets = [

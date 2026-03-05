@@ -1,14 +1,13 @@
 import { useRef, useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-// Angle from positive-X axis (SVG coords, Y down)
-// 55° = lower-right, clearly separate from TourLines angles (340°, 140°)
-const MOON_ANGLE_DEG = 55
-const MOON_DISTANCE_RATIO = 1.55 // from circle center, in multiples of radius
+
+const MOON_ANGLE_DEG = 330
+const MOON_DISTANCE_RATIO = 1.55
 const AMP_X = 10
 const AMP_Y = 8
 const FREQ = 0.4
-const PHASE = Math.PI * 0.7 // offset so moon doesn't sync with tour lines
+const PHASE = Math.PI * 0.7
 
 export default function MoonLine({ circleSize, onGoToMoon }) {
 	const [offset, setOffset] = useState({ x: 0, y: 0 })
@@ -35,11 +34,9 @@ export default function MoonLine({ circleSize, onGoToMoon }) {
 	const cy = r
 	const rad = (MOON_ANGLE_DEG * Math.PI) / 180
 
-	// Line starts at circle border
 	const bx = cx + r * Math.cos(rad)
 	const by = cy + r * Math.sin(rad)
 
-	// Moon center (floating)
 	const mx = cx + MOON_DISTANCE_RATIO * r * Math.cos(rad) + offset.x
 	const my = cy + MOON_DISTANCE_RATIO * r * Math.sin(rad) + offset.y
 

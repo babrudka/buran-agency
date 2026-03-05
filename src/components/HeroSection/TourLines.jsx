@@ -2,10 +2,10 @@ import { useRef, useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 const ANGLES = {
-	1: [330],
-	2: [340, 140],
+	1: [40],
+	2: [0, 140],
 }
-const LINE_LENGTH_RATIO = 0.75
+const LINE_LENGTH_RATIO = 0.55
 const AMP_X = 8
 const AMP_Y = 12
 const FREQ = 0.45

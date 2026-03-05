@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-const EARTH_ANGLE_DEG = 220
+const EARTH_ANGLE_DEG = 330
 const EARTH_DISTANCE_RATIO = 1.55
 const AMP_X = 12
 const AMP_Y = 9
