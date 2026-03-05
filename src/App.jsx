@@ -33,8 +33,6 @@ function App() {
             межпланетное туристическое агентство
           </p>
 
-
-          <div className="line-one"></div>
           <div className="planet">
             <img src="/img/theEarth.svg" alt="планета Земля" className="mainPlanet" />
           </div>
