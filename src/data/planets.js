@@ -1,6 +1,7 @@
 export const moon = {
 	id: 'moon',
 	name: 'Луна',
+	subtitle: 'Единственный естественный спутник ЗЕМЛИ',
 	image: '/img/planets/themoon.png',
 	hasEarth: true,
 	tours: ['По следам Апполона-11'],
@@ -24,7 +25,7 @@ export const planets = [
 	{
 		id: 'earth',
 		name: 'Земля',
-		subtitle: 'Ваше текущее местоположение',
+		subtitle: 'Ваше текущее местоположение в солнечной системе',
 		showPin: true,
 		image: '/img/planets/theEarth.svg',
 		hasMoon: true,

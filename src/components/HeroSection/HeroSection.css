@@ -31,14 +31,3 @@
     position: relative;
     z-index: 1;
 }
-
-
-@media (min-height: 1080px) {
-    .zag {
-        margin: 0 0 46px;
-    }
-
-    .planet {
-        margin-bottom: 46px;
-    }
-}
