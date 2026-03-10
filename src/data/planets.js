@@ -53,6 +53,7 @@ export const planets = [
 				description: 'Самая близкая к солнцу планета',
 			},
 		],
+		score: 6.7,
 	},
 	{
 		id: 'venus',

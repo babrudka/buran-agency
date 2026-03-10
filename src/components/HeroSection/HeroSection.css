@@ -104,6 +104,7 @@
 }
 
 .facts {
+	width: 280px;
 	display: flex;
 	flex-direction: column;
 	gap: 16px;

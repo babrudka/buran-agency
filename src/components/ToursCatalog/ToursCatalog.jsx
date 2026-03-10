@@ -114,7 +114,7 @@ export default function ToursCatalog() {
 					{planetList.map(p => (
 						<button
 							key={p.id}
-							className={`chip${picked.has(p.id) ? ' chip--on' : ''}`}
+							className={`chip ${picked.has(p.id) ? 'chip--on' : ''}`}
 							onClick={() => toggle(p.id)}
 						>
 							{p.name}

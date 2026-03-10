@@ -5,14 +5,6 @@ import './Header.css'
 export default function Header({ currentView, onNavigate }) {
 	const [menuOpen, setMenuOpen] = useState(false)
 
-	useEffect(() => {
-		const onResize = () => {
-			if (window.innerWidth > 790) setMenuOpen(false)
-		}
-
-		window.addEventListener('resize', onResize)
-		return () => window.removeEventListener('resize', onResize)
-	}, [])
 
 	return (
 		<>
