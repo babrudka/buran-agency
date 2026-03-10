@@ -1,64 +1,55 @@
 import { useRef, useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-const EARTH_ANGLE_DEG = 330
-const EARTH_DISTANCE_RATIO = 1.55
+const ANGLE = 330
+const DIST = 1.55
 const AMP_X = 12
 const AMP_Y = 9
 const FREQ = 0.38
 const PHASE = Math.PI * 0.3
 
-export default function EarthLine({ circleSize, onGoToEarth }) {
-	const [offset, setOffset] = useState({ x: 0, y: 0 })
-	const rafRef = useRef(null)
+export default function EarthLine({ size, onGoToEarth }) {
+	const [wave, setWave] = useState({ x: 0, y: 0 })
+	const raf = useRef(null)
 
 	useEffect(() => {
 		const start = performance.now()
 		const tick = now => {
 			const t = (now - start) / 1000
-			setOffset({
+			setWave({
 				x: AMP_X * Math.sin(2 * Math.PI * FREQ * t + PHASE),
 				y: AMP_Y * Math.sin(2 * Math.PI * FREQ * t + PHASE + Math.PI / 2.5),
 			})
-			rafRef.current = requestAnimationFrame(tick)
+			raf.current = requestAnimationFrame(tick)
 		}
-		rafRef.current = requestAnimationFrame(tick)
-		return () => cancelAnimationFrame(rafRef.current)
+		raf.current = requestAnimationFrame(tick)
+		return () => cancelAnimationFrame(raf.current)
 	}, [])
 
-	if (!circleSize) return null
+	if (!size) return null
 
-	const r = circleSize / 2
+	const r = size / 2
 	const cx = r
 	const cy = r
-	const rad = (EARTH_ANGLE_DEG * Math.PI) / 180
+	const rad = (ANGLE * Math.PI) / 180
 
 	const bx = cx + r * Math.cos(rad)
 	const by = cy + r * Math.sin(rad)
 
-	const ex = cx + EARTH_DISTANCE_RATIO * r * Math.cos(rad) + offset.x
-	const ey = cy + EARTH_DISTANCE_RATIO * r * Math.sin(rad) + offset.y
+	const ex = cx + DIST * r * Math.cos(rad) + wave.x
+	const ey = cy + DIST * r * Math.sin(rad) + wave.y
 
-	const earthSize = Math.round(circleSize * 0.22)
+	const btnSize = Math.round(size * 0.22)
 
 	return (
 		<AnimatePresence>
 			<motion.div
-				style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
+				className="motion-wrap"
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1, transition: { duration: 0.4, delay: 0.35 } }}
 				exit={{ opacity: 0, transition: { duration: 0.25 } }}
 			>
-				<svg
-					style={{
-						position: 'absolute',
-						inset: 0,
-						width: '100%',
-						height: '100%',
-						overflow: 'visible',
-						pointerEvents: 'none',
-					}}
-				>
+				<svg className="svg-layer">
 					<line
 						x1={bx}
 						y1={by}
@@ -73,28 +64,13 @@ export default function EarthLine({ circleSize, onGoToEarth }) {
 
 				<button
 					onClick={onGoToEarth}
-					style={{
-						position: 'absolute',
-						left: ex,
-						top: ey,
-						width: earthSize,
-						height: earthSize,
-						transform: 'translate(-50%, -50%)',
-						borderRadius: '50%',
-						background: 'none',
-						border: 'none',
-						cursor: 'pointer',
-						padding: 0,
-						pointerEvents: 'auto',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
+					className="space-btn"
+					style={{ left: ex, top: ey, width: btnSize, height: btnSize }}
 				>
 					<img
 						src='/img/planets/theEarth.svg'
 						alt='Земля'
-						style={{ width: '100%', borderRadius: '50%', display: 'block' }}
+						className="space-img"
 					/>
 				</button>
 			</motion.div>

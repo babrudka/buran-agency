@@ -1,66 +1,55 @@
 import { useRef, useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-
-const MOON_ANGLE_DEG = 330
-const MOON_DISTANCE_RATIO = 1.55
+const ANGLE = 330
+const DIST = 1.55
 const AMP_X = 10
 const AMP_Y = 8
 const FREQ = 0.4
 const PHASE = Math.PI * 0.7
 
-export default function MoonLine({ circleSize, onGoToMoon }) {
-	const [offset, setOffset] = useState({ x: 0, y: 0 })
-	const rafRef = useRef(null)
+export default function MoonLine({ size, onGoToMoon }) {
+	const [wave, setWave] = useState({ x: 0, y: 0 })
+	const raf = useRef(null)
 
 	useEffect(() => {
 		const start = performance.now()
 		const tick = now => {
 			const t = (now - start) / 1000
-			setOffset({
+			setWave({
 				x: AMP_X * Math.sin(2 * Math.PI * FREQ * t + PHASE),
 				y: AMP_Y * Math.sin(2 * Math.PI * FREQ * t + PHASE + Math.PI / 2.5),
 			})
-			rafRef.current = requestAnimationFrame(tick)
+			raf.current = requestAnimationFrame(tick)
 		}
-		rafRef.current = requestAnimationFrame(tick)
-		return () => cancelAnimationFrame(rafRef.current)
+		raf.current = requestAnimationFrame(tick)
+		return () => cancelAnimationFrame(raf.current)
 	}, [])
 
-	if (!circleSize) return null
+	if (!size) return null
 
-	const r = circleSize / 2
+	const r = size / 2
 	const cx = r
 	const cy = r
-	const rad = (MOON_ANGLE_DEG * Math.PI) / 180
+	const rad = (ANGLE * Math.PI) / 180
 
 	const bx = cx + r * Math.cos(rad)
 	const by = cy + r * Math.sin(rad)
 
-	const mx = cx + MOON_DISTANCE_RATIO * r * Math.cos(rad) + offset.x
-	const my = cy + MOON_DISTANCE_RATIO * r * Math.sin(rad) + offset.y
+	const mx = cx + DIST * r * Math.cos(rad) + wave.x
+	const my = cy + DIST * r * Math.sin(rad) + wave.y
 
-	const moonSize = Math.round(circleSize * 0.216)
+	const moonSize = Math.round(size * 0.216)
 
 	return (
 		<AnimatePresence>
 			<motion.div
-				style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
+				className="motion-wrap"
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1, transition: { duration: 0.4, delay: 0.35 } }}
 				exit={{ opacity: 0, transition: { duration: 0.25 } }}
 			>
-				{/* SVG line */}
-				<svg
-					style={{
-						position: 'absolute',
-						inset: 0,
-						width: '100%',
-						height: '100%',
-						overflow: 'visible',
-						pointerEvents: 'none',
-					}}
-				>
+		<svg className="svg-layer">
 					<line
 						x1={bx}
 						y1={by}
@@ -73,49 +62,16 @@ export default function MoonLine({ circleSize, onGoToMoon }) {
 					<circle cx={mx} cy={my} r='3' fill='rgba(255,255,255,1)' />
 				</svg>
 
-				{/* Moon button */}
-				<button
+		<button
 					onClick={onGoToMoon}
-					style={{
-						position: 'absolute',
-						left: mx,
-						top: my,
-						width: moonSize,
-						height: moonSize,
-						transform: 'translate(-50%, -50%)',
-						borderRadius: '50%',
-						background: 'none',
-						border: 'none',
-						cursor: 'pointer',
-						padding: 0,
-						pointerEvents: 'auto',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
+					className="space-btn"
+					style={{ left: mx, top: my, width: moonSize, height: moonSize }}
 				>
 					<img
 						src='/img/planets/themoon.png'
 						alt='Луна'
-						style={{ width: '100%', borderRadius: '50%', display: 'block' }}
+						className="space-img"
 					/>
-					{/* <div
-						style={{
-							position: 'absolute',
-							top: '50%',
-							left: '50%',
-							transform: 'translate(-50%, -50%)',
-							width: '44%',
-							height: '44%',
-							borderRadius: '50%',
-							backgroundColor: 'black',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
-					>
-						{`->`}
-					</div> */}
 				</button>
 			</motion.div>
 		</AnimatePresence>

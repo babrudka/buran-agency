@@ -5,42 +5,30 @@ import TourLines from "./TourLines"
 import MoonLine from "./MoonLine"
 import EarthLine from "./EarthLine"
 import PlanetNameLine from "./PlanetNameLine"
+import GravityCalculator from "./GravityCalculator"
 
-export default function HeroSection({ planet, onOpenModal, onGoToMoon, onGoToEarth }) {
-  const planetRef = useRef(null)
-  const [circleSize, setCircleSize] = useState(0)
+export default function HeroSection({ planet, onModal, onGoToMoon, onGoToEarth }) {
+  const ref = useRef(null)
+  const [size, setSize] = useState(0)
 
   useLayoutEffect(() => {
-    if (!planetRef.current) return
+    if (!ref.current) return
     const ro = new ResizeObserver(entries => {
-      setCircleSize(entries[0].contentRect.width)
+      setSize(entries[0].contentRect.width)
     })
-    ro.observe(planetRef.current)
+    ro.observe(ref.current)
     return () => ro.disconnect()
   }, [])
 
   return (
-    <div className="front">
-      <AnimatePresence mode="wait">
-        <motion.p
-          key={planet.id + '-zag'}
-          className="zag"
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.3 }}
-        >
-          межпланетное туристическое агентство
-        </motion.p>
-      </AnimatePresence>
-
-      <div className="planet" ref={planetRef}>
+    <div className="hero">
+      <div className="circle" ref={ref}>
         <AnimatePresence mode="wait">
           <motion.img
             key={planet.id}
             src={planet.image}
             alt={planet.name}
-            className="mainPlanet"
+            className="planet-img"
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.85 }}
@@ -48,26 +36,43 @@ export default function HeroSection({ planet, onOpenModal, onGoToMoon, onGoToEar
           />
         </AnimatePresence>
 
+        {planet.id === 'pluto' && (
+          <div className="closed-banner">
+            Закрыто для посещений с 2006 года
+          </div>
+        )}
+
         <TourLines
           tours={planet.tours ?? []}
           planetId={planet.id}
-          circleSize={circleSize}
+          size={size}
         />
 
         <PlanetNameLine
-          planetId={planet.id}
-          planetName={planet.name}
+          id={planet.id}
+          name={planet.name}
           subtitle={planet.subtitle}
           showPin={planet.showPin}
-          circleSize={circleSize}
+          size={size}
+          facts={planet.facts}
         />
 
         <AnimatePresence>
           {planet.hasMoon && (
             <MoonLine
               key="moon-line"
-              circleSize={circleSize}
+              size={size}
               onGoToMoon={onGoToMoon}
+            />
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {planet.id === 'moon' && (
+            <GravityCalculator
+              key="gravity-calc"
+              size={size}
+              id={planet.id}
             />
           )}
         </AnimatePresence>
@@ -76,7 +81,7 @@ export default function HeroSection({ planet, onOpenModal, onGoToMoon, onGoToEar
           {planet.hasEarth && (
             <EarthLine
               key="earth-line"
-              circleSize={circleSize}
+              size={size}
               onGoToEarth={onGoToEarth}
             />
           )}
@@ -85,10 +90,10 @@ export default function HeroSection({ planet, onOpenModal, onGoToMoon, onGoToEar
 
       <a
         href="#"
-        className="more-details"
+        className="details-btn"
         onClick={(e) => {
           e.preventDefault()
-          onOpenModal()
+          onModal()
         }}
       >
         подробнее о планете
