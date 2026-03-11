@@ -25,6 +25,13 @@ export const moon = {
 			description: 'Примерно в 2,2 раза больше площади России',
 		},
 	],
+	score: 1.8,
+	modalDesc: '',
+	stats: {
+		climate: 10,
+		temperature: 45,
+		distance: 5
+	},
 }
 
 export const planets = [
@@ -53,7 +60,14 @@ export const planets = [
 				description: 'Самая близкая к солнцу планета',
 			},
 		],
-		score: 6.7,
+		score: 6.5,
+		modalDesc: '',
+		stats: {
+			climate: 80,
+			temperature: 95,
+			distance: 40
+		},
+		tourImage: '/img/tours/merkurij_tour.svg'
 	},
 	{
 		id: 'venus',
@@ -80,6 +94,13 @@ export const planets = [
 				description: 'Солнце встает на западе, а заходит на востоке',
 			},
 		],
+		score: 8.6,
+		modalDesc: '',
+		stats: {
+			climate: 100,
+			temperature: 100,
+			distance: 35
+		},
 	},
 	{
 		id: 'earth',
@@ -110,6 +131,13 @@ export const planets = [
 					'普通话, English, हिन्दी, Русский, العربية, Español, Português, 日本語, Français, বাংলা, Deutsch......',
 			},
 		],
+		score: 0,
+		modalDesc: '',
+		stats: {
+			climate: 15,
+			temperature: 55,
+			distance: 0
+		},
 	},
 	{
 		id: 'mars',
@@ -132,6 +160,13 @@ export const planets = [
 			},
 			{ icon: 'alien.svg', title: 'Языки', description: '⋔⏃⍀⌇⟟⏃⋏⌇☍⟟⊬' },
 		],
+		score: 2.8,
+		modalDesc: '',
+		stats: {
+			climate: 45,
+			temperature: 65,
+			distance: 55
+		},
 	},
 	{
 		id: 'jupiter',
@@ -158,6 +193,13 @@ export const planets = [
 				description: 'Имеет 95 спутников и уступает лишь Сатурну',
 			},
 		],
+		score: 7.8,
+		modalDesc: '',
+		stats: {
+			climate: 95,
+			temperature: 70,
+			distance: 75
+		},
 	},
 	{
 		id: 'saturn',
@@ -191,6 +233,13 @@ export const planets = [
 					'Это больше, чем у всех вместе взятых планет солнечной системы',
 			},
 		],
+		score: 7.2,
+		modalDesc: '',
+		stats: {
+			climate: 90,
+			temperature: 80,
+			distance: 85
+		},
 	},
 	{
 		id: 'uranus',
@@ -212,6 +261,13 @@ export const planets = [
 				description: 'В среднем -224°C',
 			},
 		],
+		score: 7.7,
+		modalDesc: '',
+		stats: {
+			climate: 85,
+			temperature: 90,
+			distance: 95
+		},
 	},
 	{
 		id: 'neptune',
@@ -233,6 +289,13 @@ export const planets = [
 				description: 'В среднем -220°C',
 			},
 		],
+		score: 8.4,
+		modalDesc: '',
+		stats: {
+			climate: 95,
+			temperature: 95,
+			distance: 100
+		},
 	},
 	{
 		id: 'pluto',

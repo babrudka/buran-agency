@@ -12,6 +12,10 @@
 	z-index: 10;
 }
 
+.span-loc {
+	color: rgba(255, 255, 255, 0.4);
+}
+
 header {
 	position: relative;
 	border-radius: 999px;

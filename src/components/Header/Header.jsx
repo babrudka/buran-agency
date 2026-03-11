@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './Header.css'
 
@@ -21,7 +21,7 @@ export default function Header({ currentView, onNavigate }) {
 						fill='rgba(255,255,255,0.4)'
 					/>
 				</svg>
-				<span>
+				<span className='span-loc'>
 					Ваша локация: <br></br> Земля
 				</span>
 			</div>

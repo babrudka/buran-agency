@@ -1,9 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
 
-const START_POP = 8_272_345_242
+const START_POP = 8272345242
 
 function format(n) {
-	return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+	let count = n.toString()
+	let result = ''
+	for (let i = 0; i < count.length; i++) {
+		if (i % 3 == 0) {result += count[i] + ' '; continue}
+		result += count[i]
+	}
+	console.log(result)
+	return result
 }
 
 export default function usePopulationCounter(active) {

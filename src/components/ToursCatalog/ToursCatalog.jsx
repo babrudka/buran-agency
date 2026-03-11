@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { planets, moon } from '../../data/planets'
+import ModalTours from '../Modal/ModalTours'
 import './ToursCatalog.css'
 
 const SPEED = 578
@@ -13,6 +14,8 @@ const tours = allPlanets.flatMap(p =>
 		planet: p.id,
 		planetName: p.name,
 		img: p.image,
+		tourImage: p.tourImage,
+		score: p.score,
 		temp: p.temp,
 		flyTime: p.distance / SPEED,
 	}))
@@ -85,9 +88,18 @@ const cardAnim = {
 }
 
 export default function ToursCatalog() {
+
 	const [picked, setPicked] = useState(new Set())
 	const [temp, setTemp] = useState([MIN_TEMP, MAX_TEMP])
 	const [fly, setFly] = useState([0, MAX_FLY_TIME])
+
+	const [tourModalOpen, setTourModalOpen] = useState(false)
+	const [selectedTour, setSelectedTour] = useState(null)
+
+	const openTour = (tour) => {
+		setSelectedTour(tour)
+		setTourModalOpen(true)
+	}
 
 	const toggle = useCallback(id => {
 		setPicked(prev => {
@@ -109,7 +121,9 @@ export default function ToursCatalog() {
 
 	return (
 		<div className='catalog'>
+
 			<div className='filters'>
+
 				<div className='chips'>
 					{planetList.map(p => (
 						<button
@@ -123,6 +137,7 @@ export default function ToursCatalog() {
 				</div>
 
 				<div className='filters-row'>
+
 					<div className='slider-box'>
 						<span className='slider-name'>Температура</span>
 						<Slider
@@ -150,21 +165,32 @@ export default function ToursCatalog() {
 							<span>{showTime(fly[0])}</span>
 							<span>{showTime(fly[1])}</span>
 						</div>
+
 						<div className='hint'>
 							<span className='hint-i'>i</span>
 							<span className='hint-txt'>
 								Скорость полёта на сверхбыстрой ракете ТАЙФУН 578 км/с
 							</span>
 						</div>
+
 					</div>
+
 				</div>
+
 			</div>
 
 			{shown.length === 0 ? (
-				<div className='empty'>Нет туров по заданным фильтрам</div>
+
+				<div className='empty'>
+					Нет туров по заданным фильтрам
+				</div>
+
 			) : (
+
 				<div className='grid'>
+
 					{shown.map((t, i) => (
+
 						<motion.div
 							key={`${t.planet}-${t.name}`}
 							className='card'
@@ -172,16 +198,27 @@ export default function ToursCatalog() {
 							initial='hidden'
 							animate='visible'
 							variants={cardAnim}
+							onClick={() => openTour(t)}
 						>
+
 							<img
 								className='card-img'
 								src={t.img}
 								alt={t.planetName}
 							/>
+
 							<div className='card-info'>
-								<div className='card-name'>{t.name}</div>
-								<div className='card-planet'>{t.planetName}</div>
+
+								<div className='card-name'>
+									{t.name}
+								</div>
+
+								<div className='card-planet'>
+									{t.planetName}
+								</div>
+
 								<div className='card-meta'>
+
 									<span className='meta-item'>
 										<img
 											className='meta-icon'
@@ -190,15 +227,31 @@ export default function ToursCatalog() {
 										/>
 										{showTemp(t.temp)}
 									</span>
+
 									<span className='meta-item'>
 										{showTime(t.flyTime)}
 									</span>
+
 								</div>
+
 							</div>
+
 						</motion.div>
+
 					))}
+
 				</div>
+
 			)}
+
+			{tourModalOpen && selectedTour && (
+				<ModalTours
+					isOpen={tourModalOpen}
+					onClose={() => setTourModalOpen(false)}
+					tour={selectedTour}
+				/>
+			)}
+
 		</div>
 	)
 }

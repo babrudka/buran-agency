@@ -15,6 +15,10 @@ function App() {
   const [onMoon, setOnMoon] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [page, setPage] = useState('home')
+  const [modalScreen, setModalScreen] = useState("planet")
+  const [selectedTour, setSelectedTour] = useState(null)
+
+
 
   const planet = onMoon ? moon : planets[index]
 
@@ -49,7 +53,11 @@ function App() {
           >
             <HeroSection
               planet={planet}
-              onModal={() => setModalOpen(true)}
+              onModal={() => {
+                if (planet.id !== "pluto") {
+                  setModalOpen(true)
+                }
+              }}
               onGoToMoon={goMoon}
               onGoToEarth={() => setOnMoon(false)}
             />
@@ -84,7 +92,15 @@ function App() {
         )}
       </AnimatePresence>
 
-      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+      <Modal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        planet={planet}
+        modalScreen={modalScreen}
+        setModalScreen={setModalScreen}
+        selectedTour={selectedTour}
+        setSelectedTour={setSelectedTour}
+      />
     </div>
   )
 }
