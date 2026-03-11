@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from "framer-motion"
 import { planets, moon } from '../../data/planets'
 import ModalTours from '../Modal/ModalTours'
 import './ToursCatalog.css'
@@ -244,13 +244,15 @@ export default function ToursCatalog() {
 
 			)}
 
-			{tourModalOpen && selectedTour && (
-				<ModalTours
-					isOpen={tourModalOpen}
-					onClose={() => setTourModalOpen(false)}
-					tour={selectedTour}
-				/>
-			)}
+			<AnimatePresence>
+				{tourModalOpen && (
+					<ModalTours
+						isOpen={tourModalOpen}
+						onClose={() => setTourModalOpen(false)}
+						tour={selectedTour}
+					/>
+				)}
+			</AnimatePresence>
 
 		</div>
 	)
