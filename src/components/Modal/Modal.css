@@ -95,7 +95,7 @@
 }
 
 .tour-card {
-    border: 20px solid rgb(70, 70, 70);
+    border: 20px solid rgb(29, 29, 29);
     border-radius: 10px;
     margin-top: 46px;
     background-color: black;
@@ -107,6 +107,7 @@
 }
 
 .tour-name {
+    color: #ffffff;
     margin: 16px;
     text-align: center;
     width: min-content;
@@ -139,6 +140,10 @@
 .desc-tour-block {
     display: flex;
     gap: 10px;
+}
+
+.desc-of-tour {
+    font-size: 16px;
 }
 
 .section-of-title {

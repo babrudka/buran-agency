@@ -9,13 +9,14 @@ const SPEED = 578
 const allPlanets = [moon, ...planets]
 
 const tours = allPlanets.flatMap(p =>
-	(p.tours || []).map(name => ({
+	(p.tours || []).map((name, i) => ({
 		name,
 		planet: p.id,
 		planetName: p.name,
 		img: p.image,
 		tourImage: p.tourImage,
 		score: p.score,
+		desc: p.tourDescs?.length > 1 ? p.tourDescs[i] : p.tourDescs?.[0],
 		temp: p.temp,
 		flyTime: p.distance / SPEED,
 	}))
