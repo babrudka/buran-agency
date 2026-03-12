@@ -173,7 +173,7 @@
     height: 75px;
     width: 100%;
     padding: 10px;
-    transition: opacity 0.2s;
+    transition: opacity 0.3s;
 }
 
 .order-btn:hover {
