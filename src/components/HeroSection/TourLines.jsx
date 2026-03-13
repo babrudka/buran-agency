@@ -10,7 +10,7 @@ const AMP_X = 8
 const AMP_Y = 12
 const FREQ = 0.45
 
-export default function TourLines({ tours, planetId, size }) {
+export default function TourLines({ tours, planetId, size, onTourClick }) {
 	const [wave, setWave] = useState(() =>
 		tours.map(() => ({ x: 0, y: 0 })),
 	)
@@ -87,12 +87,13 @@ export default function TourLines({ tours, planetId, size }) {
 								height={h}
 								className="fo-click"
 							>
-								<div
-									xmlns='http://www.w3.org/1999/xhtml'
-									className={`tour-tag${isRight ? ' tour-tag--right' : ''}`}
-								>
-									Тур «{name}»
-								</div>
+							<div
+								xmlns='http://www.w3.org/1999/xhtml'
+								className={`tour-tag${isRight ? ' tour-tag--right' : ''}`}
+								onClick={() => onTourClick?.(name, i)}
+							>
+								Тур «{name}»
+							</div>
 							</foreignObject>
 						</g>
 					)

@@ -143,7 +143,7 @@ export const planets = [
 					'普通话, English, हिन्दी, Русский, العربية, Español, Português, 日本語, Français, বাংলা, Deutsch......',
 			},
 		],
-		score: 0,
+		score: 0.0,
 		stats: {
 			climate: 15,
 			temperature: 55,

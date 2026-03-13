@@ -58,6 +58,20 @@ function App() {
                   setModalOpen(true)
                 }
               }}
+              onTourClick={(tourName, i) => {
+                if (planet.id === "pluto") return
+                setSelectedTour({
+                  name: tourName,
+                  planetName: planet.name,
+                  tourImage: planet.tourImage,
+                  score: planet.score,
+                  desc: planet.tourDescs?.length > 1
+                    ? planet.tourDescs[i]
+                    : planet.tourDescs?.[0]
+                })
+                setModalScreen("tour")
+                setModalOpen(true)
+              }}
               onGoToMoon={goMoon}
               onGoToEarth={() => setOnMoon(false)}
             />

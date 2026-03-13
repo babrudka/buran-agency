@@ -7,7 +7,7 @@ import EarthLine from "./EarthLine"
 import PlanetNameLine from "./PlanetNameLine"
 import GravityCalculator from "./GravityCalculator"
 
-export default function HeroSection({ planet, onModal, onGoToMoon, onGoToEarth }) {
+export default function HeroSection({ planet, onModal, onTourClick, onGoToMoon, onGoToEarth }) {
   const ref = useRef(null)
   const [size, setSize] = useState(0)
 
@@ -46,6 +46,7 @@ export default function HeroSection({ planet, onModal, onGoToMoon, onGoToEarth }
           tours={planet.tours ?? []}
           planetId={planet.id}
           size={size}
+          onTourClick={onTourClick}
         />
 
         <PlanetNameLine

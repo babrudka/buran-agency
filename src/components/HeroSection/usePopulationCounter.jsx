@@ -6,7 +6,10 @@ function format(n) {
 	let count = n.toString()
 	let result = ''
 	for (let i = 0; i < count.length; i++) {
-		if (i % 3 == 0) {result += count[i] + ' '; continue}
+		if (i % 3 == 0) {
+			result += count[i] + ' '
+			continue
+		}
 		result += count[i]
 	}
 	console.log(result)
