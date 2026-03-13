@@ -1,30 +1,36 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import usePopulationCounter from './usePopulationCounter'
 
-const ANGLE = 210
-const LINE_LEN = 0.85
+// Угол линии от центра планеты к подписи (в градусах)
+const ANGLE_DEG = 210
+// Длина линии (доля от радиуса)
+const LINE_LENGTH = 0.85
 
 export default function PlanetNameLine({ size, name, id, subtitle, showPin, facts }) {
-	const hasCount = facts?.some(f => f.counter)
-	const popText = usePopulationCounter(hasCount)
+	// Проверяем, есть ли факт со счётчиком населения
+	const hasPopulationCounter = facts?.some(fact => fact.counter)
+	const populationText = usePopulationCounter(hasPopulationCounter)
 
 	if (!size) return null
 
-	const r = size / 2
-	const cx = r
-	const cy = r
-	const rad = (ANGLE * Math.PI) / 180
+	const radius = size / 2
+	const center = radius
+	const angleRad = (ANGLE_DEG * Math.PI) / 180
 
-	const bx = cx + r * Math.cos(rad)
-	const by = cy + r * Math.sin(rad)
-	const ex = bx + LINE_LEN * r * Math.cos(rad)
-	const ey = by + LINE_LEN * r * Math.sin(rad)
+	// Начало линии — на краю планеты
+	const startX = center + radius * Math.cos(angleRad)
+	const startY = center + radius * Math.sin(angleRad)
 
-	const lineW = Math.round(size * 0.4)
-	const titleH = Math.round(size * 0.12)
-	const subH = Math.round(size * 0.08)
+	// Конец линии — дальше от планеты
+	const endX = startX + LINE_LENGTH * radius * Math.cos(angleRad)
+	const endY = startY + LINE_LENGTH * radius * Math.sin(angleRad)
+
+	// Размеры блока с названием
+	const blockWidth = Math.round(size * 0.4)
+	const titleHeight = Math.round(size * 0.12)
+	const subtitleHeight = Math.round(size * 0.08)
 	const factsGap = Math.round(size * 0.025)
-	const contentH = subH + titleH
+	const nameBlockHeight = subtitleHeight + titleHeight
 
 	return (
 		<AnimatePresence mode="wait">
@@ -35,28 +41,29 @@ export default function PlanetNameLine({ size, name, id, subtitle, showPin, fact
 				animate={{ opacity: 1, transition: { duration: 0.35, delay: 0.2 } }}
 				exit={{ opacity: 0, transition: { duration: 0.2 } }}
 			>
-				<line
-					x1={bx}
-					y1={by}
-					x2={ex}
-					y2={ey}
-					stroke="rgba(255,255,255,1)"
-					strokeWidth="1.5"
-				/>
+			<line
+				x1={startX}
+				y1={startY}
+				x2={endX}
+				y2={endY}
+				stroke="rgba(255,255,255,1)"
+				strokeWidth="1.5"
+			/>
 
-				<line
-					x1={ex - lineW}
-					y1={ey}
-					x2={ex}
-					y2={ey}
-					stroke="rgba(255,255,255,1)"
-					strokeWidth="1.5"
-				/>
-				<foreignObject
-					x={ex - lineW}
-					y={ey - contentH}
-					width={lineW}
-					height={contentH}
+			{/* Горизонтальная линия под названием */}
+			<line
+				x1={endX - blockWidth}
+				y1={endY}
+				x2={endX}
+				y2={endY}
+				stroke="rgba(255,255,255,1)"
+				strokeWidth="1.5"
+			/>
+			<foreignObject
+				x={endX - blockWidth}
+				y={endY - nameBlockHeight}
+				width={blockWidth}
+				height={nameBlockHeight}
 					className="fo-show"
 				>
 					<div
@@ -79,12 +86,12 @@ export default function PlanetNameLine({ size, name, id, subtitle, showPin, fact
 					</div>
 				</foreignObject>
 
-				{facts?.length > 0 && (
-					<foreignObject
-						x={ex - lineW}
-						y={ey + factsGap}
-						width={lineW + Math.round(size * 0.2)}
-						height={facts.length * Math.round(size * 0.13) + Math.round(size * 0.07)}
+			{facts?.length > 0 && (
+				<foreignObject
+					x={endX - blockWidth}
+					y={endY + factsGap}
+					width={blockWidth + Math.round(size * 0.2)}
+					height={facts.length * Math.round(size * 0.13) + Math.round(size * 0.07)}
 						className="fo-show"
 					>
 						<div xmlns="http://www.w3.org/1999/xhtml" className="facts">
@@ -101,7 +108,7 @@ export default function PlanetNameLine({ size, name, id, subtitle, showPin, fact
 										</div>
 										{(fact.description || fact.counter) && (
 											<div className="fact-desc">
-												{fact.counter ? popText : fact.description}
+												{fact.counter ? populationText : fact.description}
 											</div>
 										)}
 									</div>

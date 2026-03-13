@@ -28,12 +28,16 @@ const MIN_TEMP = -224
 const MAX_TEMP = 460
 const MAX_FLY_TIME = Math.max(...tours.map(t => t.flyTime))
 
-function showTime(sec) {
-    if (sec === 0) return 'Вы здесь'
-    const min = sec / 60
-    if (min < 120) return `~${Math.round(min)} мин`
-    const days = sec / 86400
-    if (days < 1) return `~${(min / 60).toFixed(1)} ч`
+// Переводим секунды полёта в человекочитаемый формат
+function showTime(seconds) {
+    if (seconds === 0) return 'Вы здесь'
+
+    const minutes = seconds / 60
+    const hours = minutes / 60
+    const days = hours / 24
+
+    if (minutes < 120) return `~${Math.round(minutes)} мин`
+    if (hours < 24)    return `~${hours.toFixed(1)} ч`
     return `~${days.toFixed(1)} дн`
 }
 
@@ -102,12 +106,16 @@ export default function ToursCatalog() {
         setTourModalOpen(true)
     }
 
+    // Переключить выбранную планету в фильтре
     const toggle = useCallback(id => {
         setPicked(prev => {
-            const next = new Set(prev)
-            if (next.has(id)) next.delete(id)
-            else next.add(id)
-            return next
+            const updated = new Set(prev)
+            if (updated.has(id)) {
+                updated.delete(id)
+            } else {
+                updated.add(id)
+            }
+            return updated
         })
     }, [])
 

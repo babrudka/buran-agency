@@ -5,6 +5,7 @@ import HeroSection from "./components/HeroSection/HeroSection"
 import PlanetCarousel from "./components/PlanetCarousel/PlanetCarousel"
 import Modal from "./components/Modal/Modal"
 import ComingSoon from "./components/ComingSoon/ComingSoon"
+import AboutUs from "./components/AboutUs/AboutUs"
 import ToursCatalog from "./components/ToursCatalog/ToursCatalog"
 import { planets, moon } from "./data/planets"
 
@@ -92,6 +93,17 @@ function App() {
             transition={{ duration: 0.25 }}
           >
             <ToursCatalog />
+          </motion.div>
+        ) : page === 'about' ? (
+          <motion.div
+            key='about'
+            style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30 }}
+            transition={{ duration: 0.25 }}
+          >
+            <AboutUs />
           </motion.div>
         ) : (
           <motion.div

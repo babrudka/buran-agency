@@ -1,45 +1,43 @@
 import { useRef, useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-const ANGLE = 330
-const DIST = 1.55
-const AMP_X = 10
-const AMP_Y = 8
-const FREQ = 0.4
-const PHASE = Math.PI * 0.7
+// Угол направления линии (в градусах от центра планеты)
+const ANGLE_DEG = 330
+// Насколько далеко от центра находится Луна (множитель радиуса)
+const DISTANCE_MULT = 1.55
 
 export default function MoonLine({ size, onGoToMoon }) {
-	const [wave, setWave] = useState({ x: 0, y: 0 })
-	const raf = useRef(null)
+	// Лёгкое покачивание Луны (имитация орбиты)
+	const [offsetX, setOffsetX] = useState(0)
+	const [offsetY, setOffsetY] = useState(0)
+	const timerRef = useRef(null)
 
 	useEffect(() => {
-		const start = performance.now()
-		const tick = now => {
-			const t = (now - start) / 1000
-			setWave({
-				x: AMP_X * Math.sin(2 * Math.PI * FREQ * t + PHASE),
-				y: AMP_Y * Math.sin(2 * Math.PI * FREQ * t + PHASE + Math.PI / 2.5),
-			})
-			raf.current = requestAnimationFrame(tick)
-		}
-		raf.current = requestAnimationFrame(tick)
-		return () => cancelAnimationFrame(raf.current)
+		let step = 0
+		timerRef.current = setInterval(() => {
+			step += 1
+			// Плавное покачивание по синусоиде, чуть другая фаза чем у Земли
+			setOffsetX(10 * Math.sin(step * 0.065))
+			setOffsetY(8 * Math.cos(step * 0.065))
+		}, 30)
+		return () => clearInterval(timerRef.current)
 	}, [])
 
 	if (!size) return null
 
-	const r = size / 2
-	const cx = r
-	const cy = r
-	const rad = (ANGLE * Math.PI) / 180
+	const radius = size / 2
+	const center = radius
+	const angleRad = (ANGLE_DEG * Math.PI) / 180
 
-	const bx = cx + r * Math.cos(rad)
-	const by = cy + r * Math.sin(rad)
+	// Начало линии — точка на краю планеты
+	const startX = center + radius * Math.cos(angleRad)
+	const startY = center + radius * Math.sin(angleRad)
 
-	const mx = cx + DIST * r * Math.cos(rad) + wave.x
-	const my = cy + DIST * r * Math.sin(rad) + wave.y
+	// Позиция Луны — удалённая точка + покачивание
+	const moonX = center + DISTANCE_MULT * radius * Math.cos(angleRad) + offsetX
+	const moonY = center + DISTANCE_MULT * radius * Math.sin(angleRad) + offsetY
 
-	const moonSize = Math.round(size * 0.216)
+	const moonBtnSize = Math.round(size * 0.216)
 
 	return (
 		<AnimatePresence>
@@ -50,23 +48,23 @@ export default function MoonLine({ size, onGoToMoon }) {
 				exit={{ opacity: 0, transition: { duration: 0.25 } }}
 			>
 		<svg className="svg-layer">
-					<line
-						x1={bx}
-						y1={by}
-						x2={mx}
-						y2={my}
-						stroke='rgba(255,255,255,1)'
-						strokeWidth='1.5'
-						strokeDasharray='5 4'
-					/>
-					<circle cx={mx} cy={my} r='3' fill='rgba(255,255,255,1)' />
-				</svg>
+				<line
+					x1={startX}
+					y1={startY}
+					x2={moonX}
+					y2={moonY}
+					stroke='rgba(255,255,255,1)'
+					strokeWidth='1.5'
+					strokeDasharray='5 4'
+				/>
+				<circle cx={moonX} cy={moonY} r='3' fill='rgba(255,255,255,1)' />
+			</svg>
 
 		<button
-					onClick={onGoToMoon}
-					className="space-btn"
-					style={{ left: mx, top: my, width: moonSize, height: moonSize }}
-				>
+				onClick={onGoToMoon}
+				className="space-btn"
+				style={{ left: moonX, top: moonY, width: moonBtnSize, height: moonBtnSize }}
+			>
 					<img
 						src='/img/planets/themoon.png'
 						alt='Луна'

@@ -1,56 +1,31 @@
 import { useState, useEffect, useRef } from 'react'
 
-const START_POP = 8272345242
+const START_POPULATION = 8272345242
 
-function format(n) {
-	let count = n.toString()
-	let result = ''
-	for (let i = 0; i < count.length; i++) {
-		if (i % 3 == 0) {
-			result += count[i] + ' '
-			continue
-		}
-		result += count[i]
-	}
-	console.log(result)
-	return result
+// Форматирование числа с пробелами: 8272345242 → "8 272 345 242"
+function formatNumber(number) {
+	return number.toLocaleString('ru-RU')
 }
 
 export default function usePopulationCounter(active) {
-	const [count, setCount] = useState(START_POP)
-	const raf = useRef(null)
-	const lastTick = useRef(0)
-	const interval = useRef(randTime())
-
-	function randTime() {
-		return 100 + Math.random() * 200
-	}
+	const [count, setCount] = useState(START_POPULATION)
+	const timerRef = useRef(null)
 
 	useEffect(() => {
 		if (!active) {
-			if (raf.current) cancelAnimationFrame(raf.current)
+			clearInterval(timerRef.current)
 			return
 		}
 
-		lastTick.current = performance.now()
-		interval.current = randTime()
+		// Каждые 150мс случайно меняем население на ±1..3
+		timerRef.current = setInterval(() => {
+			const direction = Math.random() < 0.55 ? 1 : -1  // чуть чаще растёт
+			const step = 1 + Math.floor(Math.random() * 3)     // шаг от 1 до 3
+			setCount(prev => prev + direction * step)
+		}, 150)
 
-		function tick(now) {
-			if (now - lastTick.current >= interval.current) {
-				const delta = Math.random() < 0.55 ? 1 : -1
-				const step = 1 + Math.floor(Math.random() * 3)
-				setCount(c => c + delta * step)
-				lastTick.current = now
-				interval.current = randTime()
-			}
-			raf.current = requestAnimationFrame(tick)
-		}
-
-		raf.current = requestAnimationFrame(tick)
-		return () => {
-			if (raf.current) cancelAnimationFrame(raf.current)
-		}
+		return () => clearInterval(timerRef.current)
 	}, [active])
 
-	return format(count) + ' человек'
+	return formatNumber(count) + ' человек'
 }

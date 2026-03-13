@@ -1,45 +1,43 @@
 import { useRef, useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-const ANGLE = 330
-const DIST = 1.55
-const AMP_X = 12
-const AMP_Y = 9
-const FREQ = 0.38
-const PHASE = Math.PI * 0.3
+// Угол направления линии (в градусах от центра планеты)
+const ANGLE_DEG = 330
+// Насколько далеко от центра находится конечная точка (множитель радиуса)
+const DISTANCE_MULT = 1.55
 
 export default function EarthLine({ size, onGoToEarth }) {
-	const [wave, setWave] = useState({ x: 0, y: 0 })
-	const raf = useRef(null)
+	// Лёгкое покачивание конечной точки (имитация невесомости)
+	const [offsetX, setOffsetX] = useState(0)
+	const [offsetY, setOffsetY] = useState(0)
+	const timerRef = useRef(null)
 
 	useEffect(() => {
-		const start = performance.now()
-		const tick = now => {
-			const t = (now - start) / 1000
-			setWave({
-				x: AMP_X * Math.sin(2 * Math.PI * FREQ * t + PHASE),
-				y: AMP_Y * Math.sin(2 * Math.PI * FREQ * t + PHASE + Math.PI / 2.5),
-			})
-			raf.current = requestAnimationFrame(tick)
-		}
-		raf.current = requestAnimationFrame(tick)
-		return () => cancelAnimationFrame(raf.current)
+		let step = 0
+		timerRef.current = setInterval(() => {
+			step += 1
+			// Плавное покачивание по синусоиде с шагом
+			setOffsetX(12 * Math.sin(step * 0.06))
+			setOffsetY(9 * Math.cos(step * 0.06))
+		}, 30)
+		return () => clearInterval(timerRef.current)
 	}, [])
 
 	if (!size) return null
 
-	const r = size / 2
-	const cx = r
-	const cy = r
-	const rad = (ANGLE * Math.PI) / 180
+	const radius = size / 2
+	const center = radius
+	const angleRad = (ANGLE_DEG * Math.PI) / 180
 
-	const bx = cx + r * Math.cos(rad)
-	const by = cy + r * Math.sin(rad)
+	// Начало линии — точка на краю планеты
+	const startX = center + radius * Math.cos(angleRad)
+	const startY = center + radius * Math.sin(angleRad)
 
-	const ex = cx + DIST * r * Math.cos(rad) + wave.x
-	const ey = cy + DIST * r * Math.sin(rad) + wave.y
+	// Конец линии — удалённая точка + покачивание
+	const endX = center + DISTANCE_MULT * radius * Math.cos(angleRad) + offsetX
+	const endY = center + DISTANCE_MULT * radius * Math.sin(angleRad) + offsetY
 
-	const btnSize = Math.round(size * 0.22)
+	const buttonSize = Math.round(size * 0.22)
 
 	return (
 		<AnimatePresence>
@@ -50,22 +48,22 @@ export default function EarthLine({ size, onGoToEarth }) {
 				exit={{ opacity: 0, transition: { duration: 0.25 } }}
 			>
 				<svg className="svg-layer">
-					<line
-						x1={bx}
-						y1={by}
-						x2={ex}
-						y2={ey}
+				<line
+						x1={startX}
+						y1={startY}
+						x2={endX}
+						y2={endY}
 						stroke='rgba(255,255,255,1)'
 						strokeWidth='1.5'
 						strokeDasharray='5 4'
 					/>
-					<circle cx={ex} cy={ey} r='3' fill='rgba(255,255,255,1)' />
+					<circle cx={endX} cy={endY} r='3' fill='rgba(255,255,255,1)' />
 				</svg>
 
 				<button
 					onClick={onGoToEarth}
 					className="space-btn"
-					style={{ left: ex, top: ey, width: btnSize, height: btnSize }}
+					style={{ left: endX, top: endY, width: buttonSize, height: buttonSize }}
 				>
 					<img
 						src='/img/planets/theEarth.svg'

@@ -40,9 +40,9 @@ export default function Header({ currentView, onNavigate }) {
 					<a href='#' className={`nav-link${currentView === 'tours' ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); onNavigate('tours') }}>
 						туры
 					</a>
-					<a href='#' className='nav-link'>
-						о нас
-					</a>
+				<a href='#' className={`nav-link${currentView === 'about' ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); onNavigate('about') }}>
+					о нас
+				</a>
 					<a href='#' className={`nav-link${currentView === 'shop' ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); onNavigate('shop') }}>
 						экипировка
 					</a>
@@ -85,13 +85,13 @@ export default function Header({ currentView, onNavigate }) {
 								>
 									туры
 								</a>
-								<a
-									href='#'
-									onClick={() => setMenuOpen(false)}
-									className='menu-link'
-								>
-									о нас
-								</a>
+							<a
+								href='#'
+								onClick={(e) => { e.preventDefault(); setMenuOpen(false); onNavigate('about') }}
+								className={`menu-link${currentView === 'about' ? ' active' : ''}`}
+							>
+								о нас
+							</a>
 								<a
 									href='#'
 									onClick={(e) => { e.preventDefault(); setMenuOpen(false); onNavigate('shop') }}
