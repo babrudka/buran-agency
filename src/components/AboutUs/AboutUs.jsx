@@ -120,7 +120,7 @@ export default function AboutUs() {
 					межпланетное туристическое агентство
 				</p>
 				<div className='scroll-hint hero-pop delay-3'>
-					<span className='bounce-arrow'>↓</span>
+					<span className='bounce-arrow'><img src='/img/icons/chevron-down.svg' alt='' /></span>
 				</div>
 			</section>
 
@@ -139,7 +139,7 @@ export default function AboutUs() {
 
 				<SlideIn from='right' delay={0.2}>
 					<div className='cool-card'>
-						<div className='cool-card-icon'>🚀</div>
+						<div className='cool-card-icon'><img src='/img/icons/first-rocket.svg' alt='' /></div>
 						<p className='cool-card-text'>
 							Полёт первого человека в космос, запуск первых спутников и развитие ракетных технологий
 							показали миру, что космос — это не предел, а начало большого пути.
@@ -180,7 +180,7 @@ export default function AboutUs() {
 						</div>
 						<div className='stat-box'>
 							<div className='stat-num'>
-								<CountNum end={20} suffix='+' />
+								<CountNum end={12}  />
 							</div>
 							<div className='stat-label'>туров</div>
 						</div>
@@ -210,13 +210,13 @@ export default function AboutUs() {
 
 				<div className='bullets-grid'>
 					{[
-						{ icon: '🏠', title: 'Жилые модули', desc: 'С искусственной гравитацией для комфортного проживания' },
-						{ icon: '🔭', title: 'Обзорные палубы', desc: 'Панорамные окна для наблюдения за космосом' },
-						{ icon: '🔬', title: 'Научные лаборатории', desc: 'Для исследований прямо на борту корабля' },
-						{ icon: '🪂', title: 'Зоны невесомости', desc: 'Подготовка и тренировки в условиях невесомости' },
+						{ icon: '/img/icons/home.svg', title: 'Жилые модули', desc: 'С искусственной гравитацией для комфортного проживания' },
+						{ icon: '/img/icons/telescope.svg', title: 'Обзорные палубы', desc: 'Панорамные окна для наблюдения за космосом' },
+						{ icon: '/img/icons/microscope.svg', title: 'Научные лаборатории', desc: 'Для исследований прямо на борту корабля' },
+						{ icon: '/img/icons/orbit.svg', title: 'Зоны невесомости', desc: 'Подготовка и тренировки в условиях невесомости' },
 					].map((item, i) => (
 						<FadeUp key={i} delay={0.15 * i} className='bullet-card'>
-							<div className='bullet-icon'>{item.icon}</div>
+							<div className='bullet-icon'><img src={item.icon} alt='' /></div>
 							<div className='bullet-info'>
 								<div className='bullet-title'>{item.title}</div>
 								<div className='bullet-desc'>{item.desc}</div>
@@ -238,7 +238,7 @@ export default function AboutUs() {
 			<section className='about-section'>
 				<FadeUp className='section-header'>
 					<span className='section-num'>04</span>
-					<h2 className='section-title'>Экипировка</h2>
+					<h2 className='section-title'>Магазин экипировки (скоро)</h2>
 				</FadeUp>
 
 				<SlideIn from='right' delay={0.1}>
@@ -250,12 +250,12 @@ export default function AboutUs() {
 
 				<div className='equip-list'>
 					{[
-						{ icon: '🧑‍🚀', name: 'Защитные костюмы' },
-						{ icon: '⛑️', name: 'Герметичные шлемы' },
-						{ icon: '🛠️', name: 'Оборудование для экспедиций' },
+						{ icon: '/img/icons/spaceman.svg', name: 'Защитные костюмы' },
+						{ icon: '/img/icons/helmet.svg', name: 'Герметичные шлемы' },
+						{ icon: '/img/icons/tools.svg', name: 'Оборудование для экспедиций' },
 					].map((item, i) => (
 						<SlideIn key={i} from='left' delay={0.12 * i} className='equip-item'>
-							<span className='equip-icon'>{item.icon}</span>
+							<span className='equip-icon'><img src={item.icon} alt='' /></span>
 							<span className='equip-name'>{item.name}</span>
 						</SlideIn>
 					))}

@@ -53,11 +53,15 @@ export default function Modal({
   if (!planet) return null
 
   function getColor(value) {
-    if (value < 10) value *= 10;
     if (value <= 25) return "green";
-    if (value <= 50) return "yellow";
     if (value <= 70) return "orange";
     return "red"
+  }
+
+    function getColorCircle(value) {
+    if (value < 4) return "green";
+    if (value < 7) return "orange";
+    return "red";
   }
 
   const climate = planet.stats?.climate
@@ -128,7 +132,7 @@ export default function Modal({
                     </h1>
 
                     <div className={`score-circle `}
-                    style={{ borderColor: getColor(planet.score) }}>
+                    style={{ borderColor: getColorCircle(planet.score) }}>
                       <h1 className="score-num">{planet.score}</h1>
                     </div>
                   </motion.div>

@@ -85,6 +85,12 @@
 	animation: bounce-down 1.5s ease-in-out infinite;
 }
 
+.bounce-arrow img {
+	width: 24px;
+	height: 24px;
+	opacity: 0.3;
+}
+
 .count-num {
 	display: inline-block;
 }
@@ -198,9 +204,12 @@
 }
 
 .cool-card-icon {
-	font-size: 36px;
 	flex-shrink: 0;
-	line-height: 1;
+}
+
+.cool-card-icon img {
+	width: 36px;
+	height: 36px;
 }
 
 .cool-card-text {
@@ -280,9 +289,12 @@
 }
 
 .bullet-icon {
-	font-size: 28px;
 	flex-shrink: 0;
-	line-height: 1;
+}
+
+.bullet-icon img {
+	width: 28px;
+	height: 28px;
 }
 
 .bullet-info {
@@ -329,8 +341,12 @@
 }
 
 .equip-icon {
-	font-size: 28px;
 	flex-shrink: 0;
+}
+
+.equip-icon img {
+	width: 28px;
+	height: 28px;
 }
 
 .equip-name {
@@ -491,6 +507,11 @@
 		font-size: 36px;
 	}
 
+	.bounce-arrow img {
+		width: 36px;
+		height: 36px;
+	}
+
 	.about-section {
 		max-width: 1200px;
 		padding: 70px 40px;
@@ -519,8 +540,9 @@
 		border-radius: 22px;
 	}
 
-	.cool-card-icon {
-		font-size: 52px;
+	.cool-card-icon img {
+		width: 52px;
+		height: 52px;
 	}
 
 	.cool-card-text {
@@ -548,8 +570,9 @@
 		border-radius: 20px;
 	}
 
-	.bullet-icon {
-		font-size: 42px;
+	.bullet-icon img {
+		width: 42px;
+		height: 42px;
 	}
 
 	.bullet-title {
@@ -565,8 +588,9 @@
 		gap: 22px;
 	}
 
-	.equip-icon {
-		font-size: 42px;
+	.equip-icon img {
+		width: 42px;
+		height: 42px;
 	}
 
 	.equip-name {
@@ -610,6 +634,11 @@
 		font-size: 52px;
 	}
 
+	.bounce-arrow img {
+		width: 52px;
+		height: 52px;
+	}
+
 	.about-section {
 		max-width: 1800px;
 		padding: 100px 60px;
@@ -638,8 +667,9 @@
 		border-radius: 30px;
 	}
 
-	.cool-card-icon {
-		font-size: 72px;
+	.cool-card-icon img {
+		width: 72px;
+		height: 72px;
 	}
 
 	.cool-card-text {
@@ -667,8 +697,9 @@
 		border-radius: 28px;
 	}
 
-	.bullet-icon {
-		font-size: 60px;
+	.bullet-icon img {
+		width: 60px;
+		height: 60px;
 	}
 
 	.bullet-title {
@@ -685,8 +716,9 @@
 		border-radius: 20px;
 	}
 
-	.equip-icon {
-		font-size: 60px;
+	.equip-icon img {
+		width: 60px;
+		height: 60px;
 	}
 
 	.equip-name {
