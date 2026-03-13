@@ -108,6 +108,7 @@ export const planets = [
 			temperature: 100,
 			distance: 35
 		},
+		tourImage: '/img/tours/venera_tour.svg'
 	},
 
 	{

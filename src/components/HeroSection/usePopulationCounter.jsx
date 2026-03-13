@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 
 const START_POPULATION = 8272345242
 
-// Форматирование числа с пробелами: 8272345242 → "8 272 345 242"
+// Форматирование числа с пробелами
 function formatNumber(number) {
 	return number.toLocaleString('ru-RU')
 }

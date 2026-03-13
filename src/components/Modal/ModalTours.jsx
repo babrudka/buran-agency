@@ -39,8 +39,8 @@ const nestedAnim = {
     exit: { opacity: 0, y: -10 }
 }
 
-export default function ModalTours({ tour, onClose, isNested }) {
-    const [showForm, setShowForm] = useState(false)
+export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsFormOpen }) {
+    const [localFormOpen, setLocalFormOpen] = useState(false)
     const [submitted, setSubmitted] = useState(false)
     const [formData, setFormData] = useState({
         name: '',
@@ -50,6 +50,16 @@ export default function ModalTours({ tour, onClose, isNested }) {
     const [errors, setErrors] = useState({})
 
     if (!tour) return null
+
+    const showForm = isNested ? isFormOpen : localFormOpen
+
+    function setFormState(state) {
+        if (isNested && setIsFormOpen) {
+            setIsFormOpen(state)
+        } else {
+            setLocalFormOpen(state)
+        }
+    }
 
     function getColor(score) {
         if (score < 3) return 'green';
@@ -84,7 +94,7 @@ export default function ModalTours({ tour, onClose, isNested }) {
     }
 
     function openForm() {
-        setShowForm(true)
+        setFormState(true)
         setSubmitted(false)
         setFormData({ name: '', phone: '', email: '' })
         setErrors({})
@@ -92,75 +102,75 @@ export default function ModalTours({ tour, onClose, isNested }) {
 
     const formContent = (
         <>
-            <motion.h1 variants={itemAnim} className="title">
+            <motion.h1 variants={itemAnim} className="modal-title">
                 Оставить заявку
             </motion.h1>
 
             {submitted ? (
                 <motion.div 
                     variants={itemAnim}
-                    className="success-message"
+                    className="modal-success-message"
                 >
-                    <h2 className="success-title">Заявка принята</h2>
-                    <p className="success-text">
+                    <h2 className="modal-success-title">Заявка принята</h2>
+                    <p className="modal-success-text">
                         Скоро с вами свяжется консультант агенства "Буран"
                     </p>
                 </motion.div>
             ) : (
                 <motion.form 
                     variants={itemAnim}
-                    className="form"
+                    className="modal-form"
                     onSubmit={send}
                 >
-                    <div className="form-group">
-                        <label className="form-label">Имя</label>
+                    <div className="modal-form-group">
+                        <label className="modal-form-label">Имя</label>
                         <input
                             type="text"
                             name="name"
                             value={formData.name}
                             onChange={change}
-                            className={`form-input ${errors.name ? 'error' : ''}`}
+                            className={`modal-form-input ${errors.name ? 'error' : ''}`}
                             placeholder="Введите ваше имя"
                         />
-                        {errors.name && <span className="error-text">{errors.name}</span>}
+                        {errors.name && <span className="modal-error-text">{errors.name}</span>}
                     </div>
 
-                    <div className="form-group">
-                        <label className="form-label">Номер телефона</label>
+                    <div className="modal-form-group">
+                        <label className="modal-form-label">Номер телефона</label>
                         <input
                             type="tel"
                             name="phone"
                             value={formData.phone}
                             onChange={change}
-                            className={`form-input ${errors.phone ? 'error' : ''}`}
+                            className={`modal-form-input ${errors.phone ? 'error' : ''}`}
                             placeholder="+7 (999) 999-99-99"
                         />
-                        {errors.phone && <span className="error-text">{errors.phone}</span>}
+                        {errors.phone && <span className="modal-error-text">{errors.phone}</span>}
                     </div>
 
-                    <div className="form-group">
-                        <label className="form-label">Электронная почта</label>
+                    <div className="modal-form-group">
+                        <label className="modal-form-label">Электронная почта</label>
                         <input
                             type="email"
                             name="email"
                             value={formData.email}
                             onChange={change}
-                            className={`form-input ${errors.email ? 'error' : ''}`}
+                            className={`modal-form-input ${errors.email ? 'error' : ''}`}
                             placeholder="example@mail.ru"
                         />
-                        {errors.email && <span className="error-text">{errors.email}</span>}
+                        {errors.email && <span className="modal-error-text">{errors.email}</span>}
                     </div>
 
                     <motion.button 
                         type="submit"
-                        className="btn submit-btn"
+                        className="modal-btn modal-submit-btn"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                     >
-                        <h2 className="btn-text">
+                        <h2 className="modal-btn-text">
                             Подать заявку
                         </h2>
-                        <div className="icon">
+                        <div className="modal-icon">
                             <img src="/img/icons/order-rocket.svg" alt="" />
                         </div>
                     </motion.button>
@@ -171,61 +181,56 @@ export default function ModalTours({ tour, onClose, isNested }) {
 
     const content = (
         <>
-            <motion.h1 variants={itemAnim} className="title">
+            <motion.h1 variants={itemAnim} className="modal-title">
                 Тур: «{tour.name}»
             </motion.h1>
 
-            <motion.section variants={itemAnim} className="info-block">
+            <motion.section variants={itemAnim} className="modal-info-block">
 
                 <motion.img
                     variants={itemAnim}
                     src={tour.tourImage}
                     alt="фото тура"
-                    className="tour-img"
+                    className="modal-tour-img"
                 />
 
-                <motion.section variants={itemAnim} className="info">
+                <motion.section variants={itemAnim} className="modal-info">
 
                     <motion.div variants={itemAnim}>
-                        <h1 className="label">
+                        <h1 className="modal-label">
                             планета: {tour.planetName}
                         </h1>
                     </motion.div>
 
-                    <motion.section variants={itemAnim} className="score-info">
+                    <motion.section variants={itemAnim} className="modal-score-info">
                         <h1>сложность</h1>
 
-                        <div className={`score-circle `} style={{ borderColor: getColor(tour.score) }}> 
-                            <h1 className="score-num">{tour.score}</h1>
+                        <div className={`modal-score-circle `} style={{ borderColor: getColor(tour.score) }}> 
+                            <h1 className="modal-score-num">{tour.score}</h1>
                         </div>
 
                     </motion.section>
 
-                
-
-
-
-                    <motion.p variants={itemAnim} className="text">
+                    <motion.p variants={itemAnim} className="modal-text">
                         {tour.desc}
                     </motion.p>
-        <motion.h1 variants={itemAnim} className='hours-label'>
+                    
+                    <motion.h1 variants={itemAnim} className='modal-hours-label'>
                         продолжительность тура:
-                        <span className="hours"> 96 ч</span>
+                        <span className="modal-hours"> 96 ч</span>
                     </motion.h1>
+                    
                     <motion.button 
                         variants={itemAnim} 
-                        className="btn"
+                        className="modal-btn"
                         onClick={openForm}
                     >
-
-                        <h2 className="btn-text">
+                        <h2 className="modal-btn-text">
                             оставить заявку
                         </h2>
-
-                        <div className="icon">
+                        <div className="modal-icon">
                             <img src="/img/icons/order-rocket.svg" alt="" />
                         </div>
-
                     </motion.button>
 
                 </motion.section>
@@ -251,7 +256,7 @@ export default function ModalTours({ tour, onClose, isNested }) {
 
     return (
         <motion.div
-            className="bg"
+            className="modal-bg"
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -259,7 +264,7 @@ export default function ModalTours({ tour, onClose, isNested }) {
         >
 
             <motion.div
-                className="popup"
+                className="modal-popup"
                 variants={modalAnim}
                 initial="hidden"
                 animate="visible"
@@ -268,11 +273,11 @@ export default function ModalTours({ tour, onClose, isNested }) {
             >
 
                 <button
-                    className="back"
+                    className="modal-back"
                     onClick={(e) => {
                         e.stopPropagation()
                         if (showForm) {
-                            setShowForm(false)
+                            setFormState(false)
                             setSubmitted(false)
                             setFormData({ name: '', phone: '', email: '' })
                             setErrors({})

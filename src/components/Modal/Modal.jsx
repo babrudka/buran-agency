@@ -1,6 +1,7 @@
 import "./Modal.css"
 import ModalTours from "./ModalTours"
 import { AnimatePresence, motion } from "framer-motion"
+import { useState } from "react"
 
 const modalAnim = {
   hidden: { opacity: 0, scale: 0.9 },
@@ -49,6 +50,7 @@ export default function Modal({
   selectedTour,
   setSelectedTour
 }) {
+  const [isFormOpen, setIsFormOpen] = useState(false)
 
   if (!planet) return null
 
@@ -58,7 +60,7 @@ export default function Modal({
     return "red"
   }
 
-    function getColorCircle(value) {
+  function getColorCircle(value) {
     if (value < 4) return "green";
     if (value < 7) return "orange";
     return "red";
@@ -72,7 +74,7 @@ export default function Modal({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="bg"
+          className="modal-bg"
           onClick={() => {
             setModalScreen("planet")
             onClose()
@@ -83,7 +85,7 @@ export default function Modal({
         >
 
           <motion.div
-            className="popup"
+            className="modal-popup"
             variants={modalAnim}
             initial="hidden"
             animate="visible"
@@ -92,10 +94,14 @@ export default function Modal({
           >
 
             <button
-              className="back"
+              className="modal-back"
               onClick={() => {
                 if (modalScreen === "tour") {
-                  setModalScreen("planet")
+                  if (isFormOpen) {
+                    setIsFormOpen(false)
+                  } else {
+                    setModalScreen("planet")
+                  }
                 } else {
                   onClose()
                 }
@@ -117,31 +123,31 @@ export default function Modal({
                 >
 
                   {planet.id === 'earth' && (
-                    <motion.h1 variants={itemAnim} className="location">
+                    <motion.h1 variants={itemAnim} className="modal-location">
                       ваше текущее местоположение
                     </motion.h1>
                   )}
 
-                  <motion.h1 variants={itemAnim} className="title">
+                  <motion.h1 variants={itemAnim} className="modal-title">
                     {planet.name}
                   </motion.h1>
 
-                  <motion.div variants={itemAnim} className="score">
-                    <h1 className="score-label">
+                  <motion.div variants={itemAnim} className="modal-score">
+                    <h1 className="modal-score-label">
                       сложность<br />экспедиций
                     </h1>
 
-                    <div className={`score-circle `}
+                    <div className={`modal-score-circle `}
                     style={{ borderColor: getColorCircle(planet.score) }}>
-                      <h1 className="score-num">{planet.score}</h1>
+                      <h1 className="modal-score-num">{planet.score}</h1>
                     </div>
                   </motion.div>
 
-                  <motion.div variants={itemAnim} className="stat-line">
-                    <h1 className="stat-label">агрессивность климата</h1>
-                    <div className="progress">
+                  <motion.div variants={itemAnim} className="modal-stat-line">
+                    <h1 className="modal-stat-label">агрессивность климата</h1>
+                    <div className="modal-progress">
                       <div
-                        className="fill"
+                        className="modal-fill"
                         style={{
                           width: climate + "%",
                           background: getColor(climate)
@@ -150,11 +156,11 @@ export default function Modal({
                     </div>
                   </motion.div>
 
-                  <motion.div variants={itemAnim} className="stat-line">
-                    <h1 className="stat-label">температурный режим</h1>
-                    <div className="progress">
+                  <motion.div variants={itemAnim} className="modal-stat-line">
+                    <h1 className="modal-stat-label">температурный режим</h1>
+                    <div className="modal-progress">
                       <div
-                        className="fill"
+                        className="modal-fill"
                         style={{
                           width: temperature + "%",
                           background: getColor(temperature)
@@ -163,11 +169,11 @@ export default function Modal({
                     </div>
                   </motion.div>
 
-                  <motion.div variants={itemAnim} className="stat-line">
-                    <h1 className="stat-label">удалённость</h1>
-                    <div className="progress">
+                  <motion.div variants={itemAnim} className="modal-stat-line">
+                    <h1 className="modal-stat-label">удалённость</h1>
+                    <div className="modal-progress">
                       <div
-                        className="fill"
+                        className="modal-fill"
                         style={{
                           width: distance + "%",
                           background: getColor(distance)
@@ -176,15 +182,15 @@ export default function Modal({
                     </div>
                   </motion.div>
 
-                  <motion.section variants={itemAnim} className="tours">
-                    <h1 className="heading">доступные туры</h1>
+                  <motion.section variants={itemAnim} className="modal-tours">
+                    <h1 className="modal-heading">доступные туры</h1>
 
-                    <div className="cards">
+                    <div className="modal-cards">
                       {planet.tours?.map((tour, i) => (
 
                         <motion.button
                           variants={itemAnim}
-                          className="card"
+                          className="modal-card"
                           style={{
                             backgroundImage: `url(${planet.tourImage})`,
                             backgroundSize: "cover",
@@ -203,9 +209,10 @@ export default function Modal({
                                 : planet.tourDescs?.[0]
                             })
                             setModalScreen("tour")
+                            setIsFormOpen(false)
                           }}
                         >
-                          <h1 className="name">{tour}</h1>
+                          <h1 className="modal-name">{tour}</h1>
                         </motion.button>
 
                       ))}
@@ -228,6 +235,8 @@ export default function Modal({
                     key={selectedTour?.name}
                     tour={selectedTour}
                     isNested={true}
+                    isFormOpen={isFormOpen}
+                    setIsFormOpen={setIsFormOpen}
                   />
                 </motion.div>
               )}

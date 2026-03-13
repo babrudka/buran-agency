@@ -1,127 +1,127 @@
 .side-planet {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .arrow {
-	background-color: transparent;
-	border: none;
-	height: 140px;
-	width: 140px;
-	border-radius: 140px;
-	cursor: pointer;
-	transition: opacity 0.2s;
+    background-color: transparent;
+    border: none;
+    width: 140px;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    transition: opacity 0.2s;
 }
 
 .arrow img {
-	width: 110px;
+    width: 110px;
 }
 
-
 .carousel {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	position: absolute;
-	z-index: 2;
-	bottom: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    z-index: 10; /* Подняли слой, чтобы кнопки были поверх всего */
+    bottom: 120px;
 }
 
 .carousel-left {
-	left: 40px;
+    left: 40px;
 }
 
 .carousel-right {
-	right: 40px;
+    right: 40px;
 }
 
 .arrow-area {
-	font-size: 30px;
+    font-size: 30px;
 }
 
 .planet-l {
-	position: absolute;
-	left: -80px;
-	bottom: 0;
-	width: 400px;
-	height: 400px;
-	object-fit: contain;
+    position: absolute;
+    left: -80px;
+    bottom: 0;
+    width: 400px;
+    height: 400px;
+    object-fit: contain;
+    pointer-events: none; /* Выключаем хитбокс у картинки */
 }
 
 .planet-r {
-	position: absolute;
-	right: -60px;
-	bottom: 0;
-	width: 400px;
-	height: 400px;
-	object-fit: contain;
+    position: absolute;
+    right: -60px;
+    bottom: 0;
+    width: 400px;
+    height: 400px;
+    object-fit: contain;
+    pointer-events: none; /* Выключаем хитбокс у картинки */
 }
 
 @media (max-width: 1200px) {
-	.arrow {
-		height: 110px;
-		width: 110px;
-	}
+    .arrow {
+        height: 110px;
+        width: 110px;
+    }
 
-	.arrow img {
-		width: 70px;
-	}
+    .arrow img {
+        width: 70px;
+    }
 
-	.planet-l,
-	.planet-r {
-		width: 300px;
-		height: 300px;
-	}
+    .planet-l,
+    .planet-r {
+        width: 300px;
+        height: 300px;
+    }
 }
 
 @media (max-width: 790px) {
-	.arrow {
-		height: 100px;
-		width: 100px;
-	}
+    .arrow {
+        height: 100px;
+        width: 100px;
+    }
 
-	.arrow img {
-		width: 50px;
-	}
+    .arrow img {
+        width: 50px;
+    }
 
-	.planet-l,
-	.planet-r {
-		width: 250px;
-		height: 250px;
-	}
+    .planet-l,
+    .planet-r {
+        width: 250px;
+        height: 250px;
+    }
 }
 
 @media (min-width: 2560px) {
-	.arrow {
-		height: 180px;
-		width: 180px;
-	}
+    .arrow {
+        height: 180px;
+        width: 180px;
+    }
 
-	.arrow img {
-		width: 140px;
-	}
+    .arrow img {
+        width: 140px;
+    }
 
-	.planet-l,
-	.planet-r {
-		width: 520px;
-		height: 520px;
-	}
+    .planet-l,
+    .planet-r {
+        width: 520px;
+        height: 520px;
+    }
 }
 
 @media (min-width: 3840px) {
-	.arrow {
-		height: 220px;
-		width: 220px;
-	}
+    .arrow {
+        height: 220px;
+        width: 220px;
+    }
 
-	.arrow img {
-		width: 180px;
-	}
+    .arrow img {
+        width: 180px;
+    }
 
-	.planet-l,
-	.planet-r {
-		width: 700px;
-		height: 700px;
-	}
+    .planet-l,
+    .planet-r {
+        width: 700px;
+        height: 700px;
+    }
 }

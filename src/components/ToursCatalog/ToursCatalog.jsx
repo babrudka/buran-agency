@@ -28,7 +28,6 @@ const MIN_TEMP = -224
 const MAX_TEMP = 460
 const MAX_FLY_TIME = Math.max(...tours.map(t => t.flyTime))
 
-// Переводим секунды полёта в человекочитаемый формат
 function showTime(seconds) {
     if (seconds === 0) return 'Вы здесь'
 
@@ -106,7 +105,6 @@ export default function ToursCatalog() {
         setTourModalOpen(true)
     }
 
-    // Переключить выбранную планету в фильтре
     const toggle = useCallback(id => {
         setPicked(prev => {
             const updated = new Set(prev)

@@ -9,7 +9,7 @@
     display: none;
 }
 
-.bg {
+.modal-bg {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.75);
@@ -20,7 +20,7 @@
     justify-content: center;
 }
 
-.popup {
+.modal-popup {
     width: 85vw;
     max-height: 90vh;
     border-radius: 20px;
@@ -34,21 +34,21 @@
     font-family: 'UNCAGE';
 }
 
-.popup::-webkit-scrollbar {
+.modal-popup::-webkit-scrollbar {
     width: 8px;
 }
 
-.popup::-webkit-scrollbar-track {
+.modal-popup::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
 }
 
-.popup::-webkit-scrollbar-thumb {
+.modal-popup::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
 }
 
-.back {
+.modal-back {
     margin: 0 0 12px 0;
     display: flex;
     align-items: center;
@@ -62,11 +62,11 @@
     transition: opacity 0.2s;
 }
 
-.back:hover {
+.modal-back:hover {
     opacity: 0.7;
 }
 
-.location {
+.modal-location {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,7 +78,7 @@
     text-transform: lowercase;
 }
 
-.title {
+.modal-title {
     font-family: 'Widock';
     font-size: 38px;
     text-align: center;
@@ -87,21 +87,21 @@
     letter-spacing: -1px;
 }
 
-.stat-line {
+.modal-stat-line {
     display: flex;
     flex-direction: column;
     gap: 8px;
     margin-bottom: 14px;
 }
 
-.stat-label {
+.modal-stat-label {
     font-family: 'UNCAGE';
     font-size: 15px;
     opacity: 1;
     font-weight: 400;
 }
 
-.progress {
+.modal-progress {
     width: 100%;
     height: 16px;
     background: rgba(255, 255, 255, 0.1);
@@ -109,12 +109,12 @@
     position: relative;
 }
 
-.fill {
+.modal-fill {
     height: 100%;
     transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.score {
+.modal-score {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -122,7 +122,7 @@
     margin: 16px 0;
 }
 
-.score-label {
+.modal-score-label {
     font-family: 'Widock';
     font-size: 16px;
     text-align: center;
@@ -130,7 +130,7 @@
     opacity: 0.9;
 }
 
-.score-circle {
+.modal-score-circle {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -141,36 +141,36 @@
     border-style: solid;
 }
 
-.score-num {
+.modal-score-num {
     font-family: 'Widock';
     font-size: 32px;
     font-weight: 700;
     margin-top: 8px;
 }
 
-.bad {
+.modal-bad {
     border-color: #ff4444;
 }
 
-.good {
+.modal-good {
     border-color: #44ff44;
 }
 
-.tours {
+.modal-tours {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
 }
 
-.heading {
+.modal-heading {
     font-family: 'Widock';
     font-size: 24px;
     margin-bottom: 14px;
     text-align: center;
 }
 
-.cards {
+.modal-cards {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -178,12 +178,13 @@
     width: 100%;
 }
 
-.card {
-
+.modal-card {
+    border: 0;
     border-radius: 16px;
     background-color: #1a1a1a;
     display: flex;
-    align-items: center;
+    align-items: end;
+    padding-bottom: 25px;
     justify-content: center;
     width: 30vw;
     aspect-ratio: 1 / 1;
@@ -193,21 +194,20 @@
     position: relative;
 }
 
-.card::before {
+.modal-card::before {
     content: '';
     position: absolute;
-
     inset: 0;
     background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
     z-index: 1;
 }
 
-.card:hover {
+.modal-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
-.name {
+.modal-name {
     font-family: 'Widock';
     color: #ffffff;
     margin: 0;
@@ -219,13 +219,13 @@
     padding: 16px;
 }
 
-.info-block {
+.modal-info-block {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.tour-img {
+.modal-tour-img {
     width: 100%;
     max-width: 400px;
     height: auto;
@@ -234,13 +234,13 @@
     object-fit: cover;
 }
 
-.info {
+.modal-info {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.label {
+.modal-label {
     font-family: 'Uncage';
     text-align: center;
     font-size: 16px;
@@ -248,30 +248,30 @@
     opacity: 0.9;
 }
 
-.score-info {
+.modal-score-info {
     display: flex;
     align-items: center;
     flex-direction: row;
     justify-content: center;
     gap: 20px;
 }
-.score-info h1 {
+.modal-score-info h1 {
 text-align: center;
 align-self: center;
 }
 
-.hours {
+.modal-hours {
     font-family: 'UNCAGE';
     font-weight: 100;
     margin-left: 8px;
 }
-.hours-label {
+.modal-hours-label {
     margin-top: 20px;
     text-align: center;
     font-size: 22px;
 }
 
-.text {
+.modal-text {
     font-family: 'Uncage';
     font-size: 15px;
     line-height: 1.6;
@@ -279,7 +279,7 @@ align-self: center;
     margin: 0;
 }
 
-.btn {
+.modal-btn {
     cursor: pointer;
     background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
     display: flex;
@@ -295,17 +295,17 @@ align-self: center;
     box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
 }
 
-.btn:hover {
+.modal-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
     opacity: 0.95;
 }
 
-.btn:active {
+.modal-btn:active {
     transform: translateY(0);
 }
 
-.icon {
+.modal-icon {
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -316,14 +316,14 @@ align-self: center;
     flex-shrink: 0;
 }
 
-.btn-text {
+.modal-btn-text {
     margin: 0;
     font-family: 'Widock';
     font-size: 26px;
     font-weight: 400;
 }
 
-.form {
+.modal-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -332,20 +332,20 @@ align-self: center;
     margin: 0 auto;
 }
 
-.form-group {
+.modal-form-group {
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
 
-.form-label {
+.modal-form-label {
     font-family: 'UNCAGE';
     font-size: 12px;
     opacity: 0.9;
     margin: 0;
 }
 
-.form-input {
+.modal-form-input {
     width: 100%;
     padding: 14px 18px;
     background: rgba(255, 255, 255, 0.1);
@@ -358,32 +358,32 @@ align-self: center;
     outline: none;
 }
 
-.form-input::placeholder {
+.modal-form-input::placeholder {
     color: rgba(255, 255, 255, 0.4);
 }
 
-.form-input:focus {
+.modal-form-input:focus {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.4);
 }
 
-.form-input.error {
+.modal-form-input.error {
     border-color: #ff4444;
     background: rgba(255, 68, 68, 0.1);
 }
 
-.error-text {
+.modal-error-text {
     font-family: 'UNCAGE';
     color: #ff4444;
     font-size: 13px;
     margin-top: 2px;
 }
 
-.submit-btn {
+.modal-submit-btn {
     margin-top: 8px;
 }
 
-.success-message {
+.modal-success-message {
     text-align: center;
     padding: 24px 20px;
     display: flex;
@@ -392,14 +392,14 @@ align-self: center;
     align-items: center;
 }
 
-.success-title {
+.modal-success-title {
     font-family: 'Widock';
     font-size: 32px;
     margin: 0;
     color: #44ff44;
 }
 
-.success-text {
+.modal-success-text {
     font-family: 'UNCAGE';
     font-size: 18px;
     line-height: 1.6;
@@ -409,22 +409,22 @@ align-self: center;
 }
 
 @media (max-width: 400px) {
-    .popup {
+    .modal-popup {
         width: 340px;
     }
-    .card {
+    .modal-card {
         width: 200px;
     }
 }
 
 @media (min-width: 824px) {
-    .popup {
+    .modal-popup {
         width: 700px;
     }
 }
 
 @media (min-width: 934px) {
-    .card {
+    .modal-card {
         width: 280px;
     }
 }
