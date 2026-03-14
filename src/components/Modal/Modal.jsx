@@ -192,7 +192,7 @@ export default function Modal({
                           variants={itemAnim}
                           className="modal-card"
                           style={{
-                            backgroundImage: `url(${planet.tourImage})`,
+                            backgroundImage: `url(${planet.tourImages?.[i]})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                             backgroundRepeat: "no-repeat"
@@ -202,7 +202,7 @@ export default function Modal({
                             setSelectedTour({
                               name: tour,
                               planetName: planet.name,
-                              tourImage: planet.tourImage,
+                              tourImage: planet.tourImages?.[i],
                               score: planet.score,
                               desc: planet.tourDescs?.length > 1
                                 ? planet.tourDescs[i]

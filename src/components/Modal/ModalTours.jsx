@@ -189,7 +189,7 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
 
                 <motion.img
                     variants={itemAnim}
-                    src={tour.tourImage}
+                    src={Array.isArray(tour.tourImages || tour.tourImage) ? (tour.tourImages || tour.tourImage)[tour.tourIndex || 0] : (tour.tourImages || tour.tourImage)}
                     alt="фото тура"
                     className="modal-tour-img"
                 />

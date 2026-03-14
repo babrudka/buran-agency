@@ -64,7 +64,7 @@ function App() {
                 setSelectedTour({
                   name: tourName,
                   planetName: planet.name,
-                  tourImage: planet.tourImage,
+                  tourImage: planet.tourImages?.[i], // <-- ИСПРАВЛЕНИЕ ЗДЕСЬ
                   score: planet.score,
                   desc: planet.tourDescs?.length > 1
                     ? planet.tourDescs[i]

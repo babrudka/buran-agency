@@ -14,13 +14,14 @@ const tours = allPlanets.flatMap(p =>
         planet: p.id,
         planetName: p.name,
         img: p.image,
-        tourImage: p.tourImage,
+        tourImage: p.tourImages?.[i],
         score: p.score,
         desc: p.tourDescs?.length > 1 ? p.tourDescs[i] : p.tourDescs?.[0],
         temp: p.temp,
         flyTime: p.distance / SPEED,
     }))
 )
+
 
 const planetList = allPlanets.filter(p => p.tours && p.tours.length > 0)
 
