@@ -74,7 +74,7 @@ export default function GravityCalculator({ size, id }) {
 						<div className='gravity-fields'>
 							<div className='gravity-field'>
 								<label className='gravity-label'>Ваш вес на Земле</label>
-								<div className='gravity-input-wrap'>
+								<div className='gravity-input-wrap gravity-input-calc'>
 									<input
 										type='number'
 										className='gravity-input'

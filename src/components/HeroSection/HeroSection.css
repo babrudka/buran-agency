@@ -104,7 +104,7 @@
 }
 
 .facts {
-	width: 280px;
+	width: 240px;
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
@@ -288,6 +288,10 @@
 	-moz-appearance: textfield;
 }
 
+.gravity-input-calc {
+	width: 152px;
+}
+
 .gravity-input::placeholder {
 	color: rgba(255, 255, 255, 0.25);
 }
@@ -307,6 +311,7 @@
 }
 
 .gravity-result {
+	height: 34px;
 	border-color: rgba(200, 235, 245, 0.3);
 	background: rgba(200, 235, 245, 0.08);
 }

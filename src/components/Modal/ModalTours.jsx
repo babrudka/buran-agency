@@ -9,9 +9,8 @@ const modalAnim = {
         scale: 1,
         transition: {
             duration: 0.2,
-            when: "beforeChildren",
-            delayChildren: 0.2,
-            staggerChildren: 0.08
+            delayChildren: 0.05,
+            staggerChildren: 0.05
         }
     },
     exit: {
@@ -32,7 +31,7 @@ const nestedAnim = {
         opacity: 1,
         y: 0,
         transition: {
-            delayChildren: 0.15,
+            delayChildren: 0.05,
             staggerChildren: 0.07
         }
     },

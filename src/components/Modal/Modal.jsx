@@ -1,7 +1,7 @@
 import "./Modal.css"
 import ModalTours from "./ModalTours"
 import { AnimatePresence, motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const modalAnim = {
   hidden: { opacity: 0, scale: 0.9 },
@@ -51,6 +51,10 @@ export default function Modal({
   setSelectedTour
 }) {
   const [isFormOpen, setIsFormOpen] = useState(false)
+
+  useEffect(() => {
+    setIsFormOpen(false)
+  }, [isOpen, selectedTour])
 
   if (!planet) return null
 
