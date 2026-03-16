@@ -4,7 +4,7 @@ export function buildTourData(planet, tourName, tourIndex) {
         planetName: planet.name,
         tourImage: planet.tourImages?.[tourIndex],
         score: planet.score,
-        desc: planet.tourDescs?.length > 1
+        description: planet.tourDescs?.length > 1
             ? planet.tourDescs[tourIndex]
             : planet.tourDescs?.[0],
         travelTime: planet.travelTime,
@@ -13,13 +13,13 @@ export function buildTourData(planet, tourName, tourIndex) {
     }
 }
 
-export function getScoreColor(score) {
+export function getDifficultyColor(score) {
     if (score < 4) return 'green'
     if (score < 7) return 'orange'
     return 'red'
 }
 
-export function getStatColor(percent) {
+export function getProgressBarColor(percent) {
     if (percent <= 25) return 'green'
     if (percent <= 70) return 'orange'
     return 'red'
@@ -157,6 +157,9 @@ export const planets = [
         hasMoon: true,
         temp: 15,
         distance: 0,
+        travelTime: 0,
+        stayTime: 8,
+        totalDuration: 8,
         tours: ['Полюс холода. Оймякон', 'Станция восток'],
         tourDescs: [
             'Добро пожаловать в одно из самых холодных мест планеты. Экспедиция переносит вас в сердце якутской зимы: поездки на упряжках, северное сияние и жизнь в настоящем полярном лагере. Здесь мороз становится частью пейзажа.',

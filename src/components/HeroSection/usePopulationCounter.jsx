@@ -7,7 +7,7 @@ function formatNumber(number) {
 }
 
 export default function usePopulationCounter(active) {
-	const [count, setCount] = useState(START_POPULATION)
+	const [population, setPopulation] = useState(START_POPULATION)
 	const timerRef = useRef(null)
 
 	useEffect(() => {
@@ -17,13 +17,13 @@ export default function usePopulationCounter(active) {
 		}
 
 		timerRef.current = setInterval(() => {
-			const direction = Math.random() < 0.55 ? 1 : -1
-			const step = 1 + Math.floor(Math.random() * 3)
-			setCount(previousCount => previousCount + direction * step)
+			const changeDirection = Math.random() < 0.55 ? 1 : -1
+			const changeAmount = 1 + Math.floor(Math.random() * 3)
+			setPopulation(previousPopulation => previousPopulation + changeDirection * changeAmount)
 		}, 150)
 
 		return () => clearInterval(timerRef.current)
 	}, [active])
 
-	return formatNumber(count) + ' человек'
+	return formatNumber(population) + ' человек'
 }

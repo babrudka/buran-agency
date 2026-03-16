@@ -1,37 +1,37 @@
 import { useRef, useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-const ANGLE_DEG = 330
-const DISTANCE_MULT = 1.55
+const LINE_ANGLE_DEG = 330
+const LINE_DISTANCE_MULTIPLIER = 1.55
 
-export default function EarthLine({ size, onGoToEarth }) {
+export default function EarthLine({ circleSize, onGoToEarth }) {
 	const [offsetX, setOffsetX] = useState(0)
 	const [offsetY, setOffsetY] = useState(0)
 	const timerRef = useRef(null)
 
 	useEffect(() => {
-		let step = 0
+		let animationStep = 0
 		timerRef.current = setInterval(() => {
-			step += 1
-			setOffsetX(12 * Math.sin(step * 0.06))
-			setOffsetY(9 * Math.cos(step * 0.06))
+			animationStep += 1
+			setOffsetX(12 * Math.sin(animationStep * 0.06))
+			setOffsetY(9 * Math.cos(animationStep * 0.06))
 		}, 30)
 		return () => clearInterval(timerRef.current)
 	}, [])
 
-	if (!size) return null
+	if (!circleSize) return null
 
-	const radius = size / 2
-	const center = radius
-	const angleRad = (ANGLE_DEG * Math.PI) / 180
+	const radius = circleSize / 2
+	const centerPoint = radius
+	const angleRad = (LINE_ANGLE_DEG * Math.PI) / 180
 
-	const startX = center + radius * Math.cos(angleRad)
-	const startY = center + radius * Math.sin(angleRad)
+	const lineStartX = centerPoint + radius * Math.cos(angleRad)
+	const lineStartY = centerPoint + radius * Math.sin(angleRad)
 
-	const endX = center + DISTANCE_MULT * radius * Math.cos(angleRad) + offsetX
-	const endY = center + DISTANCE_MULT * radius * Math.sin(angleRad) + offsetY
+	const lineEndX = centerPoint + LINE_DISTANCE_MULTIPLIER * radius * Math.cos(angleRad) + offsetX
+	const lineEndY = centerPoint + LINE_DISTANCE_MULTIPLIER * radius * Math.sin(angleRad) + offsetY
 
-	const buttonSize = Math.round(size * 0.22)
+	const earthButtonSize = Math.round(circleSize * 0.22)
 
 	return (
 		<AnimatePresence>
@@ -43,21 +43,21 @@ export default function EarthLine({ size, onGoToEarth }) {
 			>
 				<svg className="svg-layer">
 				<line
-						x1={startX}
-						y1={startY}
-						x2={endX}
-						y2={endY}
+						x1={lineStartX}
+						y1={lineStartY}
+						x2={lineEndX}
+						y2={lineEndY}
 						stroke='rgba(255,255,255,1)'
 						strokeWidth='1.5'
 						strokeDasharray='5 4'
 					/>
-					<circle cx={endX} cy={endY} r='3' fill='rgba(255,255,255,1)' />
+					<circle cx={lineEndX} cy={lineEndY} r='3' fill='rgba(255,255,255,1)' />
 				</svg>
 
 				<button
 					onClick={onGoToEarth}
 					className="space-btn"
-					style={{ left: endX, top: endY, width: buttonSize, height: buttonSize }}
+					style={{ left: lineEndX, top: lineEndY, width: earthButtonSize, height: earthButtonSize }}
 				>
 					<img
 						src='/img/planets/theEarth.svg'

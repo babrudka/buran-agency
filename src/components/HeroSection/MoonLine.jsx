@@ -1,37 +1,37 @@
 import { useRef, useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-const ANGLE_DEG = 330
-const DISTANCE_MULT = 1.55
+const LINE_ANGLE_DEG = 330
+const LINE_DISTANCE_MULTIPLIER = 1.55
 
-export default function MoonLine({ size, onGoToMoon }) {
+export default function MoonLine({ circleSize, onGoToMoon }) {
 	const [offsetX, setOffsetX] = useState(0)
 	const [offsetY, setOffsetY] = useState(0)
 	const timerRef = useRef(null)
 
 	useEffect(() => {
-		let step = 0
+		let animationStep = 0
 		timerRef.current = setInterval(() => {
-			step += 1
-			setOffsetX(10 * Math.sin(step * 0.065))
-			setOffsetY(8 * Math.cos(step * 0.065))
+			animationStep += 1
+			setOffsetX(10 * Math.sin(animationStep * 0.065))
+			setOffsetY(8 * Math.cos(animationStep * 0.065))
 		}, 30)
 		return () => clearInterval(timerRef.current)
 	}, [])
 
-	if (!size) return null
+	if (!circleSize) return null
 
-	const radius = size / 2
-	const center = radius
-	const angleRad = (ANGLE_DEG * Math.PI) / 180
+	const radius = circleSize / 2
+	const centerPoint = radius
+	const angleRad = (LINE_ANGLE_DEG * Math.PI) / 180
 
-	const startX = center + radius * Math.cos(angleRad)
-	const startY = center + radius * Math.sin(angleRad)
+	const lineStartX = centerPoint + radius * Math.cos(angleRad)
+	const lineStartY = centerPoint + radius * Math.sin(angleRad)
 
-	const moonX = center + DISTANCE_MULT * radius * Math.cos(angleRad) + offsetX
-	const moonY = center + DISTANCE_MULT * radius * Math.sin(angleRad) + offsetY
+	const moonX = centerPoint + LINE_DISTANCE_MULTIPLIER * radius * Math.cos(angleRad) + offsetX
+	const moonY = centerPoint + LINE_DISTANCE_MULTIPLIER * radius * Math.sin(angleRad) + offsetY
 
-	const moonBtnSize = Math.round(size * 0.216)
+	const moonButtonSize = Math.round(circleSize * 0.216)
 
 	return (
 		<AnimatePresence>
@@ -43,8 +43,8 @@ export default function MoonLine({ size, onGoToMoon }) {
 			>
 		<svg className="svg-layer">
 				<line
-					x1={startX}
-					y1={startY}
+					x1={lineStartX}
+					y1={lineStartY}
 					x2={moonX}
 					y2={moonY}
 					stroke='rgba(255,255,255,1)'
@@ -57,7 +57,7 @@ export default function MoonLine({ size, onGoToMoon }) {
 		<button
 				onClick={onGoToMoon}
 				className="space-btn"
-				style={{ left: moonX, top: moonY, width: moonBtnSize, height: moonBtnSize }}
+				style={{ left: moonX, top: moonY, width: moonButtonSize, height: moonButtonSize }}
 			>
 					<img
 						src='/img/planets/themoon.png'

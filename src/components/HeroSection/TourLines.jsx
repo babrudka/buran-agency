@@ -8,25 +8,25 @@ const TOUR_ANGLES = {
 
 const LINE_LENGTH = 0.55
 
-export default function TourLines({ tours, planetId, size, onTourClick }) {
-    const [offsets, setOffsets] = useState(() =>
+export default function TourLines({ tours, planetId, circleSize, onTourClick }) {
+    const [tourOffsets, setTourOffsets] = useState(() =>
         tours.map(() => ({ x: 0, y: 0 })),
     )
     const timerRef = useRef(null)
 
     useEffect(() => {
-        const count = tours.length
-        if (count === 0) return
+        const tourCount = tours.length
+        if (tourCount === 0) return
 
-        let step = 0
-        const phaseShifts = tours.map((_, tourIndex) => (tourIndex / count) * Math.PI * 2)
+        let animationStep = 0
+        const phaseShifts = tours.map((_, tourIndex) => (tourIndex / tourCount) * Math.PI * 2)
 
         timerRef.current = setInterval(() => {
-            step += 1
-            setOffsets(
+            animationStep += 1
+            setTourOffsets(
                 tours.map((_, tourIndex) => ({
-                    x: 8 * Math.sin(step * 0.07 + phaseShifts[tourIndex]),
-                    y: 12 * Math.cos(step * 0.07 + phaseShifts[tourIndex]),
+                    x: 8 * Math.sin(animationStep * 0.07 + phaseShifts[tourIndex]),
+                    y: 12 * Math.cos(animationStep * 0.07 + phaseShifts[tourIndex]),
                 })),
             )
         }, 30)
@@ -34,10 +34,10 @@ export default function TourLines({ tours, planetId, size, onTourClick }) {
         return () => clearInterval(timerRef.current)
     }, [tours.length])
 
-    if (!tours.length || !size) return null
+    if (!tours.length || !circleSize) return null
 
-    const radius = size / 2
-    const center = radius
+    const radius = circleSize / 2
+    const centerPoint = radius
     const angles = TOUR_ANGLES[tours.length] ?? TOUR_ANGLES[1]
 
     return (
@@ -53,31 +53,31 @@ export default function TourLines({ tours, planetId, size, onTourClick }) {
                 const angleDeg = angles[tourIndex] ?? 30
                 const angleRad = (angleDeg * Math.PI) / 180
 
-                const startX = center + radius * Math.cos(angleRad)
-                const startY = center + radius * Math.sin(angleRad)
+                const lineStartX = centerPoint + radius * Math.cos(angleRad)
+                const lineStartY = centerPoint + radius * Math.sin(angleRad)
 
-                const endX = startX + LINE_LENGTH * radius * Math.cos(angleRad) + (offsets[tourIndex]?.x ?? 0)
-                const endY = startY + LINE_LENGTH * radius * Math.sin(angleRad) + (offsets[tourIndex]?.y ?? 0)
+                const lineEndX = lineStartX + LINE_LENGTH * radius * Math.cos(angleRad) + (tourOffsets[tourIndex]?.x ?? 0)
+                const lineEndY = lineStartY + LINE_LENGTH * radius * Math.sin(angleRad) + (tourOffsets[tourIndex]?.y ?? 0)
 
                 const tagWidth = 800
                 const tagHeight = 150
-                const isRight = Math.cos(angleRad) < 0
+                const isOnRightSide = Math.cos(angleRad) < 0
                 
-                const tagX = isRight ? endX - tagWidth : endX
-                const tagY = endY - 35
+                const tagX = isOnRightSide ? lineEndX - tagWidth : lineEndX
+                const tagY = lineEndY - 35
 
                 return (
                     <g key={tourName}>
                         <line
-                            x1={startX}
-                            y1={startY}
-                            x2={endX}
-                            y2={endY}
+                            x1={lineStartX}
+                            y1={lineStartY}
+                            x2={lineEndX}
+                            y2={lineEndY}
                             stroke='rgba(255,255,255,1)'
                             strokeWidth='1.5'
                             strokeDasharray='5 4'
                         />
-                        <circle cx={endX} cy={endY} r='3' fill='rgba(255,255,255,1)' />
+                        <circle cx={lineEndX} cy={lineEndY} r='3' fill='rgba(255,255,255,1)' />
                         <foreignObject
                             x={tagX}
                             y={tagY}
@@ -87,7 +87,7 @@ export default function TourLines({ tours, planetId, size, onTourClick }) {
                         >
                             <div
                                 xmlns='http://www.w3.org/1999/xhtml'
-                                className={`tour-tag${isRight ? ' tour-tag--right' : ''}`}
+                                className={`tour-tag${isOnRightSide ? ' tour-tag--right' : ''}`}
                                 onClick={() => onTourClick?.(tourName, tourIndex)}
                             >
                                 Тур «{tourName}»

@@ -1,29 +1,29 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import usePopulationCounter from './usePopulationCounter'
 
-const ANGLE_DEG = 210
-const LINE_LENGTH = 0.85
+const LINE_ANGLE_DEG = 210
+const LINE_DISTANCE_MULTIPLIER = 0.85
 
-export default function PlanetNameLine({ size, name, id, subtitle, showPin, facts }) {
+export default function PlanetNameLine({ circleSize, name, id, subtitle, showPin, facts }) {
 	const hasPopulationCounter = facts?.some(fact => fact.counter)
 	const populationText = usePopulationCounter(hasPopulationCounter)
 
-	if (!size) return null
+	if (!circleSize) return null
 
-	const radius = size / 2
-	const center = radius
-	const angleRad = (ANGLE_DEG * Math.PI) / 180
+	const radius = circleSize / 2
+	const centerPoint = radius
+	const angleRad = (LINE_ANGLE_DEG * Math.PI) / 180
 
-	const startX = center + radius * Math.cos(angleRad)
-	const startY = center + radius * Math.sin(angleRad)
+	const lineStartX = centerPoint + radius * Math.cos(angleRad)
+	const lineStartY = centerPoint + radius * Math.sin(angleRad)
 
-	const endX = startX + LINE_LENGTH * radius * Math.cos(angleRad)
-	const endY = startY + LINE_LENGTH * radius * Math.sin(angleRad)
+	const lineEndX = lineStartX + LINE_DISTANCE_MULTIPLIER * radius * Math.cos(angleRad)
+	const lineEndY = lineStartY + LINE_DISTANCE_MULTIPLIER * radius * Math.sin(angleRad)
 
-	const blockWidth = Math.round(size * 0.4)
-	const titleHeight = Math.round(size * 0.12)
-	const subtitleHeight = Math.round(size * 0.08)
-	const factsGap = Math.round(size * 0.025)
+	const nameBlockWidth = Math.round(circleSize * 0.4)
+	const titleHeight = Math.round(circleSize * 0.12)
+	const subtitleHeight = Math.round(circleSize * 0.08)
+	const factsSectionGap = Math.round(circleSize * 0.025)
 	const nameBlockHeight = subtitleHeight + titleHeight
 
 	return (
@@ -35,27 +35,27 @@ export default function PlanetNameLine({ size, name, id, subtitle, showPin, fact
 				animate={{ opacity: 1, transition: { duration: 0.35, delay: 0.2 } }}
 				exit={{ opacity: 0, transition: { duration: 0.2 } }}
 			>
-			<line
-				x1={startX}
-				y1={startY}
-				x2={endX}
-				y2={endY}
-				stroke="rgba(255,255,255,1)"
-				strokeWidth="1.5"
-			/>
+		<line
+			x1={lineStartX}
+			y1={lineStartY}
+			x2={lineEndX}
+			y2={lineEndY}
+			stroke="rgba(255,255,255,1)"
+			strokeWidth="1.5"
+		/>
 
-			<line
-				x1={endX - blockWidth}
-				y1={endY}
-				x2={endX}
-				y2={endY}
-				stroke="rgba(255,255,255,1)"
-				strokeWidth="1.5"
-			/>
-			<foreignObject
-				x={endX - blockWidth}
-				y={endY - nameBlockHeight}
-				width={blockWidth}
+		<line
+			x1={lineEndX - nameBlockWidth}
+			y1={lineEndY}
+			x2={lineEndX}
+			y2={lineEndY}
+			stroke="rgba(255,255,255,1)"
+			strokeWidth="1.5"
+		/>
+		<foreignObject
+			x={lineEndX - nameBlockWidth}
+			y={lineEndY - nameBlockHeight}
+			width={nameBlockWidth}
 				height={nameBlockHeight}
 					className="display-overlay"
 				>
@@ -79,12 +79,12 @@ export default function PlanetNameLine({ size, name, id, subtitle, showPin, fact
 					</div>
 				</foreignObject>
 
-			{facts?.length > 0 && (
-				<foreignObject
-					x={endX - blockWidth}
-					y={endY + factsGap}
-					width={blockWidth + Math.round(size * 0.2)}
-					height={facts.length * Math.round(size * 0.13) + Math.round(size * 0.07)}
+		{facts?.length > 0 && (
+			<foreignObject
+				x={lineEndX - nameBlockWidth}
+				y={lineEndY + factsSectionGap}
+				width={nameBlockWidth + Math.round(circleSize * 0.2)}
+				height={facts.length * Math.round(circleSize * 0.13) + Math.round(circleSize * 0.07)}
 						className="display-overlay"
 					>
 						<div xmlns="http://www.w3.org/1999/xhtml" className="facts">

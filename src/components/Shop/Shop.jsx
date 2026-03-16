@@ -22,9 +22,9 @@ function saveCart(cart) {
 export default function Shop() {
     const [activeCategory, setActiveCategory] = useState('все')
     const [cart, setCart] = useState(loadCart)
-    const [cartOpen, setCartOpen] = useState(false)
+    const [isCartOpen, setIsCartOpen] = useState(false)
     const [justAddedKey, setJustAddedKey] = useState(null)
-    const [orderOpen, setOrderOpen] = useState(false)
+    const [isOrderOpen, setIsOrderOpen] = useState(false)
     const [orderSubmitted, setOrderSubmitted] = useState(false)
     const [orderData, setOrderData] = useState({ name: '', phone: '', email: '' })
     const [orderErrors, setOrderErrors] = useState({})
@@ -93,7 +93,7 @@ export default function Shop() {
     const totalPrice = cart.reduce((sum, cartItem) => sum + cartItem.price * cartItem.qty, 0)
 
     function openOrder() {
-        setOrderOpen(true)
+        setIsOrderOpen(true)
         setOrderSubmitted(false)
         setOrderData({ name: '', phone: '', email: '' })
         setOrderErrors({})
@@ -124,7 +124,7 @@ export default function Shop() {
     return (
         <div className='shop'>
 
-            <button className='cart-btn' onClick={() => setCartOpen(!cartOpen)}>
+            <button className='cart-btn' onClick={() => setIsCartOpen(!isCartOpen)}>
                 <img className='cart-btn-icon' src='/img/icons/cart.svg' alt='' />
                 Корзина
                 {totalItemsCount > 0 && (
@@ -139,14 +139,14 @@ export default function Shop() {
                 </p>
             </div>
 
-            <div className='shop-category-btnegories'>
+            <div className='shop-categories'>
                 {categories.map(category => (
                     <button
                         key={category.id}
-                        className={`shop-category-btn ${activeCategory === category.id ? 'shop-category-btnegory-btn--active' : ''}`}
+                        className={`shop-category-btn ${activeCategory === category.id ? 'shop-category-btn--active' : ''}`}
                         onClick={() => setActiveCategory(category.id)}
                     >
-                        <img className='shop-category-btnegory-icon' src={category.icon} alt='' />
+                        <img className='shop-category-icon' src={category.icon} alt='' />
                         {category.name}
                     </button>
                 ))}
@@ -170,14 +170,14 @@ export default function Shop() {
             <Footer />
 
             <AnimatePresence>
-                {cartOpen && (
+                {isCartOpen && (
                     <>
                         <motion.div
                             className='cart-overlay'
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            onClick={() => setCartOpen(false)}
+                            onClick={() => setIsCartOpen(false)}
                         />
                         <motion.div
                             className='cart-panel'
@@ -191,7 +191,7 @@ export default function Shop() {
                                     <img className='cart-title-icon' src='/img/icons/cart.svg' alt='' />
                                     Корзина
                                 </h2>
-                                <button className='cart-close' onClick={() => setCartOpen(false)}>✕</button>
+                                <button className='cart-close' onClick={() => setIsCartOpen(false)}>✕</button>
                             </div>
 
                             {cart.length === 0 ? (
@@ -247,13 +247,13 @@ export default function Shop() {
             </AnimatePresence>
 
             <AnimatePresence>
-                {orderOpen && (
+                {isOrderOpen && (
                     <motion.div
                         className='modal-bg'
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        onClick={() => setOrderOpen(false)}
+                        onClick={() => setIsOrderOpen(false)}
                     >
                         <motion.div
                             className='modal-popup'
@@ -264,7 +264,7 @@ export default function Shop() {
                         >
                             <button
                                 className='modal-back'
-                                onClick={() => setOrderOpen(false)}
+                                onClick={() => setIsOrderOpen(false)}
                             >
                                 <img src='/img/icons/back_btn.svg' alt='назад' />
                                 назад

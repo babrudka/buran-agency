@@ -25,13 +25,13 @@ function App() {
   const currentPlanet = isOnMoon ? moon : planets[planetIndex]
 
 
-  const hasPrev = !isOnMoon && planetIndex > 0
-  const hasNext = !isOnMoon && planetIndex < planets.length - 1
+  const hasPreviousPlanet = !isOnMoon && planetIndex > 0
+  const hasNextPlanet = !isOnMoon && planetIndex < planets.length - 1
 
-  const prevPlanet = hasPrev ? planets[planetIndex - 1] : null
-  const nextPlanet = hasNext ? planets[planetIndex + 1] : null
+  const previousPlanet = hasPreviousPlanet ? planets[planetIndex - 1] : null
+  const nextPlanet = hasNextPlanet ? planets[planetIndex + 1] : null
 
-  function goPrev() {
+  function goToPreviousPlanet() {
     if (isOnMoon) {
       setIsOnMoon(false)
     } else {
@@ -39,7 +39,7 @@ function App() {
     }
   }
 
-  function goNext() {
+  function goToNextPlanet() {
     setPlanetIndex(currentIndex => currentIndex + 1)
   }
 
@@ -70,16 +70,16 @@ function App() {
         >
           <HeroSection
             planet={currentPlanet}
-            onModal={openPlanetModal}
+            onOpenPlanetModal={openPlanetModal}
             onTourClick={openTourModal}
             onGoToMoon={() => setIsOnMoon(true)}
             onGoToEarth={() => setIsOnMoon(false)}
           />
           <PlanetCarousel
-            prev={prevPlanet}
-            next={nextPlanet}
-            onPrev={goPrev}
-            onNext={goNext}
+            previousPlanet={previousPlanet}
+            nextPlanet={nextPlanet}
+            onGoToPrevious={goToPreviousPlanet}
+            onGoToNext={goToNextPlanet}
           />
         </motion.main>
       )

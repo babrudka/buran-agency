@@ -2,7 +2,7 @@ import "./Modal.css"
 import ModalTours from "./ModalTours"
 import { AnimatePresence, motion } from "framer-motion"
 import { useState } from "react"
-import { buildTourData, getScoreColor, getStatColor } from "../../data/planets"
+import { buildTourData, getDifficultyColor, getProgressBarColor } from "../../data/planets"
 
 const popupAnimation = {
   hidden: { opacity: 0, scale: 0.9 },
@@ -52,20 +52,20 @@ export default function Modal({
   setSelectedTour
 }) {
   const [isFormOpen, setIsFormOpen] = useState(false)
-  const [prevIsOpen, setPrevIsOpen] = useState(isOpen)
-  const [prevSelectedTour, setPrevSelectedTour] = useState(selectedTour)
+  const [previousIsOpen, setPreviousIsOpen] = useState(isOpen)
+  const [previousSelectedTour, setPreviousSelectedTour] = useState(selectedTour)
 
-  if (prevIsOpen !== isOpen || prevSelectedTour !== selectedTour) {
-    setPrevIsOpen(isOpen)
-    setPrevSelectedTour(selectedTour)
+  if (previousIsOpen !== isOpen || previousSelectedTour !== selectedTour) {
+    setPreviousIsOpen(isOpen)
+    setPreviousSelectedTour(selectedTour)
     setIsFormOpen(false)
   }
 
   if (!planet) return null
 
-  const climate = planet.stats?.climate
-  const temperature = planet.stats?.temperature
-  const distance = planet.stats?.distance
+  const climatePercent = planet.stats?.climate
+  const temperaturePercent = planet.stats?.temperature
+  const distancePercent = planet.stats?.distance
 
   return (
     <AnimatePresence>
@@ -135,7 +135,7 @@ export default function Modal({
                     </h1>
 
                     <div className={`modal-score-circle `}
-                    style={{ borderColor: getScoreColor(planet.score) }}>
+                    style={{ borderColor: getDifficultyColor(planet.score) }}>
                       <h1 className="modal-score-num">{planet.score}</h1>
                     </div>
                   </motion.div>
@@ -146,8 +146,8 @@ export default function Modal({
                       <div
                         className="modal-fill"
                         style={{
-                          width: climate + "%",
-                          background: getStatColor(climate)
+                          width: climatePercent + "%",
+                          background: getProgressBarColor(climatePercent)
                         }}
                       />
                     </div>
@@ -159,8 +159,8 @@ export default function Modal({
                       <div
                         className="modal-fill"
                         style={{
-                          width: temperature + "%",
-                          background: getStatColor(temperature)
+                          width: temperaturePercent + "%",
+                          background: getProgressBarColor(temperaturePercent)
                         }}
                       />
                     </div>
@@ -172,8 +172,8 @@ export default function Modal({
                       <div
                         className="modal-fill"
                         style={{
-                          width: distance + "%",
-                          background: getStatColor(distance)
+                          width: distancePercent + "%",
+                          background: getProgressBarColor(distancePercent)
                         }}
                       />
                     </div>

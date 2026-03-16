@@ -7,22 +7,22 @@ import EarthLine from "./EarthLine"
 import PlanetNameLine from "./PlanetNameLine"
 import GravityCalculator from "./GravityCalculator"
 
-export default function HeroSection({ planet, onModal, onTourClick, onGoToMoon, onGoToEarth }) {
-  const ref = useRef(null)
-  const [size, setSize] = useState(0)
+export default function HeroSection({ planet, onOpenPlanetModal, onTourClick, onGoToMoon, onGoToEarth }) {
+  const circleRef = useRef(null)
+  const [circleSize, setCircleSize] = useState(0)
 
   useLayoutEffect(() => {
-    if (!ref.current) return
+    if (!circleRef.current) return
     const observer = new ResizeObserver(entries => {
-      setSize(entries[0].contentRect.width)
+      setCircleSize(entries[0].contentRect.width)
     })
-    observer.observe(ref.current)
+    observer.observe(circleRef.current)
     return () => observer.disconnect()
   }, [])
 
   return (
     <div className="hero">
-      <div className="circle" ref={ref}>
+      <div className="circle" ref={circleRef}>
         <AnimatePresence mode="wait">
           <motion.img
             key={planet.id}
@@ -45,7 +45,7 @@ export default function HeroSection({ planet, onModal, onTourClick, onGoToMoon, 
         <TourLines
           tours={planet.tours ?? []}
           planetId={planet.id}
-          size={size}
+          circleSize={circleSize}
           onTourClick={onTourClick}
         />
 
@@ -54,7 +54,7 @@ export default function HeroSection({ planet, onModal, onTourClick, onGoToMoon, 
           name={planet.name}
           subtitle={planet.subtitle}
           showPin={planet.showPin}
-          size={size}
+          circleSize={circleSize}
           facts={planet.facts}
         />
 
@@ -62,7 +62,7 @@ export default function HeroSection({ planet, onModal, onTourClick, onGoToMoon, 
           {planet.hasMoon && (
             <MoonLine
               key="moon-line"
-              size={size}
+              circleSize={circleSize}
               onGoToMoon={onGoToMoon}
             />
           )}
@@ -72,7 +72,7 @@ export default function HeroSection({ planet, onModal, onTourClick, onGoToMoon, 
           {planet.id === 'moon' && (
             <GravityCalculator
               key="gravity-calc"
-              size={size}
+              circleSize={circleSize}
               id={planet.id}
             />
           )}
@@ -82,7 +82,7 @@ export default function HeroSection({ planet, onModal, onTourClick, onGoToMoon, 
           {planet.hasEarth && (
             <EarthLine
               key="earth-line"
-              size={size}
+              circleSize={circleSize}
               onGoToEarth={onGoToEarth}
             />
           )}
@@ -94,7 +94,7 @@ export default function HeroSection({ planet, onModal, onTourClick, onGoToMoon, 
         className="details-btn"
         onClick={(event) => {
           event.preventDefault()
-          onModal()
+          onOpenPlanetModal()
         }}
       >
         подробнее о планете

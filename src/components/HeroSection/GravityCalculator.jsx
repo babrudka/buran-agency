@@ -3,14 +3,14 @@ import { AnimatePresence, motion } from 'framer-motion'
 
 const LINE_ANGLE_DEG = 10
 const LINE_DISTANCE = 1.35
-const GRAVITY_RATIO = 6.0535
+const EARTH_TO_MOON_GRAVITY_RATIO = 6.0535
 
-export default function GravityCalculator({ size, id }) {
-	const [weight, setWeight] = useState('')
+export default function GravityCalculator({ circleSize, id }) {
+	const [earthWeight, setEarthWeight] = useState('')
 
-	if (!size) return null
+	if (!circleSize) return null
 
-	const radius = size / 2
+	const radius = circleSize / 2
 	const centerX = radius
 	const centerY = radius
 	const angleRad = (LINE_ANGLE_DEG * Math.PI) / 180
@@ -22,11 +22,11 @@ export default function GravityCalculator({ size, id }) {
 	const lineEndX = centerX + LINE_DISTANCE * radius * Math.cos(angleRad)
 	const lineEndY = centerY + LINE_DISTANCE * radius * Math.sin(angleRad)
 
-	const boxWidth = Math.round(size * 0.55)
-	const boxHeight = Math.round(size * 0.45)
+	const calculatorWidth = Math.round(circleSize * 0.55)
+	const calculatorHeight = Math.round(circleSize * 0.45)
 
-	const moonWeight = weight
-		? (parseFloat(weight) / GRAVITY_RATIO).toFixed(1)
+	const calculatedMoonWeight = earthWeight
+		? (parseFloat(earthWeight) / EARTH_TO_MOON_GRAVITY_RATIO).toFixed(1)
 		: ''
 
 	return (
@@ -49,9 +49,9 @@ export default function GravityCalculator({ size, id }) {
 
 				<foreignObject
 					x={lineEndX}
-					y={lineEndY - boxHeight / 2}
-					width={boxWidth}
-					height={boxHeight}
+					y={lineEndY - calculatorHeight / 2}
+					width={calculatorWidth}
+					height={calculatorHeight}
 					className='clickable-overlay'
 				>
 					<div
@@ -81,8 +81,8 @@ export default function GravityCalculator({ size, id }) {
 										type='number'
 										className='gravity-input'
 										placeholder='70'
-										value={weight}
-										onChange={event => setWeight(event.target.value)}
+										value={earthWeight}
+										onChange={event => setEarthWeight(event.target.value)}
 									/>
 									<span className='gravity-unit'>кг</span>
 								</div>
@@ -91,7 +91,7 @@ export default function GravityCalculator({ size, id }) {
 								<label className='gravity-label'>Вес на Луне</label>
 								<div className='gravity-input-wrap gravity-result'>
 									<span className='gravity-value'>
-										{moonWeight || ''}
+										{calculatedMoonWeight || ''}
 									</span>
 									<span className='gravity-unit'>кг</span>
 								</div>

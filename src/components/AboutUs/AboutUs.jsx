@@ -2,7 +2,7 @@ import { useEffect, useRef, useCallback } from 'react'
 import Footer from '../Footer/Footer'
 import './AboutUs.css'
 
-function useShow(margin = '-40px') {
+function useShowOnScroll(margin = '-40px') {
 	const ref = useRef(null)
 
 	useEffect(() => {
@@ -27,7 +27,7 @@ function useShow(margin = '-40px') {
 }
 
 function FadeUp({ children, delay = 0, className = '' }) {
-	const ref = useShow()
+	const ref = useShowOnScroll()
 	return (
 		<div
 			ref={ref}
@@ -40,12 +40,12 @@ function FadeUp({ children, delay = 0, className = '' }) {
 }
 
 function SlideIn({ children, from = 'left', delay = 0, className = '' }) {
-	const ref = useShow()
-	const dir = from === 'left' ? 'slide-left' : 'slide-right'
+	const ref = useShowOnScroll()
+	const slideDirection = from === 'left' ? 'slide-left' : 'slide-right'
 	return (
 		<div
 			ref={ref}
-			className={`${dir} ${className}`}
+			className={`${slideDirection} ${className}`}
 			style={{ transitionDelay: `${delay}s` }}
 		>
 			{children}
@@ -53,7 +53,7 @@ function SlideIn({ children, from = 'left', delay = 0, className = '' }) {
 	)
 }
 
-function CountNum({ end, suffix = '' }) {
+function AnimatedCounter({ end, suffix = '' }) {
 	const ref = useRef(null)
 	const alreadyCounted = useRef(false)
 
@@ -170,19 +170,19 @@ export default function AboutUs() {
 					<div className='stats-row'>
 						<div className='stat-box'>
 							<div className='stat-num'>
-								<CountNum end={8} />
+								<AnimatedCounter end={8} />
 							</div>
 							<div className='stat-label'>планет</div>
 						</div>
 						<div className='stat-box'>
 							<div className='stat-num'>
-								<CountNum end={12}  />
+								<AnimatedCounter end={12}  />
 							</div>
 							<div className='stat-label'>туров</div>
 						</div>
 						<div className='stat-box'>
 							<div className='stat-num'>
-								<CountNum end={578} />
+								<AnimatedCounter end={578} />
 							</div>
 							<div className='stat-label'>км/с</div>
 						</div>

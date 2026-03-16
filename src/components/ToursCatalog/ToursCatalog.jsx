@@ -5,7 +5,7 @@ import ModalTours from '../Modal/ModalTours'
 import Footer from '../Footer/Footer'
 import './ToursCatalog.css'
 
-const SPEED = 578
+const ROCKET_SPEED = 578
 
 const allPlanets = [moon, ...planets]
 
@@ -13,18 +13,23 @@ const tours = allPlanets.flatMap(planet =>
     (planet.tours || []).map((tourName, tourIndex) => ({
         ...buildTourData(planet, tourName, tourIndex),
         planet: planet.id,
-        img: planet.image,
-        temp: planet.temp,
-        flyTime: planet.distance / SPEED,
+        image: planet.image,
+        temperature: planet.temp,
+        flightTime: planet.distance / ROCKET_SPEED,
     }))
 )
 
+const planetsWithTours = allPlanets.filter(planet => planet.tours && planet.tours.length > 0)
 
-const planetList = allPlanets.filter(planet => planet.tours && planet.tours.length > 0)
+const MIN_TEMPERATURE = -224
+const MAX_TEMPERATURE = 460
+const MAX_FLIGHT_TIME = Math.max(...tours.map(tour => tour.flightTime))
 
-const MIN_TEMP = -224
-const MAX_TEMP = 460
-const MAX_FLY_TIME = Math.max(...tours.map(tour => tour.flyTime))
+const MIN_STAY_TIME = Math.min(...tours.map(tour => tour.stayTime || 0))
+const MAX_STAY_TIME = Math.max(...tours.map(tour => tour.stayTime || 0))
+
+const MIN_TOTAL_DURATION = Math.min(...tours.map(tour => tour.totalDuration || 0))
+const MAX_TOTAL_DURATION = Math.max(...tours.map(tour => tour.totalDuration || 0))
 
 function formatFlightTime(seconds) {
     if (seconds === 0) return 'Вы здесь'
@@ -40,6 +45,16 @@ function formatFlightTime(seconds) {
 
 function formatTemperature(degrees) {
     return `${degrees > 0 ? '+' : ''}${degrees}°C`
+}
+
+function formatHours(hours) {
+    if (hours === 0) return '0 ч'
+    if (hours < 24) return `${Math.round(hours)} ч`
+    const days = hours / 24
+    if (days < 30) return `${Math.round(days)} дн`
+    const months = days / 30
+    if (months < 12) return `~${months.toFixed(1)} мес`
+    return `~${(days / 365).toFixed(1)} г`
 }
 
 function Slider({ min, max, value, onChange, step = 1 }) {
@@ -92,15 +107,17 @@ const cardAnimation = {
 export default function ToursCatalog() {
 
     const [selectedPlanets, setSelectedPlanets] = useState(new Set())
-    const [temperatureRange, setTemperatureRange] = useState([MIN_TEMP, MAX_TEMP])
-    const [flyTimeRange, setFlyTimeRange] = useState([0, MAX_FLY_TIME])
+    const [temperatureRange, setTemperatureRange] = useState([MIN_TEMPERATURE, MAX_TEMPERATURE])
+    const [flightTimeRange, setFlightTimeRange] = useState([0, MAX_FLIGHT_TIME])
+    const [stayTimeRange, setStayTimeRange] = useState([MIN_STAY_TIME, MAX_STAY_TIME])
+    const [totalDurationRange, setTotalDurationRange] = useState([MIN_TOTAL_DURATION, MAX_TOTAL_DURATION])
 
-    const [tourModalOpen, setTourModalOpen] = useState(false)
+    const [isTourModalOpen, setIsTourModalOpen] = useState(false)
     const [selectedTour, setSelectedTour] = useState(null)
 
     const openTour = (tour) => {
         setSelectedTour(tour)
-        setTourModalOpen(true)
+        setIsTourModalOpen(true)
     }
 
     const togglePlanet = useCallback(planetId => {
@@ -118,11 +135,19 @@ export default function ToursCatalog() {
     const filteredTours = useMemo(() => {
         return tours.filter(tour => {
             if (selectedPlanets.size > 0 && !selectedPlanets.has(tour.planet)) return false
-            if (tour.temp < temperatureRange[0] || tour.temp > temperatureRange[1]) return false
-            if (tour.flyTime < flyTimeRange[0] || tour.flyTime > flyTimeRange[1]) return false
+
+            if (tour.temperature < temperatureRange[0] || tour.temperature > temperatureRange[1]) return false
+            if (tour.flightTime < flightTimeRange[0] || tour.flightTime > flightTimeRange[1]) return false
+
+            const stayTime = tour.stayTime || 0
+            if (stayTime < stayTimeRange[0] || stayTime > stayTimeRange[1]) return false
+
+            const totalDuration = tour.totalDuration || 0
+            if (totalDuration < totalDurationRange[0] || totalDuration > totalDurationRange[1]) return false
+
             return true
         })
-    }, [selectedPlanets, temperatureRange, flyTimeRange])
+    }, [selectedPlanets, temperatureRange, flightTimeRange, stayTimeRange, totalDurationRange])
 
     return (
         <div className='catalog'>
@@ -130,7 +155,7 @@ export default function ToursCatalog() {
             <div className='filters'>
 
                 <div className='chips'>
-                    {planetList.map(planet => (
+                    {planetsWithTours.map(planet => (
                         <button
                             key={planet.id}
                             className={`chip ${selectedPlanets.has(planet.id) ? 'chip--active' : ''}`}
@@ -146,8 +171,8 @@ export default function ToursCatalog() {
                     <div className='slider-box'>
                         <span className='slider-name'>Температура</span>
                         <Slider
-                            min={MIN_TEMP}
-                            max={MAX_TEMP}
+                            min={MIN_TEMPERATURE}
+                            max={MAX_TEMPERATURE}
                             value={temperatureRange}
                             onChange={setTemperatureRange}
                         />
@@ -158,17 +183,17 @@ export default function ToursCatalog() {
                     </div>
 
                     <div className='slider-box'>
-                        <span className='slider-name'>Время полёта</span>
+                        <span className='slider-name'>Время полёта в одну сторону</span>
                         <Slider
                             min={0}
-                            max={MAX_FLY_TIME}
-                            value={flyTimeRange}
-                            onChange={setFlyTimeRange}
+                            max={MAX_FLIGHT_TIME}
+                            value={flightTimeRange}
+                            onChange={setFlightTimeRange}
                             step={60}
                         />
                         <div className='slider-nums'>
-                            <span>{formatFlightTime(flyTimeRange[0])}</span>
-                            <span>{formatFlightTime(flyTimeRange[1])}</span>
+                            <span>{formatFlightTime(flightTimeRange[0])}</span>
+                            <span>{formatFlightTime(flightTimeRange[1])}</span>
                         </div>
 
                         <div className='hint'>
@@ -178,6 +203,34 @@ export default function ToursCatalog() {
                             </span>
                         </div>
 
+                    </div>
+
+                    <div className='slider-box'>
+                        <span className='slider-name'>Время пребывания на планете</span>
+                        <Slider
+                            min={MIN_STAY_TIME}
+                            max={MAX_STAY_TIME}
+                            value={stayTimeRange}
+                            onChange={setStayTimeRange}
+                        />
+                        <div className='slider-nums'>
+                            <span>{formatHours(stayTimeRange[0])}</span>
+                            <span>{formatHours(stayTimeRange[1])}</span>
+                        </div>
+                    </div>
+
+                    <div className='slider-box'>
+                        <span className='slider-name'>Полная длительность тура</span>
+                        <Slider
+                            min={MIN_TOTAL_DURATION}
+                            max={MAX_TOTAL_DURATION}
+                            value={totalDurationRange}
+                            onChange={setTotalDurationRange}
+                        />
+                        <div className='slider-nums'>
+                            <span>{formatHours(totalDurationRange[0])}</span>
+                            <span>{formatHours(totalDurationRange[1])}</span>
+                        </div>
                     </div>
 
                 </div>
@@ -208,7 +261,7 @@ export default function ToursCatalog() {
 
                             <img
                                 className='card-img'
-                                src={tour.img}
+                                src={tour.image}
                                 alt={tour.planetName}
                             />
 
@@ -230,11 +283,11 @@ export default function ToursCatalog() {
                                             src='/img/icons/temp.svg'
                                             alt=''
                                         />
-                                        {formatTemperature(tour.temp)}
+                                        {formatTemperature(tour.temperature)}
                                     </span>
 
                                     <span className='meta-item'>
-                                        {formatFlightTime(tour.flyTime)}
+                                        {formatFlightTime(tour.flightTime)}
                                     </span>
 
                                 </div>
@@ -252,10 +305,10 @@ export default function ToursCatalog() {
             <Footer />
 
             <AnimatePresence>
-                {tourModalOpen && (
+                {isTourModalOpen && (
                     <ModalTours
-                        isOpen={tourModalOpen}
-                        onClose={() => setTourModalOpen(false)}
+                        isOpen={isTourModalOpen}
+                        onClose={() => setIsTourModalOpen(false)}
                         tour={selectedTour}
                     />
                 )}

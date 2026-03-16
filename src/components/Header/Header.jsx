@@ -10,11 +10,11 @@ const NAV_ITEMS = [
 ]
 
 export default function Header({ currentView, onNavigate }) {
-	const [menuOpen, setMenuOpen] = useState(false)
+	const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-	function handleNav(id) {
-		setMenuOpen(false)
-		onNavigate(id)
+	function handleNavigation(pageId) {
+		setIsMenuOpen(false)
+		onNavigate(pageId)
 	}
 
 	return (
@@ -41,7 +41,7 @@ export default function Header({ currentView, onNavigate }) {
 					src='/img/icons/logo.svg'
 					alt='Логотип БУРАН'
 					style={{ cursor: 'pointer' }}
-					onClick={() => handleNav('planets')}
+					onClick={() => handleNavigation('planets')}
 				/>
 
 				<nav className='nav'>
@@ -50,16 +50,16 @@ export default function Header({ currentView, onNavigate }) {
 							key={item.id}
 							href='#'
 							className={`nav-link${currentView === item.id ? ' active' : ''}`}
-							onClick={(event) => { event.preventDefault(); handleNav(item.id) }}
-						>
-							{item.label}
-						</a>
-					))}
-				</nav>
+						onClick={(event) => { event.preventDefault(); handleNavigation(item.id) }}
+					>
+						{item.label}
+					</a>
+				))}
+			</nav>
 
-				<button
-					className={`menu-btn ${menuOpen ? 'active' : ''}`}
-					onClick={() => setMenuOpen(previousState => !previousState)}
+			<button
+				className={`menu-btn ${isMenuOpen ? 'active' : ''}`}
+				onClick={() => setIsMenuOpen(previousState => !previousState)}
 				>
 					<span className='line line-1'></span>
 					<span className='line line-2'></span>
@@ -67,7 +67,7 @@ export default function Header({ currentView, onNavigate }) {
 				</button>
 
 				<AnimatePresence>
-					{menuOpen && (
+					{isMenuOpen && (
 						<motion.div
 							className='menu'
 							initial={{ opacity: 0, scale: 0.8 }}
@@ -81,7 +81,7 @@ export default function Header({ currentView, onNavigate }) {
 										key={item.id}
 										href='#'
 										className={`menu-link${currentView === item.id ? ' active' : ''}`}
-										onClick={(event) => { event.preventDefault(); handleNav(item.id) }}
+										onClick={(event) => { event.preventDefault(); handleNavigation(item.id) }}
 									>
 										{item.label}
 									</a>
