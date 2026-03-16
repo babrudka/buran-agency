@@ -3,6 +3,7 @@
 	overflow-y: auto;
 	overflow-x: hidden;
 	scroll-behavior: smooth;
+	padding-top: 155px;
 	scrollbar-width: thin;
 	scrollbar-color: rgba(200, 235, 245, 0.3) transparent;
 }
@@ -188,7 +189,7 @@
 	font-size: 18px;
 }
 
-.hl {
+.highlight {
 	color: #c8ebf5;
 	font-weight: normal;
 }
@@ -395,7 +396,17 @@
 	white-space: nowrap;
 }
 
+@media (max-width: 1200px) {
+	.about-wrap {
+		padding-top: 120px;
+	}
+}
+
 @media (max-width: 790px) {
+	.about-wrap {
+		padding-top: 105px;
+	}
+
 	.about-hero {
 		min-height: 55vh;
 		padding: 40px 16px 30px;
@@ -486,6 +497,10 @@
 }
 
 @media (min-width: 2560px) {
+	.about-wrap {
+		padding-top: 200px;
+	}
+
 	.about-hero {
 		min-height: 65vh;
 	}

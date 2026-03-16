@@ -26,6 +26,8 @@ export function buildTourData(planet, tourName, tourIndex) {
             : planet.tourDescs?.[0],
         temp: planet.temp,
         flyTime: travelSeconds,
+        stayTime: staySeconds,
+        totalDuration: totalSeconds,
         planet: planet.id,
         img: planet.image
     }

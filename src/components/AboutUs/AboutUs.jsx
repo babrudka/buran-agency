@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Footer from '../Footer/Footer'
 import './AboutUs.css'
 
@@ -55,29 +55,8 @@ function SlideIn({ children, from = 'left', delay = 0, className = '' }) {
 
 function AnimatedCounter({ end, suffix = '' }) {
 	const ref = useRef(null)
+	const [currentValue, setCurrentValue] = useState(0)
 	const alreadyCounted = useRef(false)
-
-	const startCounting = useCallback(() => {
-		const element = ref.current
-		if (!element || alreadyCounted.current) return
-		alreadyCounted.current = true
-
-		const totalSteps = 30
-		const intervalMs = 40
-		let currentStep = 0
-
-		const timer = setInterval(() => {
-			currentStep++
-			const progress = currentStep / totalSteps
-			const currentValue = Math.round(progress * end)
-			element.textContent = currentValue + suffix
-
-			if (currentStep >= totalSteps) {
-				clearInterval(timer)
-				element.textContent = end + suffix
-			}
-		}, intervalMs)
-	}, [end, suffix])
 
 	useEffect(() => {
 		const element = ref.current
@@ -85,19 +64,32 @@ function AnimatedCounter({ end, suffix = '' }) {
 
 		const observer = new IntersectionObserver(
 			([entry]) => {
-				if (entry.isIntersecting) {
-					startCounting()
-					observer.unobserve(element)
+				if (entry.isIntersecting && !alreadyCounted.current) {
+					alreadyCounted.current = true
+
+					let step = 0
+					const totalSteps = 30
+
+					const timer = setInterval(() => {
+						step++
+						setCurrentValue(Math.round((step / totalSteps) * end))
+
+						if (step >= totalSteps) {
+							clearInterval(timer)
+							setCurrentValue(end)
+						}
+					}, 40)
 				}
+				observer.unobserve(element)
 			},
 			{ rootMargin: '-20px' }
 		)
 
 		observer.observe(element)
 		return () => observer.disconnect()
-	}, [startCounting])
+	}, [end])
 
-	return <span ref={ref} className='count-num'>0</span>
+	return <span ref={ref} className='count-num'>{currentValue}{suffix}</span>
 }
 
 export default function AboutUs() {
@@ -128,7 +120,7 @@ export default function AboutUs() {
 
 				<SlideIn from='left' delay={0.1}>
 					<p className='about-text'>
-						История компании <span className='hl'>«БУРАН»</span> начинается с эпохи великих космических открытий —
+						История компании <span className='highlight'>«БУРАН»</span> начинается с эпохи великих космических открытий —
 						времени, когда человечество впервые поднялось к звёздам.
 					</p>
 				</SlideIn>
@@ -145,8 +137,8 @@ export default function AboutUs() {
 				<FadeUp delay={0.3}>
 					<p className='about-text'>
 						Вдохновлённые этой эпохой, инженеры и энтузиасты космических технологий создали
-						проект <span className='hl'>«БУРАН»</span>, чтобы сделать путешествия за пределы
-						Земли доступными не только космонавтам, но и <span className='hl'>обычным людям</span>.
+						проект <span className='highlight'>«БУРАН»</span>, чтобы сделать путешествия за пределы
+						Земли доступными не только космонавтам, но и <span className='highlight'>обычным людям</span>.
 					</p>
 				</FadeUp>
 			</section>
@@ -160,8 +152,8 @@ export default function AboutUs() {
 				<SlideIn from='left' delay={0.1}>
 					<p className='about-text big-text'>
 						Сегодня наша компания организует туристические экспедиции по Солнечной системе —
-						от кратеров <span className='hl'>Луны</span> до далёких ледяных
-						облаков <span className='hl'>Нептуна</span>.
+						от кратеров <span className='highlight'>Луны</span> до далёких ледяных
+						облаков <span className='highlight'>Нептуна</span>.
 					</p>
 				</SlideIn>
 
@@ -197,9 +189,9 @@ export default function AboutUs() {
 
 				<SlideIn from='left' delay={0.1}>
 					<p className='about-text'>
-						Гордость компании — межпланетные космолёты <span className='hl'>«ТАЙФУН»</span>.
+						Гордость компании — межпланетные космолёты <span className='highlight'>«ТАЙФУН»</span>.
 						Эти корабли оснащены плазменно-ионными двигателями и способны развивать скорость
-						до <span className='hl'>578 км/с</span>, что позволяет достигать Нептуна всего за три месяца.
+						до <span className='highlight'>578 км/с</span>, что позволяет достигать Нептуна всего за три месяца.
 					</p>
 				</SlideIn>
 
@@ -223,8 +215,8 @@ export default function AboutUs() {
 				<FadeUp delay={0.2}>
 					<div className='cool-card tour-card'>
 						<p className='cool-card-text'>
-							Каждый тур включает <span className='hl'>обучение</span>, наблюдение
-							за космическими явлениями и возможность увидеть <span className='hl'>Землю из космоса</span>.
+							Каждый тур включает <span className='highlight'>обучение</span>, наблюдение
+							за космическими явлениями и возможность увидеть <span className='highlight'>Землю из космоса</span>.
 						</p>
 					</div>
 				</FadeUp>
@@ -238,7 +230,7 @@ export default function AboutUs() {
 
 				<SlideIn from='right' delay={0.1}>
 					<p className='about-text'>
-						Кроме межпланетных путешествий, компания <span className='hl'>«БУРАН»</span> разрабатывает
+						Кроме межпланетных путешествий, компания <span className='highlight'>«БУРАН»</span> разрабатывает
 						и продаёт специализированную космическую экипировку.
 					</p>
 				</SlideIn>
@@ -265,7 +257,7 @@ export default function AboutUs() {
 				<FadeUp>
 					<p className='about-text pride-text'>
 						Мы гордимся космической историей нашей страны и верим,
-						что будущее человечества — <span className='hl'>среди звёзд</span>.
+						что будущее человечества — <span className='highlight'>среди звёзд</span>.
 					</p>
 				</FadeUp>
 

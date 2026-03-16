@@ -26,7 +26,6 @@ export default function Shop() {
     const [activeCategory, setActiveCategory] = useState('все')
     const [cart, setCart] = useState(loadCart)
     const [isCartOpen, setIsCartOpen] = useState(false)
-    const [justAddedKey, setJustAddedKey] = useState(null)
     const [isOrderOpen, setIsOrderOpen] = useState(false)
     const [orderSubmitted, setOrderSubmitted] = useState(false)
     const [orderData, setOrderData] = useState({ name: '', phone: '', email: '' })
@@ -61,8 +60,6 @@ export default function Shop() {
             }]
         })
 
-        setJustAddedKey(key)
-        setTimeout(() => setJustAddedKey(null), 800)
     }
 
     function addOneMore(cartItem) {
@@ -163,7 +160,6 @@ export default function Shop() {
                         item={item}
                         index={itemIndex}
                         onAdd={addToCart}
-                        justAddedKey={justAddedKey}
                         cart={cart}
                         onRemoveOne={removeOne}
                         onRemoveAll={removeAll}
@@ -361,14 +357,12 @@ export default function Shop() {
     )
 }
 
-function ShopCard({ item, index, onAdd, justAddedKey, cart, onRemoveOne, onRemoveAll }) {
+function ShopCard({ item, index, onAdd, cart, onRemoveOne, onRemoveAll }) {
     const [selectedSize, setSelectedSize] = useState(
         item.sizes ? item.sizes[Math.floor(item.sizes.length / 2)] : null
     )
 
     const cartKey = item.id + (selectedSize || '')
-    const isJustAdded = justAddedKey === cartKey
-
     const itemInCart = cart.find(cartItem => cartItem.key === cartKey)
     const quantity = itemInCart ? itemInCart.qty : 0
 
@@ -415,7 +409,7 @@ function ShopCard({ item, index, onAdd, justAddedKey, cart, onRemoveOne, onRemov
                 </div>
             )}
 
-            {quantity > 0 && !isJustAdded ? (
+            {quantity > 0 ? (
                 <div className='card-cart-controls'>
                     <div className='card-qty-row'>
                         <button
@@ -441,10 +435,10 @@ function ShopCard({ item, index, onAdd, justAddedKey, cart, onRemoveOne, onRemov
                 </div>
             ) : (
                 <button
-                    className={`add-btn ${isJustAdded ? 'add-btn--added' : ''}`}
+                    className='add-btn'
                     onClick={() => onAdd(item, selectedSize)}
                 >
-                    {isJustAdded ? '✓ Добавлено!' : 'В корзину'}
+                    В корзину
                 </button>
             )}
         </motion.div>

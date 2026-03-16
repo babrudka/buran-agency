@@ -40,51 +40,51 @@ const nestedAnimation = {
 }
 
 export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsFormOpen }) {
-    const [localFormOpen, setLocalFormOpen] = useState(false)
-    const [submitted, setSubmitted] = useState(false)
+    const [isLocalFormOpen, setIsLocalFormOpen] = useState(false)
+    const [isSubmitted, setIsSubmitted] = useState(false)
     const [formData, setFormData] = useState({
         name: '',
         phone: '',
         email: ''
     })
-    const [errors, setErrors] = useState({})
+    const [formErrors, setFormErrors] = useState({})
 
     if (!tour) return null
 
-    const showForm = isNested ? isFormOpen : localFormOpen
-    const setShowForm = isNested ? setIsFormOpen : setLocalFormOpen
+    const isFormVisible = isNested ? isFormOpen : isLocalFormOpen
+    const setFormVisible = isNested ? setIsFormOpen : setIsLocalFormOpen
 
-    function handleInputChange(e) {
-        setFormData({ ...formData, [e.target.name]: e.target.value })
-        setErrors({ ...errors, [e.target.name]: '' })
+    function handleInputChange(event) {
+        setFormData({ ...formData, [event.target.name]: event.target.value })
+        setFormErrors({ ...formErrors, [event.target.name]: '' })
     }
 
     function validateForm() {
-        const newErrors = {}
+        const validationErrors = {}
 
         if (formData.name.trim().length < 2)
-            newErrors.name = 'введите ваше имя'
+            validationErrors.name = 'введите ваше имя'
 
         if (formData.phone.trim().length < 6)
-            newErrors.phone = 'введите ваш номер телефона'
+            validationErrors.phone = 'введите ваш номер телефона'
 
         if (!formData.email.includes('@') || !formData.email.includes('.'))
-            newErrors.email = 'введите вашу электронную почту'
+            validationErrors.email = 'введите вашу электронную почту'
 
-        setErrors(newErrors)
-        return Object.keys(newErrors).length === 0
+        setFormErrors(validationErrors)
+        return Object.keys(validationErrors).length === 0
     }
 
-    function handleSubmit(e) {
-        e.preventDefault()
-        if (validateForm()) setSubmitted(true)
+    function handleSubmit(event) {
+        event.preventDefault()
+        if (validateForm()) setIsSubmitted(true)
     }
 
     function openForm() {
-        setShowForm(true)
-        setSubmitted(false)
+        setFormVisible(true)
+        setIsSubmitted(false)
         setFormData({ name: '', phone: '', email: '' })
-        setErrors({})
+        setFormErrors({})
     }
 
     const formContent = (
@@ -93,7 +93,7 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                 Оставить заявку
             </motion.h1>
 
-            {submitted ? (
+            {isSubmitted ? (
                 <motion.div 
                     variants={fadeInAnimation}
                     className="modal-success-message"
@@ -116,10 +116,10 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                             name="name"
                             value={formData.name}
                             onChange={handleInputChange}
-                            className={`modal-form-input ${errors.name ? 'error' : ''}`}
+                            className={`modal-form-input ${formErrors.name ? 'error' : ''}`}
                             placeholder="Введите ваше имя"
                         />
-                        {errors.name && <span className="modal-error-text">{errors.name}</span>}
+                        {formErrors.name && <span className="modal-error-text">{formErrors.name}</span>}
                     </div>
 
                     <div className="modal-form-group">
@@ -129,10 +129,10 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                             name="phone"
                             value={formData.phone}
                             onChange={handleInputChange}
-                            className={`modal-form-input ${errors.phone ? 'error' : ''}`}
+                            className={`modal-form-input ${formErrors.phone ? 'error' : ''}`}
                             placeholder="+7 (999) 999-99-99"
                         />
-                        {errors.phone && <span className="modal-error-text">{errors.phone}</span>}
+                        {formErrors.phone && <span className="modal-error-text">{formErrors.phone}</span>}
                     </div>
 
                     <div className="modal-form-group">
@@ -142,10 +142,10 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                             name="email"
                             value={formData.email}
                             onChange={handleInputChange}
-                            className={`modal-form-input ${errors.email ? 'error' : ''}`}
+                            className={`modal-form-input ${formErrors.email ? 'error' : ''}`}
                             placeholder="example@mail.ru"
                         />
-                        {errors.email && <span className="modal-error-text">{errors.email}</span>}
+                        {formErrors.email && <span className="modal-error-text">{formErrors.email}</span>}
                     </div>
 
                     <motion.button 
@@ -242,9 +242,9 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(event) => event.stopPropagation()}
             >
-                {showForm ? formContent : content}
+                {isFormVisible ? formContent : content}
             </motion.div>
         )
     }
@@ -264,18 +264,18 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(event) => event.stopPropagation()}
             >
 
                 <button
                     className="modal-back"
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        if (showForm) {
-                            setShowForm(false)
-                            setSubmitted(false)
+                    onClick={(event) => {
+                        event.stopPropagation()
+                        if (isFormVisible) {
+                            setFormVisible(false)
+                            setIsSubmitted(false)
                             setFormData({ name: '', phone: '', email: '' })
-                            setErrors({})
+                            setFormErrors({})
                         } else {
                             onClose()
                         }
@@ -285,7 +285,7 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                     назад
                 </button>
 
-                {showForm ? formContent : content}
+                {isFormVisible ? formContent : content}
 
             </motion.div>
 

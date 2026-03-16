@@ -12,7 +12,7 @@ export default function PlanetCarousel({ previousPlanet, nextPlanet, onGoToPrevi
           key={previousPlanet.id + '-left'}
           src={previousPlanet.image}
           alt={previousPlanet.name}
-          className="planet-l"
+          className="planet-left"
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}
           transition={fadeTransition}
@@ -60,7 +60,7 @@ export default function PlanetCarousel({ previousPlanet, nextPlanet, onGoToPrevi
           key={nextPlanet.id + '-right'}
           src={nextPlanet.image}
           alt={nextPlanet.name}
-          className="planet-r"
+          className="planet-right"
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}
           transition={fadeTransition}
