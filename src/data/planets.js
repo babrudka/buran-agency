@@ -1,3 +1,39 @@
+/**
+ * Собирает данные тура из планеты — используется в App, Modal, ToursCatalog
+ */
+export function buildTourData(planet, tourName, tourIndex) {
+    return {
+        name: tourName,
+        planetName: planet.name,
+        tourImage: planet.tourImages?.[tourIndex],
+        score: planet.score,
+        desc: planet.tourDescs?.length > 1
+            ? planet.tourDescs[tourIndex]
+            : planet.tourDescs?.[0],
+        travelTime: planet.travelTime,
+        stayTime: planet.stayTime,
+        totalDuration: planet.totalDuration,
+    }
+}
+
+/**
+ * Цвет по значению сложности (score) — используется в Modal и ModalTours
+ */
+export function getScoreColor(score) {
+    if (score < 4) return 'green'
+    if (score < 7) return 'orange'
+    return 'red'
+}
+
+/**
+ * Цвет по проценту статистики (climate, temperature, distance)
+ */
+export function getStatColor(percent) {
+    if (percent <= 25) return 'green'
+    if (percent <= 70) return 'orange'
+    return 'red'
+}
+
 export const moon = {
     id: 'moon',
     name: 'Луна',

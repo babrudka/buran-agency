@@ -1,30 +1,33 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-const ANGLE = 10
-const DIST = 1.35
-const GRAVITY = 6.0535
+const LINE_ANGLE_DEG = 10
+const LINE_DISTANCE = 1.35
+const GRAVITY_RATIO = 6.0535
 
 export default function GravityCalculator({ size, id }) {
 	const [weight, setWeight] = useState('')
 
 	if (!size) return null
 
-	const r = size / 2
-	const cx = r
-	const cy = r
-	const rad = (ANGLE * Math.PI) / 180
+	const radius = size / 2
+	const centerX = radius
+	const centerY = radius
+	const angleRad = (LINE_ANGLE_DEG * Math.PI) / 180
 
-	const bx = cx + r * Math.cos(rad)
-	const by = cy + r * Math.sin(rad)
-	const sx = cx + DIST * r * Math.cos(rad)
-	const sy = cy + DIST * r * Math.sin(rad)
+	// Точка на краю планеты (начало линии)
+	const borderX = centerX + radius * Math.cos(angleRad)
+	const borderY = centerY + radius * Math.sin(angleRad)
 
-	const w = Math.round(size * 0.55)
-	const h = Math.round(size * 0.45)
+	// Конец линии (где будет калькулятор)
+	const lineEndX = centerX + LINE_DISTANCE * radius * Math.cos(angleRad)
+	const lineEndY = centerY + LINE_DISTANCE * radius * Math.sin(angleRad)
 
-	const result = weight
-		? (parseFloat(weight) / GRAVITY).toFixed(1)
+	const boxWidth = Math.round(size * 0.55)
+	const boxHeight = Math.round(size * 0.45)
+
+	const moonWeight = weight
+		? (parseFloat(weight) / GRAVITY_RATIO).toFixed(1)
 		: ''
 
 	return (
@@ -37,20 +40,20 @@ export default function GravityCalculator({ size, id }) {
 				exit={{ opacity: 0, transition: { duration: 0.2 } }}
 			>
 				<line
-					x1={bx}
-					y1={by}
-					x2={sx}
-					y2={sy}
+					x1={borderX}
+					y1={borderY}
+					x2={lineEndX}
+					y2={lineEndY}
 					stroke='rgba(255,255,255,1)'
 					strokeWidth='1.5'
 				/>
 
 				<foreignObject
-					x={sx}
-					y={sy - h / 2}
-					width={w}
-					height={h}
-					className='fo-click'
+					x={lineEndX}
+					y={lineEndY - boxHeight / 2}
+					width={boxWidth}
+					height={boxHeight}
+					className='clickable-overlay'
 				>
 					<div
 						xmlns='http://www.w3.org/1999/xhtml'
@@ -89,7 +92,7 @@ export default function GravityCalculator({ size, id }) {
 								<label className='gravity-label'>Вес на Луне</label>
 								<div className='gravity-input-wrap gravity-result'>
 									<span className='gravity-value'>
-										{result || ''}
+										{moonWeight || ''}
 									</span>
 									<span className='gravity-unit'>кг</span>
 								</div>

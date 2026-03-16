@@ -83,7 +83,7 @@ export default function TourLines({ tours, planetId, size, onTourClick }) {
                             y={tagY}
                             width={tagWidth}
                             height={tagHeight}
-                            className="fo-click"
+                            className="clickable-overlay"
                         >
                             <div
                                 xmlns='http://www.w3.org/1999/xhtml'

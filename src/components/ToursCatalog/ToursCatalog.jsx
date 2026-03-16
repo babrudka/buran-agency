@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback } from 'react'
 import { motion, AnimatePresence } from "framer-motion"
-import { planets, moon } from '../../data/planets'
+import { planets, moon, buildTourData } from '../../data/planets'
 import ModalTours from '../Modal/ModalTours'
 import Footer from '../Footer/Footer'
 import './ToursCatalog.css'
@@ -11,18 +11,11 @@ const allPlanets = [moon, ...planets]
 
 const tours = allPlanets.flatMap(p =>
     (p.tours || []).map((name, i) => ({
-        name,
+        ...buildTourData(p, name, i),
         planet: p.id,
-        planetName: p.name,
         img: p.image,
-        tourImage: p.tourImages?.[i],
-        score: p.score,
-        desc: p.tourDescs?.length > 1 ? p.tourDescs[i] : p.tourDescs?.[0],
         temp: p.temp,
         flyTime: p.distance / SPEED,
-        travelTime: p.travelTime,
-        stayTime: p.stayTime,
-        totalDuration: p.totalDuration,
     }))
 )
 
@@ -33,7 +26,7 @@ const MIN_TEMP = -224
 const MAX_TEMP = 460
 const MAX_FLY_TIME = Math.max(...tours.map(t => t.flyTime))
 
-function showTime(seconds) {
+function formatFlightTime(seconds) {
     if (seconds === 0) return 'Вы здесь'
 
     const minutes = seconds / 60
@@ -45,8 +38,8 @@ function showTime(seconds) {
     return `~${days.toFixed(1)} дн`
 }
 
-function showTemp(val) {
-    return `${val > 0 ? '+' : ''}${val}°C`
+function formatTemperature(degrees) {
+    return `${degrees > 0 ? '+' : ''}${degrees}°C`
 }
 
 function Slider({ min, max, value, onChange, step = 1 }) {
@@ -68,8 +61,8 @@ function Slider({ min, max, value, onChange, step = 1 }) {
                 step={step}
                 value={low}
                 onChange={e => {
-                    const v = Number(e.target.value)
-                    if (v <= high) onChange([v, high])
+                    const newLow = Number(e.target.value)
+                    if (newLow <= high) onChange([newLow, high])
                 }}
             />
             <input
@@ -79,15 +72,15 @@ function Slider({ min, max, value, onChange, step = 1 }) {
                 step={step}
                 value={high}
                 onChange={e => {
-                    const v = Number(e.target.value)
-                    if (v >= low) onChange([low, v])
+                    const newHigh = Number(e.target.value)
+                    if (newHigh >= low) onChange([low, newHigh])
                 }}
             />
         </div>
     )
 }
 
-const cardAnim = {
+const cardAnimation = {
     hidden: { opacity: 0, y: 20 },
     visible: i => ({
         opacity: 1,
@@ -98,9 +91,9 @@ const cardAnim = {
 
 export default function ToursCatalog() {
 
-    const [picked, setPicked] = useState(new Set())
-    const [temp, setTemp] = useState([MIN_TEMP, MAX_TEMP])
-    const [fly, setFly] = useState([0, MAX_FLY_TIME])
+    const [selectedPlanets, setSelectedPlanets] = useState(new Set())
+    const [temperatureRange, setTemperatureRange] = useState([MIN_TEMP, MAX_TEMP])
+    const [flyTimeRange, setFlyTimeRange] = useState([0, MAX_FLY_TIME])
 
     const [tourModalOpen, setTourModalOpen] = useState(false)
     const [selectedTour, setSelectedTour] = useState(null)
@@ -110,8 +103,8 @@ export default function ToursCatalog() {
         setTourModalOpen(true)
     }
 
-    const toggle = useCallback(id => {
-        setPicked(prev => {
+    const togglePlanet = useCallback(id => {
+        setSelectedPlanets(prev => {
             const updated = new Set(prev)
             if (updated.has(id)) {
                 updated.delete(id)
@@ -122,14 +115,14 @@ export default function ToursCatalog() {
         })
     }, [])
 
-    const shown = useMemo(() => {
-        return tours.filter(t => {
-            if (picked.size > 0 && !picked.has(t.planet)) return false
-            if (t.temp < temp[0] || t.temp > temp[1]) return false
-            if (t.flyTime < fly[0] || t.flyTime > fly[1]) return false
+    const filteredTours = useMemo(() => {
+        return tours.filter(tour => {
+            if (selectedPlanets.size > 0 && !selectedPlanets.has(tour.planet)) return false
+            if (tour.temp < temperatureRange[0] || tour.temp > temperatureRange[1]) return false
+            if (tour.flyTime < flyTimeRange[0] || tour.flyTime > flyTimeRange[1]) return false
             return true
         })
-    }, [picked, temp, fly])
+    }, [selectedPlanets, temperatureRange, flyTimeRange])
 
     return (
         <div className='catalog'>
@@ -137,13 +130,13 @@ export default function ToursCatalog() {
             <div className='filters'>
 
                 <div className='chips'>
-                    {planetList.map(p => (
+                    {planetList.map(planet => (
                         <button
-                            key={p.id}
-                            className={`chip ${picked.has(p.id) ? 'chip--on' : ''}`}
-                            onClick={() => toggle(p.id)}
+                            key={planet.id}
+                            className={`chip ${selectedPlanets.has(planet.id) ? 'chip--active' : ''}`}
+                            onClick={() => togglePlanet(planet.id)}
                         >
-                            {p.name}
+                            {planet.name}
                         </button>
                     ))}
                 </div>
@@ -155,12 +148,12 @@ export default function ToursCatalog() {
                         <Slider
                             min={MIN_TEMP}
                             max={MAX_TEMP}
-                            value={temp}
-                            onChange={setTemp}
+                            value={temperatureRange}
+                            onChange={setTemperatureRange}
                         />
                         <div className='slider-nums'>
-                            <span>{showTemp(temp[0])}</span>
-                            <span>{showTemp(temp[1])}</span>
+                            <span>{formatTemperature(temperatureRange[0])}</span>
+                            <span>{formatTemperature(temperatureRange[1])}</span>
                         </div>
                     </div>
 
@@ -169,18 +162,18 @@ export default function ToursCatalog() {
                         <Slider
                             min={0}
                             max={MAX_FLY_TIME}
-                            value={fly}
-                            onChange={setFly}
+                            value={flyTimeRange}
+                            onChange={setFlyTimeRange}
                             step={60}
                         />
                         <div className='slider-nums'>
-                            <span>{showTime(fly[0])}</span>
-                            <span>{showTime(fly[1])}</span>
+                            <span>{formatFlightTime(flyTimeRange[0])}</span>
+                            <span>{formatFlightTime(flyTimeRange[1])}</span>
                         </div>
 
                         <div className='hint'>
-                            <span className='hint-i'>i</span>
-                            <span className='hint-txt'>
+                            <span className='hint-icon'>i</span>
+                            <span className='hint-text'>
                                 Скорость полёта на сверхбыстрой ракете ТАЙФУН 578 км/с
                             </span>
                         </div>
@@ -191,7 +184,7 @@ export default function ToursCatalog() {
 
             </div>
 
-            {shown.length === 0 ? (
+            {filteredTours.length === 0 ? (
 
                 <div className='empty'>
                     Нет туров по заданным фильтрам
@@ -201,32 +194,32 @@ export default function ToursCatalog() {
 
                 <div className='grid'>
 
-                    {shown.map((t, i) => (
+                    {filteredTours.map((tour, i) => (
 
                         <motion.div
-                            key={`${t.planet}-${t.name}`}
+                            key={`${tour.planet}-${tour.name}`}
                             className='card'
                             custom={i}
                             initial='hidden'
                             animate='visible'
-                            variants={cardAnim}
-                            onClick={() => openTour(t)}
+                            variants={cardAnimation}
+                            onClick={() => openTour(tour)}
                         >
 
                             <img
                                 className='card-img'
-                                src={t.img}
-                                alt={t.planetName}
+                                src={tour.img}
+                                alt={tour.planetName}
                             />
 
                             <div className='card-info'>
 
                                 <div className='card-name'>
-                                    {t.name}
+                                    {tour.name}
                                 </div>
 
                                 <div className='card-planet'>
-                                    {t.planetName}
+                                    {tour.planetName}
                                 </div>
 
                                 <div className='card-meta'>
@@ -237,11 +230,11 @@ export default function ToursCatalog() {
                                             src='/img/icons/temp.svg'
                                             alt=''
                                         />
-                                        {showTemp(t.temp)}
+                                        {formatTemperature(tour.temp)}
                                     </span>
 
                                     <span className='meta-item'>
-                                        {showTime(t.flyTime)}
+                                        {formatFlightTime(tour.flyTime)}
                                     </span>
 
                                 </div>

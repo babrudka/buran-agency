@@ -8,135 +8,127 @@ import ComingSoon from "./components/ComingSoon/ComingSoon"
 import Shop from "./components/Shop/Shop"
 import AboutUs from "./components/AboutUs/AboutUs"
 import ToursCatalog from "./components/ToursCatalog/ToursCatalog"
-import { planets, moon } from "./data/planets"
+import { planets, moon, buildTourData } from "./data/planets"
 
-const START = planets.findIndex(p => p.id === 'earth')
+const EARTH_INDEX = planets.findIndex(p => p.id === 'earth')
+
+const pageStyle = { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }
+const pageTransition = { duration: 0.25 }
 
 function App() {
-  const [index, setIndex] = useState(START)
-  const [onMoon, setOnMoon] = useState(false)
-  const [modalOpen, setModalOpen] = useState(false)
-  const [page, setPage] = useState('home')
+  const [planetIndex, setPlanetIndex] = useState(EARTH_INDEX)
+  const [isOnMoon, setIsOnMoon] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [page, setPage] = useState('planets')
   const [modalScreen, setModalScreen] = useState("planet")
   const [selectedTour, setSelectedTour] = useState(null)
 
+  const currentPlanet = isOnMoon ? moon : planets[planetIndex]
 
+  // Навигация по планетам: предыдущая/следующая
+  const hasPrev = !isOnMoon && planetIndex > 0
+  const hasNext = !isOnMoon && planetIndex < planets.length - 1
 
-  const planet = onMoon ? moon : planets[index]
+  const prevPlanet = hasPrev ? planets[planetIndex - 1] : null
+  const nextPlanet = hasNext ? planets[planetIndex + 1] : null
 
-  const prev = onMoon
-    ? null
-    : index > 0 ? planets[index - 1] : null
+  function goPrev() {
+    if (isOnMoon) {
+      setIsOnMoon(false)
+    } else {
+      setPlanetIndex(i => i - 1)
+    }
+  }
 
-  const next = onMoon
-    ? null
-    : index < planets.length - 1 ? planets[index + 1] : null
+  function goNext() {
+    setPlanetIndex(i => i + 1)
+  }
 
-  const onPrev = onMoon
-    ? () => setOnMoon(false)
-    : () => setIndex(i => i - 1)
+  function openTourModal(tourName, tourIndex) {
+    if (currentPlanet.id === "pluto") return
 
-  const onNext = () => setIndex(i => i + 1)
+    setSelectedTour(buildTourData(currentPlanet, tourName, tourIndex))
+    setModalScreen("tour")
+    setIsModalOpen(true)
+  }
 
-  const goMoon = () => setOnMoon(true)
+  function openPlanetModal() {
+    if (currentPlanet.id !== "pluto") {
+      setIsModalOpen(true)
+    }
+  }
+
+  // Содержимое страницы в зависимости от текущего раздела
+  function renderPage() {
+    if (page === 'planets') {
+      return (
+        <motion.main
+          key='planets'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={pageTransition}
+        >
+          <HeroSection
+            planet={currentPlanet}
+            onModal={openPlanetModal}
+            onTourClick={openTourModal}
+            onGoToMoon={() => setIsOnMoon(true)}
+            onGoToEarth={() => setIsOnMoon(false)}
+          />
+          <PlanetCarousel
+            prev={prevPlanet}
+            next={nextPlanet}
+            onPrev={goPrev}
+            onNext={goNext}
+          />
+        </motion.main>
+      )
+    }
+
+    if (page === 'tours') {
+      return (
+        <motion.div key='tours' style={pageStyle} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 30 }} transition={pageTransition}>
+          <ToursCatalog />
+        </motion.div>
+      )
+    }
+
+    if (page === 'about') {
+      return (
+        <motion.div key='about' style={pageStyle} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 30 }} transition={pageTransition}>
+          <AboutUs />
+        </motion.div>
+      )
+    }
+
+    if (page === 'shop') {
+      return (
+        <motion.div key='shop' style={pageStyle} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 30 }} transition={pageTransition}>
+          <Shop />
+        </motion.div>
+      )
+    }
+
+    return (
+      <motion.div key='other' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={pageTransition}>
+        <ComingSoon />
+      </motion.div>
+    )
+  }
 
   return (
     <div>
-      <Header currentView={page === 'home' ? 'planets' : page} onNavigate={(v) => setPage(v === 'planets' ? 'home' : v)} />
+      <Header currentView={page} onNavigate={setPage} />
 
       <AnimatePresence mode='wait'>
-        {page === 'home' ? (
-          <motion.main
-            key='planets'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            <HeroSection
-              planet={planet}
-              onModal={() => {
-                if (planet.id !== "pluto") {
-                  setModalOpen(true)
-                }
-              }}
-              onTourClick={(tourName, i) => {
-                if (planet.id === "pluto") return
-                setSelectedTour({
-                  name: tourName,
-                  planetName: planet.name,
-                  tourImage: planet.tourImages?.[i],
-                  score: planet.score,
-                  desc: planet.tourDescs?.length > 1
-                    ? planet.tourDescs[i]
-                    : planet.tourDescs?.[0],
-                  travelTime: planet.travelTime,
-                  stayTime: planet.stayTime,
-                  totalDuration: planet.totalDuration
-                })
-                setModalScreen("tour")
-                setModalOpen(true)
-              }}
-              onGoToMoon={goMoon}
-              onGoToEarth={() => setOnMoon(false)}
-            />
-            <PlanetCarousel
-              prev={prev}
-              next={next}
-              onPrev={onPrev}
-              onNext={onNext}
-            />
-          </motion.main>
-        ) : page === 'tours' ? (
-          <motion.div
-            key='tours'
-            style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
-            transition={{ duration: 0.25 }}
-          >
-            <ToursCatalog />
-          </motion.div>
-        ) : page === 'about' ? (
-          <motion.div
-            key='about'
-            style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
-            transition={{ duration: 0.25 }}
-          >
-            <AboutUs />
-          </motion.div>
-        ) : page === 'shop' ? (
-          <motion.div
-            key='shop'
-            style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
-            transition={{ duration: 0.25 }}
-          >
-            <Shop />
-          </motion.div>
-        ) : (
-          <motion.div
-            key='other'
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            <ComingSoon />
-          </motion.div>
-        )}
+        {renderPage()}
       </AnimatePresence>
 
       <Modal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        planet={planet}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        planet={currentPlanet}
         modalScreen={modalScreen}
         setModalScreen={setModalScreen}
         selectedTour={selectedTour}

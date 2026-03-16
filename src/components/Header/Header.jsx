@@ -2,9 +2,20 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import './Header.css'
 
+const NAV_ITEMS = [
+	{ id: 'planets', label: 'планеты' },
+	{ id: 'tours', label: 'туры' },
+	{ id: 'about', label: 'о нас' },
+	{ id: 'shop', label: 'экипировка' },
+]
+
 export default function Header({ currentView, onNavigate }) {
 	const [menuOpen, setMenuOpen] = useState(false)
 
+	function handleNav(id) {
+		setMenuOpen(false)
+		onNavigate(id)
+	}
 
 	return (
 		<>
@@ -21,7 +32,7 @@ export default function Header({ currentView, onNavigate }) {
 						fill='rgba(255,255,255,0.4)'
 					/>
 				</svg>
-				<span className='span-loc'>
+				<span className='location-text'>
 					Ваша локация: <br></br> Земля
 				</span>
 			</div>
@@ -30,24 +41,20 @@ export default function Header({ currentView, onNavigate }) {
 					src='/img/icons/logo.svg'
 					alt='Логотип БУРАН'
 					style={{ cursor: 'pointer' }}
-					onClick={() => onNavigate('home')}
+					onClick={() => handleNav('planets')}
 				/>
 
 				<nav className='nav'>
-					<a href='#' className={`nav-link${currentView === 'planets' ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); onNavigate('planets') }}>
-						планеты
-					</a>
-					<a href='#' className={`nav-link${currentView === 'tours' ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); onNavigate('tours') }}>
-						туры
-					</a>
-				<a href='#' className={`nav-link${currentView === 'about' ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); onNavigate('about') }}>
-					о нас
-				</a>
-					<a href='#' className={`nav-link${currentView === 'shop' ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); onNavigate('shop') }}>
-						экипировка
-					</a>
-
-
+					{NAV_ITEMS.map(item => (
+						<a
+							key={item.id}
+							href='#'
+							className={`nav-link${currentView === item.id ? ' active' : ''}`}
+							onClick={(e) => { e.preventDefault(); handleNav(item.id) }}
+						>
+							{item.label}
+						</a>
+					))}
 				</nav>
 
 				<button
@@ -69,34 +76,16 @@ export default function Header({ currentView, onNavigate }) {
 							transition={{ duration: 0.18 }}
 						>
 							<nav className='menu-nav'>
-								<a
-									href='#'
-									onClick={(e) => { e.preventDefault(); setMenuOpen(false); onNavigate('planets') }}
-									className={`menu-link${currentView === 'planets' ? ' active' : ''}`}
-								>
-									планеты
-								</a>
-								<a
-									href='#'
-									onClick={(e) => { e.preventDefault(); setMenuOpen(false); onNavigate('tours') }}
-									className={`menu-link${currentView === 'tours' ? ' active' : ''}`}
-								>
-									туры
-								</a>
-							<a
-								href='#'
-								onClick={(e) => { e.preventDefault(); setMenuOpen(false); onNavigate('about') }}
-								className={`menu-link${currentView === 'about' ? ' active' : ''}`}
-							>
-								о нас
-							</a>
-								<a
-									href='#'
-									onClick={(e) => { e.preventDefault(); setMenuOpen(false); onNavigate('shop') }}
-									className={`menu-link${currentView === 'shop' ? ' active' : ''}`}
-								>
-									экипировка
-								</a>
+								{NAV_ITEMS.map(item => (
+									<a
+										key={item.id}
+										href='#'
+										className={`menu-link${currentView === item.id ? ' active' : ''}`}
+										onClick={(e) => { e.preventDefault(); handleNav(item.id) }}
+									>
+										{item.label}
+									</a>
+								))}
 							</nav>
 						</motion.div>
 					)}

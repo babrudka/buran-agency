@@ -5,15 +5,16 @@ import Footer from '../Footer/Footer'
 import './Shop.css'
 import '../Modal/Modal.css'
 
-function showPrice(num) {
-    return num.toLocaleString('ru-RU') + ' ₽'
+function formatPrice(price) {
+    return price.toLocaleString('ru-RU') + ' ₽'
 }
 
 function loadCart() {
     try {
         const saved = localStorage.getItem('buran-cart')
         if (saved) return JSON.parse(saved)
-    } catch (e) {
+    } catch {
+        // Если localStorage повреждён — начинаем с пустой корзины
     }
     return []
 }
@@ -23,10 +24,10 @@ function saveCart(cart) {
 }
 
 export default function Shop() {
-    const [cat, setCat] = useState('все')
+    const [activeCategory, setActiveCategory] = useState('все')
     const [cart, setCart] = useState(loadCart)
     const [cartOpen, setCartOpen] = useState(false)
-    const [addedId, setAddedId] = useState(null)
+    const [justAddedKey, setJustAddedKey] = useState(null)
     const [orderOpen, setOrderOpen] = useState(false)
     const [orderSubmitted, setOrderSubmitted] = useState(false)
     const [orderData, setOrderData] = useState({ name: '', phone: '', email: '' })
@@ -36,9 +37,9 @@ export default function Shop() {
         saveCart(cart)
     }, [cart])
 
-    const shown = cat === 'все'
+    const filteredItems = activeCategory === 'все'
         ? items
-        : items.filter(item => item.category === cat)
+        : items.filter(item => item.category === activeCategory)
 
     function addToCart(item, size) {
         const key = item.id + (size || '')
@@ -61,8 +62,15 @@ export default function Shop() {
             }]
         })
 
-        setAddedId(key)
-        setTimeout(() => setAddedId(null), 800)
+        setJustAddedKey(key)
+        setTimeout(() => setJustAddedKey(null), 800)
+    }
+
+    function addOneMore(cartItem) {
+        const originalItem = items.find(it => it.id === cartItem.id)
+        if (originalItem) {
+            addToCart(originalItem, cartItem.size)
+        }
     }
 
     function removeOne(key) {
@@ -85,8 +93,8 @@ export default function Shop() {
         setCart([])
     }
 
-    const totalItems = cart.reduce((s, c) => s + c.qty, 0)
-    const totalPrice = cart.reduce((s, c) => s + c.price * c.qty, 0)
+    const totalItemsCount = cart.reduce((sum, cartItem) => sum + cartItem.qty, 0)
+    const totalPrice = cart.reduce((sum, cartItem) => sum + cartItem.price * cartItem.qty, 0)
 
     function openOrder() {
         setOrderOpen(true)
@@ -95,23 +103,23 @@ export default function Shop() {
         setOrderErrors({})
     }
 
-    function changeOrder(e) {
+    function handleOrderInput(e) {
         setOrderData({ ...orderData, [e.target.name]: e.target.value })
         setOrderErrors({ ...orderErrors, [e.target.name]: '' })
     }
 
-    function checkOrder() {
-        let err = {}
-        if (orderData.name.trim().length < 2) err.name = 'введите ваше имя'
-        if (orderData.phone.trim().length < 6) err.phone = 'введите ваш номер телефона'
-        if (!orderData.email.includes('@') || !orderData.email.includes('.')) err.email = 'введите вашу электронную почту'
-        setOrderErrors(err)
-        return Object.keys(err).length === 0
+    function validateOrder() {
+        const errors = {}
+        if (orderData.name.trim().length < 2) errors.name = 'введите ваше имя'
+        if (orderData.phone.trim().length < 6) errors.phone = 'введите ваш номер телефона'
+        if (!orderData.email.includes('@') || !orderData.email.includes('.')) errors.email = 'введите вашу электронную почту'
+        setOrderErrors(errors)
+        return Object.keys(errors).length === 0
     }
 
-    function sendOrder(e) {
+    function handleOrderSubmit(e) {
         e.preventDefault()
-        if (checkOrder()) {
+        if (validateOrder()) {
             setOrderSubmitted(true)
             clearCart()
         }
@@ -123,8 +131,8 @@ export default function Shop() {
             <button className='cart-btn' onClick={() => setCartOpen(!cartOpen)}>
                 <img className='cart-btn-icon' src='/img/icons/cart.svg' alt='' />
                 Корзина
-                {totalItems > 0 && (
-                    <span className='cart-badge'>{totalItems}</span>
+                {totalItemsCount > 0 && (
+                    <span className='cart-badge'>{totalItemsCount}</span>
                 )}
             </button>
 
@@ -135,27 +143,27 @@ export default function Shop() {
                 </p>
             </div>
 
-            <div className='shop-cats'>
-                {categories.map(c => (
+            <div className='shop-category-btnegories'>
+                {categories.map(category => (
                     <button
-                        key={c.id}
-                        className={`shop-cat ${cat === c.id ? 'shop-cat--on' : ''}`}
-                        onClick={() => setCat(c.id)}
+                        key={category.id}
+                        className={`shop-category-btn ${activeCategory === category.id ? 'shop-category-btnegory-btn--active' : ''}`}
+                        onClick={() => setActiveCategory(category.id)}
                     >
-                        <img className='shop-cat-icon' src={c.icon} alt='' />
-                        {c.name}
+                        <img className='shop-category-btnegory-icon' src={category.icon} alt='' />
+                        {category.name}
                     </button>
                 ))}
             </div>
 
             <div className='shop-grid'>
-                {shown.map((item, i) => (
+                {filteredItems.map((item, i) => (
                     <ShopCard
                         key={item.id}
                         item={item}
                         index={i}
                         onAdd={addToCart}
-                        addedId={addedId}
+                        justAddedKey={justAddedKey}
                         cart={cart}
                         onRemoveOne={removeOne}
                         onRemoveAll={removeAll}
@@ -199,24 +207,24 @@ export default function Shop() {
                             ) : (
                                 <>
                                     <div className='cart-list'>
-                                        {cart.map(c => (
-                                            <div className='cart-item' key={c.key}>
-                                                {c.img
-                                                    ? <img className='cart-item-img' src={c.img} alt={c.name} />
-                                                    : <img className='cart-item-icon' src={c.icon} alt={c.name} />
+                                        {cart.map(cartItem => (
+                                            <div className='cart-item' key={cartItem.key}>
+                                                {cartItem.img
+                                                    ? <img className='cart-item-img' src={cartItem.img} alt={cartItem.name} />
+                                                    : <img className='cart-item-icon' src={cartItem.icon} alt={cartItem.name} />
                                                 }
                                                 <div className='cart-item-info'>
                                                     <div className='cart-item-name'>
-                                                        {c.name}
-                                                        {c.size && <span className='cart-item-size'> ({c.size})</span>}
+                                                        {cartItem.name}
+                                                        {cartItem.size && <span className='cart-item-size'> ({cartItem.size})</span>}
                                                     </div>
-                                                    <div className='cart-item-price'>{showPrice(c.price)}</div>
+                                                    <div className='cart-item-price'>{formatPrice(cartItem.price)}</div>
                                                 </div>
                                                 <div className='cart-item-controls'>
-                                                    <button className='qty-btn' onClick={() => removeOne(c.key)}>−</button>
-                                                    <span className='qty-num'>{c.qty}</span>
-                                                    <button className='qty-btn' onClick={() => addToCart(items.find(it => it.id === c.id), c.size)}>+</button>
-                                                    <button className='del-btn' onClick={() => removeAll(c.key)}>✕</button>
+                                                    <button className='qty-btn' onClick={() => removeOne(cartItem.key)}>−</button>
+                                                    <span className='qty-num'>{cartItem.qty}</span>
+                                                    <button className='qty-btn' onClick={() => addOneMore(cartItem)}>+</button>
+                                                    <button className='del-btn' onClick={() => removeAll(cartItem.key)}>✕</button>
                                                 </div>
                                             </div>
                                         ))}
@@ -225,7 +233,7 @@ export default function Shop() {
                                     <div className='cart-bottom'>
                                         <div className='cart-total'>
                                             <span>Итого:</span>
-                                            <span className='cart-total-price'>{showPrice(totalPrice)}</span>
+                                            <span className='cart-total-price'>{formatPrice(totalPrice)}</span>
                                         </div>
                                         <button className='cart-order-btn' onClick={openOrder}>
 
@@ -288,7 +296,7 @@ export default function Shop() {
                             ) : (
                                 <motion.form
                                     className='modal-form'
-                                    onSubmit={sendOrder}
+                                    onSubmit={handleOrderSubmit}
                                     initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
                                 >
@@ -298,7 +306,7 @@ export default function Shop() {
                                             type='text'
                                             name='name'
                                             value={orderData.name}
-                                            onChange={changeOrder}
+                                            onChange={handleOrderInput}
                                             className={`modal-form-input ${orderErrors.name ? 'error' : ''}`}
                                             placeholder='Введите ваше имя'
                                         />
@@ -311,7 +319,7 @@ export default function Shop() {
                                             type='tel'
                                             name='phone'
                                             value={orderData.phone}
-                                            onChange={changeOrder}
+                                            onChange={handleOrderInput}
                                             className={`modal-form-input ${orderErrors.phone ? 'error' : ''}`}
                                             placeholder='+7 (999) 999-99-99'
                                         />
@@ -324,7 +332,7 @@ export default function Shop() {
                                             type='email'
                                             name='email'
                                             value={orderData.email}
-                                            onChange={changeOrder}
+                                            onChange={handleOrderInput}
                                             className={`modal-form-input ${orderErrors.email ? 'error' : ''}`}
                                             placeholder='example@mail.ru'
                                         />
@@ -354,16 +362,16 @@ export default function Shop() {
     )
 }
 
-function ShopCard({ item, index, onAdd, addedId, cart, onRemoveOne, onRemoveAll }) {
-    const [pickedSize, setPickedSize] = useState(
+function ShopCard({ item, index, onAdd, justAddedKey, cart, onRemoveOne, onRemoveAll }) {
+    const [selectedSize, setSelectedSize] = useState(
         item.sizes ? item.sizes[Math.floor(item.sizes.length / 2)] : null
     )
 
-    const key = item.id + (pickedSize || '')
-    const justAdded = addedId === key
+    const cartKey = item.id + (selectedSize || '')
+    const isJustAdded = justAddedKey === cartKey
 
-    const inCart = cart.find(c => c.key === key)
-    const qty = inCart ? inCart.qty : 0
+    const itemInCart = cart.find(cartItem => cartItem.key === cartKey)
+    const quantity = itemInCart ? itemInCart.qty : 0
 
     return (
         <motion.div
@@ -374,11 +382,11 @@ function ShopCard({ item, index, onAdd, addedId, cart, onRemoveOne, onRemoveAll 
         >
             {item.img ? (
                 <div className='shop-card-img-wrap'>
-                    <img className='shop-card-img' src={item.img} alt={item.name} />
+                    <img className='shop-card-img' src={item.img} alt={item.name} loading='lazy' />
                 </div>
             ) : (
                 <div className='shop-card-img-wrap shop-card-img-wrap--emoji'>
-                    <img className='shop-card-icon' src={item.icon} alt={item.name} />
+                    <img className='shop-card-icon' src={item.icon} alt={item.name} loading='lazy' />
                 </div>
             )}
 
@@ -386,7 +394,7 @@ function ShopCard({ item, index, onAdd, addedId, cart, onRemoveOne, onRemoveAll 
                 <div className='shop-card-info'>
                     <div className='shop-card-name'>{item.name}</div>
                     <div className='shop-card-cat'>{item.category}</div>
-                    <div className='shop-card-price'>{showPrice(item.price)}</div>
+                    <div className='shop-card-price'>{formatPrice(item.price)}</div>
                 </div>
             </div>
 
@@ -396,48 +404,48 @@ function ShopCard({ item, index, onAdd, addedId, cart, onRemoveOne, onRemoveAll 
 
             {item.sizes && (
                 <div className='shop-sizes'>
-                    {item.sizes.map(s => (
+                    {item.sizes.map(size => (
                         <button
-                            key={s}
-                            className={`size-btn ${pickedSize === s ? 'size-btn--on' : ''}`}
-                            onClick={() => setPickedSize(s)}
+                            key={size}
+                            className={`size-btn ${selectedSize === size ? 'size-btn--active' : ''}`}
+                            onClick={() => setSelectedSize(size)}
                         >
-                            {s}
+                            {size}
                         </button>
                     ))}
                 </div>
             )}
 
-            {qty > 0 ? (
+            {quantity > 0 ? (
                 <div className='card-cart-controls'>
                     <div className='card-qty-row'>
                         <button
                             className='card-qty-btn'
-                            onClick={() => onRemoveOne(key)}
+                            onClick={() => onRemoveOne(cartKey)}
                         >
                             −
                         </button>
-                        <span className='card-qty-num'>{qty}</span>
+                        <span className='card-qty-num'>{quantity}</span>
                         <button
                             className='card-qty-btn'
-                            onClick={() => onAdd(item, pickedSize)}
+                            onClick={() => onAdd(item, selectedSize)}
                         >
                             +
                         </button>
                     </div>
                     <button
                         className='card-remove-btn'
-                        onClick={() => onRemoveAll(key)}
+                        onClick={() => onRemoveAll(cartKey)}
                     >
                         Убрать из корзины
                     </button>
                 </div>
             ) : (
                 <button
-                    className={`add-btn ${justAdded ? 'add-btn--done' : ''}`}
-                    onClick={() => onAdd(item, pickedSize)}
+                    className={`add-btn ${isJustAdded ? 'add-btn--added' : ''}`}
+                    onClick={() => onAdd(item, selectedSize)}
                 >
-                    {justAdded ? '✓ Добавлено!' : 'В корзину'}
+                    {isJustAdded ? '✓ Добавлено!' : 'В корзину'}
                 </button>
             )}
         </motion.div>

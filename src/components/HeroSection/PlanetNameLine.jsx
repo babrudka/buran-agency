@@ -57,7 +57,7 @@ export default function PlanetNameLine({ size, name, id, subtitle, showPin, fact
 				y={endY - nameBlockHeight}
 				width={blockWidth}
 				height={nameBlockHeight}
-					className="fo-show"
+					className="display-overlay"
 				>
 					<div
 						xmlns="http://www.w3.org/1999/xhtml"
@@ -85,7 +85,7 @@ export default function PlanetNameLine({ size, name, id, subtitle, showPin, fact
 					y={endY + factsGap}
 					width={blockWidth + Math.round(size * 0.2)}
 					height={facts.length * Math.round(size * 0.13) + Math.round(size * 0.07)}
-						className="fo-show"
+						className="display-overlay"
 					>
 						<div xmlns="http://www.w3.org/1999/xhtml" className="facts">
 							{facts.map((fact, i) => (

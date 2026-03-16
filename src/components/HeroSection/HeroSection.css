@@ -62,11 +62,11 @@
 	pointer-events: none;
 }
 
-.fo-show {
+.display-overlay {
 	overflow: visible;
 }
 
-.fo-click {
+.clickable-overlay {
 	pointer-events: auto;
 	overflow: visible;
 }

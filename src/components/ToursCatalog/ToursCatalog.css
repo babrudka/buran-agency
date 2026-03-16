@@ -57,7 +57,7 @@
     color: #ffffff;
 }
 
-.chip--on {
+.chip--active {
     background: rgba(200, 235, 245, 0.15);
     border-color: #c8ebf5;
     color: #c8ebf5;
@@ -230,7 +230,7 @@
     margin-top: 4px;
 }
 
-.hint-i {
+.hint-icon {
     width: 16px;
     height: 16px;
     border-radius: 50%;
@@ -245,7 +245,7 @@
     flex-shrink: 0;
 }
 
-.hint-txt {
+.hint-text {
     font-family: UNCAGE;
     font-size: 10px;
     color: rgba(255, 255, 255, 0.35);
@@ -376,13 +376,13 @@
         font-size: 22px;
     }
 
-    .hint-i {
+    .hint-icon {
         width: 22px;
         height: 22px;
         font-size: 14px;
     }
 
-    .hint-txt {
+    .hint-text {
         font-size: 14px;
     }
 }
@@ -471,13 +471,13 @@
         font-size: 36px;
     }
 
-    .hint-i {
+    .hint-icon {
         width: 32px;
         height: 32px;
         font-size: 20px;
     }
 
-    .hint-txt {
+    .hint-text {
         font-size: 20px;
     }
 }
