@@ -24,7 +24,6 @@ function App() {
 
   const currentPlanet = isOnMoon ? moon : planets[planetIndex]
 
-
   const hasPreviousPlanet = !isOnMoon && planetIndex > 0
   const hasNextPlanet = !isOnMoon && planetIndex < planets.length - 1
 
@@ -56,7 +55,6 @@ function App() {
       setIsModalOpen(true)
     }
   }
-
 
   function renderPage() {
     if (page === 'planets') {

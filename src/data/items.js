@@ -160,7 +160,7 @@ export const items = [
         category: 'еда',
         price: 1990,
         icon: '/img/icons/food.svg',
-        img: null,
+        img: "/img/items/breakfast.webp",
         desc: 'Состав набора:\n• Каша овсяная — 1 шт\n• Омлет с сыром — 1 шт\n• Какао — 1 шт\n\n1 тюбик = 3 порции.',
         sizes: null,
     },

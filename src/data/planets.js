@@ -1,25 +1,51 @@
+export function formatDuration(seconds) {
+    if (seconds === 0) return 'Вы здесь'
+
+    const minutes = seconds / 60
+    const hours = minutes / 60
+    const days = hours / 24
+
+    if (minutes < 120) return `~${Math.round(minutes)} мин`
+    if (hours < 48) return `~${Math.round(hours)} ч`
+    return `~${Math.round(days)} дн`
+}
+
 export function buildTourData(planet, tourName, tourIndex) {
-    return {
+    const SPEED = 578
+    const travelSeconds = planet.distance / SPEED
+    const staySeconds = (planet.stayTime || 0) * 3600
+    const totalSeconds = (travelSeconds * 2) + staySeconds
+
+    const data = {
         name: tourName,
         planetName: planet.name,
         tourImage: planet.tourImages?.[tourIndex],
         score: planet.score,
-        description: planet.tourDescs?.length > 1
+        desc: planet.tourDescs?.length > 1
             ? planet.tourDescs[tourIndex]
             : planet.tourDescs?.[0],
-        travelTime: planet.travelTime,
-        stayTime: planet.stayTime,
-        totalDuration: planet.totalDuration,
+        temp: planet.temp,
+        flyTime: travelSeconds,
+        planet: planet.id,
+        img: planet.image
     }
+
+    if (planet.distance > 0) {
+        data.travelTimeStr = formatDuration(travelSeconds)
+        data.stayTimeStr = formatDuration(staySeconds)
+        data.totalDurationStr = formatDuration(totalSeconds)
+    }
+
+    return data
 }
 
-export function getDifficultyColor(score) {
+export function getScoreColor(score) {
     if (score < 4) return 'green'
     if (score < 7) return 'orange'
     return 'red'
 }
 
-export function getProgressBarColor(percent) {
+export function getStatColor(percent) {
     if (percent <= 25) return 'green'
     if (percent <= 70) return 'orange'
     return 'red'
@@ -33,9 +59,7 @@ export const moon = {
     hasEarth: true,
     temp: -61,
     distance: 384400,
-    travelTime: 1,
     stayTime: 2,
-    totalDuration: 3,
     tours: ['По следам Апполона-11'],
     tourDescs: [
         'Пройдите по маршруту первых лунных экспедиций и почувствуйте себя настоящим первооткрывателем. Вас ждёт прогулка по историческим районам высадок, прыжки в слабой гравитации и поездка на современном луноходе по тихим лунным равнинам. Наблюдать Землю над горизонтом Луны — отдельное удовольствие. А вечером на борту подают горячий космический чай и блюда по рецептам ранних орбитальных миссий.'
@@ -75,9 +99,7 @@ export const planets = [
         image: '/img/planets/merkurij.png',
         temp: 125,
         distance: 91700000,
-        travelTime: 88,
         stayTime: 11,
-        totalDuration: 99,
         tours: ['Ближе некуда'],
         tourDescs: [
             'Самая экстремальная экспедиция солнечной системы. Посадка происходит прямо среди древних кратеров Меркурия, где поверхность освещена огромным сияющим Солнцем. Экспедиция включает исследование скалистых каньонов и прогулки по границе вечных теней. В кают-компании путешественников ждут пряные блюда, созданные специально для жарких миров, и рассказы о первых попытках изучения планеты ещё в эпоху ранней космической астрономии.'
@@ -115,9 +137,7 @@ export const planets = [
         image: '/img/planets/venera.svg',
         temp: 460,
         distance: 41400000,
-        travelTime: 40,
         stayTime: 5,
-        totalDuration: 45,
         tours: ['Золотая завеса'],
         tourDescs: [
             'Сквозь плотные облака Венеры открывается мир, который долгое время оставался лишь догадкой учёных. Экспедиция проходит по лавовым равнинам и загадочным каменным формациям, едва различимым в золотистой дымке атмосферы. Когда-то первые автоматические станции передали несколько туманных снимков поверхности. Сегодня вы сможете увидеть этот мир своими глазами.'
@@ -157,9 +177,6 @@ export const planets = [
         hasMoon: true,
         temp: 15,
         distance: 0,
-        travelTime: 0,
-        stayTime: 8,
-        totalDuration: 8,
         tours: ['Полюс холода. Оймякон', 'Станция восток'],
         tourDescs: [
             'Добро пожаловать в одно из самых холодных мест планеты. Экспедиция переносит вас в сердце якутской зимы: поездки на упряжках, северное сияние и жизнь в настоящем полярном лагере. Здесь мороз становится частью пейзажа.',
@@ -200,9 +217,7 @@ export const planets = [
         image: '/img/planets/mars.svg',
         temp: -60,
         distance: 78300000,
-        travelTime: 75,
         stayTime: 9,
-        totalDuration: 84,
         tours: ['Сафари на марсоходах', 'Фотоохота на марсиан'],
         tourDescs: [
             'Испытайте настоящее приключение на красной планете. На мощных марсоходах экспедиция проходит через пыльные равнины, древние кратеры и высохшие русла рек.',
@@ -237,9 +252,7 @@ export const planets = [
         image: '/img/planets/jupiter.svg',
         temp: -130,
         distance: 628700000,
-        travelTime: 604,
         stayTime: 73,
-        totalDuration: 677,
         tours: ['Вихрь гигантов'],
         tourDescs: [
             'Отправляйтесь в потрясающий своей масштабностью тур «Вихрь гигантов» на Юпитер — самую большую планету нашей системы. Находясь на безопасной и комфортной орбитальной наблюдательной станции, вы вживую увидите суровую мощь газового гиганта: бушующие облака и бесконечные гигантские штормы, в которых легко поместилась бы вся Земля. Главным событием станет потрясающий вид на знаменитое Большое красное пятно — чудовищный антициклон (гигантский атмосферный вихрь), который не утихает уже сотни лет, поражая своими разрушительными масштабами без всяких прикрас.'
@@ -277,9 +290,7 @@ export const planets = [
         image: '/img/planets/saturn.png',
         temp: -180,
         distance: 1275000000,
-        travelTime: 1226,
         stayTime: 148,
-        totalDuration: 1374,
         tours: ['Кольцевая линия'],
         tourDescs: [
             'Отправляйтесь в одно из самых красивых и завораживающих путешествий в космосе — эксклюзивный тур «Кольцевая линия» прямиком к Сатурну. Во время безопасной прогулки на панорамном космическом шаттле вы окажетесь прямо среди знаменитых колец планеты, где миллиарды ледяных частиц и осколков ослепительно отражают свет далекого Солнца. Это уникальная возможность своими глазами вблизи рассмотреть безупречную орбитальную геометрию и почувствовать колоссальный масштаб величественного газового гиганта.'
@@ -324,9 +335,7 @@ export const planets = [
         image: '/img/planets/uran.png',
         temp: -224,
         distance: 2724000000,
-        travelTime: 2619,
         stayTime: 316,
-        totalDuration: 2935,
         tours: ['Алмазный дождь', 'Ледяной штиль'],
         tourDescs: [
             'Отправляйтесь в эксклюзивный тур «Алмазный дождь» на Уран, где колоссальное давление планеты буквально выдавливает углерод из газа метана, превращая его в настоящие драгоценные камни. Из безопасного сверхпрочного модуля вы своими глазами увидите, как эти кристаллы непрерывно падают сквозь жидкие слои ледяного гиганта в виде сверкающего града. Это ваш шанс вживую понаблюдать за суровой физикой космоса и масштабным процессом, который ученые долгие годы считали лишь математической теорией.',
@@ -360,9 +369,7 @@ export const planets = [
         image: '/img/planets/neptun.png',
         temp: -220,
         distance: 4351000000,
-        travelTime: 4183,
         stayTime: 504,
-        totalDuration: 4687,
         tours: ['Синий предел'],
         tourDescs: [
             'Отправляйтесь в самую далёкую экспедицию Солнечной системы — эксклюзивный тур «Синий предел» на Нептун, где вас встретит завораживающий, глубокий синий цвет бесконечной атмосферы. С борта сверхпрочного корабля вы вживую понаблюдаете за самыми мощными ураганами в нашем космическом районе, скорость которых превышает 2000 километров в час. Это суровое и невероятно масштабное зрелище позволит вам в полной мере ощутить первобытную мощь ледяного гиганта, находясь на самом краю нашего обитаемого мира.'

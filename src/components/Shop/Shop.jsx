@@ -10,8 +10,11 @@ function formatPrice(price) {
 }
 
 function loadCart() {
-    const saved = localStorage.getItem('buran-cart')
-    if (saved) return JSON.parse(saved)
+    try {
+        const saved = localStorage.getItem('buran-cart')
+        if (saved) return JSON.parse(saved)
+    } catch {
+    }
     return []
 }
 
@@ -93,6 +96,7 @@ export default function Shop() {
     const totalPrice = cart.reduce((sum, cartItem) => sum + cartItem.price * cartItem.qty, 0)
 
     function openOrder() {
+        setIsCartOpen(false)
         setIsOrderOpen(true)
         setOrderSubmitted(false)
         setOrderData({ name: '', phone: '', email: '' })
@@ -232,7 +236,6 @@ export default function Shop() {
                                             <span className='cart-total-price'>{formatPrice(totalPrice)}</span>
                                         </div>
                                         <button className='cart-order-btn' onClick={openOrder}>
-
                                             Оформить заказ
                                         </button>
                                         <button className='cart-clear-btn' onClick={clearCart}>
@@ -412,7 +415,7 @@ function ShopCard({ item, index, onAdd, justAddedKey, cart, onRemoveOne, onRemov
                 </div>
             )}
 
-            {quantity > 0 ? (
+            {quantity > 0 && !isJustAdded ? (
                 <div className='card-cart-controls'>
                     <div className='card-qty-row'>
                         <button

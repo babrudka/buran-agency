@@ -2,7 +2,7 @@ import "./Modal.css"
 import ModalTours from "./ModalTours"
 import { AnimatePresence, motion } from "framer-motion"
 import { useState } from "react"
-import { buildTourData, getDifficultyColor, getProgressBarColor } from "../../data/planets"
+import { buildTourData, getScoreColor, getStatColor } from "../../data/planets"
 
 const popupAnimation = {
   hidden: { opacity: 0, scale: 0.9 },
@@ -135,7 +135,7 @@ export default function Modal({
                     </h1>
 
                     <div className={`modal-score-circle `}
-                    style={{ borderColor: getDifficultyColor(planet.score) }}>
+                    style={{ borderColor: getScoreColor(planet.score) }}>
                       <h1 className="modal-score-num">{planet.score}</h1>
                     </div>
                   </motion.div>
@@ -147,7 +147,7 @@ export default function Modal({
                         className="modal-fill"
                         style={{
                           width: climatePercent + "%",
-                          background: getProgressBarColor(climatePercent)
+                          background: getStatColor(climatePercent)
                         }}
                       />
                     </div>
@@ -160,7 +160,7 @@ export default function Modal({
                         className="modal-fill"
                         style={{
                           width: temperaturePercent + "%",
-                          background: getProgressBarColor(temperaturePercent)
+                          background: getStatColor(temperaturePercent)
                         }}
                       />
                     </div>
@@ -173,7 +173,7 @@ export default function Modal({
                         className="modal-fill"
                         style={{
                           width: distancePercent + "%",
-                          background: getProgressBarColor(distancePercent)
+                          background: getStatColor(distancePercent)
                         }}
                       />
                     </div>
