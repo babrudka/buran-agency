@@ -66,6 +66,7 @@ function AnimatedCounter({ end, suffix = '' }) {
 			([entry]) => {
 				if (entry.isIntersecting && !alreadyCounted.current) {
 					alreadyCounted.current = true
+					observer.unobserve(element)
 
 					let step = 0
 					const totalSteps = 30
@@ -80,7 +81,6 @@ function AnimatedCounter({ end, suffix = '' }) {
 						}
 					}, 40)
 				}
-				observer.unobserve(element)
 			},
 			{ rootMargin: '-20px' }
 		)
@@ -129,7 +129,7 @@ export default function AboutUs() {
 					<div className='cool-card'>
 						<div className='cool-card-icon'><img src='/img/icons/first-rocket.svg' alt='' /></div>
 						<p className='cool-card-text'>
-							12 апреля 1961 года Юрий Гагарин совершил первый в истории полёт в космос. Этот день, который мы теперь отмечаем как День космонавтики, наряду с запуском первых спутников и развитием ракетных технологий, показал миру, что космос — это не предел, а начало большого пути.
+							12 апреля 1961 года Юрий Гагарин совершил первый в истории полёт в космос. Этот день показал миру, что космос — это не предел, а начало большого пути.
 						</p>
 					</div>
 				</SlideIn>
