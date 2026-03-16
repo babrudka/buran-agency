@@ -1,6 +1,3 @@
-/**
- * Собирает данные тура из планеты — используется в App, Modal, ToursCatalog
- */
 export function buildTourData(planet, tourName, tourIndex) {
     return {
         name: tourName,
@@ -16,18 +13,12 @@ export function buildTourData(planet, tourName, tourIndex) {
     }
 }
 
-/**
- * Цвет по значению сложности (score) — используется в Modal и ModalTours
- */
 export function getScoreColor(score) {
     if (score < 4) return 'green'
     if (score < 7) return 'orange'
     return 'red'
 }
 
-/**
- * Цвет по проценту статистики (climate, temperature, distance)
- */
 export function getStatColor(percent) {
     if (percent <= 25) return 'green'
     if (percent <= 70) return 'orange'
@@ -113,7 +104,7 @@ export const planets = [
         stats: {
             climate: 80,
             temperature: 95,
-            distance: 40
+            distance: 50
         },
     },
 
@@ -194,8 +185,8 @@ export const planets = [
         score: 0.9,
         stats: {
             climate: 15,
-            temperature: 55,
-            distance: 0
+            temperature: 10,
+            distance: 5
         },
     },
 
@@ -231,8 +222,8 @@ export const planets = [
         score: 2.8,
         stats: {
             climate: 45,
-            temperature: 65,
-            distance: 55
+            temperature: 35,
+            distance: 25
         },
     },
 
@@ -268,7 +259,7 @@ export const planets = [
                 description: 'Имеет 95 спутников и уступает лишь Сатурну',
             },
         ],
-        score: 7.8,
+        score: 7.1,
         stats: {
             climate: 95,
             temperature: 70,
@@ -315,11 +306,11 @@ export const planets = [
                     'Это больше, чем у всех вместе взятых планет солнечной системы',
             },
         ],
-        score: 7.2,
+        score: 7.8,
         stats: {
             climate: 90,
             temperature: 80,
-            distance: 85
+            distance: 80
         },
     },
 
@@ -351,11 +342,11 @@ export const planets = [
                 description: 'В среднем -224°C',
             },
         ],
-        score: 7.7,
+        score: 8.7,
         stats: {
             climate: 85,
-            temperature: 90,
-            distance: 95
+            temperature: 85,
+            distance: 90
         },
     },
 
@@ -386,7 +377,7 @@ export const planets = [
                 description: 'В среднем -220°C',
             },
         ],
-        score: 8.4,
+        score: 9.1,
         stats: {
             climate: 95,
             temperature: 95,
