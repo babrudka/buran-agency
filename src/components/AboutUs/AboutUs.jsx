@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react'
+import Footer from '../Footer/Footer'
 import './AboutUs.css'
 
-// Хук: добавляет класс 'show' когда элемент появляется на экране
 function useShow(margin = '-40px') {
 	const ref = useRef(null)
 
@@ -53,36 +53,32 @@ function SlideIn({ children, from = 'left', delay = 0, className = '' }) {
 	)
 }
 
-// Компонент: анимированный счётчик от 0 до end при появлении на экране
 function CountNum({ end, suffix = '' }) {
 	const ref = useRef(null)
 	const alreadyCounted = useRef(false)
 
-	// Функция запуска анимации счёта
 	const startCounting = useCallback(() => {
 		const element = ref.current
 		if (!element || alreadyCounted.current) return
 		alreadyCounted.current = true
 
-		const totalSteps = 30           // сколько шагов до конца
-		const intervalMs = 40           // миллисекунд между шагами
+		const totalSteps = 30
+		const intervalMs = 40
 		let currentStep = 0
 
 		const timer = setInterval(() => {
 			currentStep++
-			// Простой расчёт: текущее значение = доля пройденных шагов × конечное значение
 			const progress = currentStep / totalSteps
 			const currentValue = Math.round(progress * end)
 			element.textContent = currentValue + suffix
 
 			if (currentStep >= totalSteps) {
 				clearInterval(timer)
-				element.textContent = end + suffix  // гарантируем точное конечное значение
+				element.textContent = end + suffix
 			}
 		}, intervalMs)
 	}, [end, suffix])
 
-	// Наблюдатель: запускаем счёт когда элемент появляется на экране
 	useEffect(() => {
 		const element = ref.current
 		if (!element) return
@@ -238,7 +234,7 @@ export default function AboutUs() {
 			<section className='about-section'>
 				<FadeUp className='section-header'>
 					<span className='section-num'>04</span>
-					<h2 className='section-title'>Магазин экипировки (скоро)</h2>
+					<h2 className='section-title'>Магазин экипировки </h2>
 				</FadeUp>
 
 				<SlideIn from='right' delay={0.1}>
@@ -253,6 +249,10 @@ export default function AboutUs() {
 						{ icon: '/img/icons/spaceman.svg', name: 'Защитные костюмы' },
 						{ icon: '/img/icons/helmet.svg', name: 'Герметичные шлемы' },
 						{ icon: '/img/icons/tools.svg', name: 'Оборудование для экспедиций' },
+						{ icon: '/img/icons/jetpack.svg', name: 'Реактивные ранцы' },
+						{ icon: '/img/icons/boots.svg', name: 'Обувь для различных гравитационных условий' },
+						{ icon: '/img/icons/wind.svg', name: 'Кислородные баллоны разных объемов' },
+						{ icon: '/img/icons/food.svg', name: 'Наборы еды в удобных тюбиках' },
 					].map((item, i) => (
 						<SlideIn key={i} from='left' delay={0.12 * i} className='equip-item'>
 							<span className='equip-icon'><img src={item.icon} alt='' /></span>
@@ -277,6 +277,8 @@ export default function AboutUs() {
 					</div>
 				</FadeUp>
 			</section>
+
+			<Footer />
 
 		</div>
 	)

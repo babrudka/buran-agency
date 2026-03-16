@@ -210,7 +210,10 @@ export default function Modal({
                               score: planet.score,
                               desc: planet.tourDescs?.length > 1
                                 ? planet.tourDescs[i]
-                                : planet.tourDescs?.[0]
+                                : planet.tourDescs?.[0],
+                              travelTime: planet.travelTime,
+                              stayTime: planet.stayTime,
+                              totalDuration: planet.totalDuration
                             })
                             setModalScreen("tour")
                             setIsFormOpen(false)

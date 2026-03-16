@@ -266,9 +266,25 @@ align-self: center;
     margin-left: 8px;
 }
 .modal-hours-label {
-    margin-top: 20px;
+    margin-top: 0;
     text-align: center;
     font-size: 22px;
+}
+.modal-duration-block {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+.modal-duration-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-family: 'UNCAGE';
+    font-size: 13px;
+    opacity: 0.55;
 }
 
 .modal-text {

@@ -11,7 +11,6 @@ export default function HeroSection({ planet, onModal, onTourClick, onGoToMoon, 
   const ref = useRef(null)
   const [size, setSize] = useState(0)
 
-  // Следим за изменением размера контейнера планеты
   useLayoutEffect(() => {
     if (!ref.current) return
     const observer = new ResizeObserver(entries => {

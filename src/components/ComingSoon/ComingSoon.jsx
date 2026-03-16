@@ -8,11 +8,11 @@ export default function ComingSoon() {
 				src='/img/icons/logo.svg'
 				alt='Логотип БУРАН'
 			/>
-			<p className='soon-text'>
-				Скоро открытие
-				<br />
-				магазина экипировки
-			</p>
+		<p className='soon-text'>
+			Раздел скоро
+			<br />
+			будет доступен
+		</p>
 		</div>
 	)
 }

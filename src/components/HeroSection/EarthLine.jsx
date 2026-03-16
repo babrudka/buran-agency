@@ -1,13 +1,10 @@
 import { useRef, useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
-// Угол направления линии (в градусах от центра планеты)
 const ANGLE_DEG = 330
-// Насколько далеко от центра находится конечная точка (множитель радиуса)
 const DISTANCE_MULT = 1.55
 
 export default function EarthLine({ size, onGoToEarth }) {
-	// Лёгкое покачивание конечной точки (имитация невесомости)
 	const [offsetX, setOffsetX] = useState(0)
 	const [offsetY, setOffsetY] = useState(0)
 	const timerRef = useRef(null)
@@ -16,7 +13,6 @@ export default function EarthLine({ size, onGoToEarth }) {
 		let step = 0
 		timerRef.current = setInterval(() => {
 			step += 1
-			// Плавное покачивание по синусоиде с шагом
 			setOffsetX(12 * Math.sin(step * 0.06))
 			setOffsetY(9 * Math.cos(step * 0.06))
 		}, 30)
@@ -29,11 +25,9 @@ export default function EarthLine({ size, onGoToEarth }) {
 	const center = radius
 	const angleRad = (ANGLE_DEG * Math.PI) / 180
 
-	// Начало линии — точка на краю планеты
 	const startX = center + radius * Math.cos(angleRad)
 	const startY = center + radius * Math.sin(angleRad)
 
-	// Конец линии — удалённая точка + покачивание
 	const endX = center + DISTANCE_MULT * radius * Math.cos(angleRad) + offsetX
 	const endY = center + DISTANCE_MULT * radius * Math.sin(angleRad) + offsetY
 

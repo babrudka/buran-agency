@@ -214,10 +214,18 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                         {tour.desc}
                     </motion.p>
                     
-                    <motion.h1 variants={itemAnim} className='modal-hours-label'>
-                        продолжительность тура:
-                        <span className="modal-hours"> 96 ч</span>
-                    </motion.h1>
+                    {tour.totalDuration && (
+                        <motion.div variants={itemAnim} className='modal-duration-block'>
+                            <h1 className='modal-hours-label'>
+                                продолжительность:
+                                <span className="modal-hours"> {tour.totalDuration} ч</span>
+                            </h1>
+                            <div className="modal-duration-details">
+                                <span>Время в пути: {tour.travelTime} ч</span>
+                                <span>Время на планете: {tour.stayTime} ч</span>
+                            </div>
+                        </motion.div>
+                    )}
                     
                     <motion.button 
                         variants={itemAnim} 

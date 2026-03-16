@@ -26,7 +26,7 @@ export default function PlanetCarousel({ prev, next, onPrev, onNext }) {
             className="carousel carousel-left"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, pointerEvents: "none" }} // ВАЖНО: фикс призрачной кнопки
+            exit={{ opacity: 0, pointerEvents: "none" }}
             transition={{ duration: 0.3 }}
           >
             <h1 className="arrow-area">{prev.name}</h1>
@@ -44,7 +44,7 @@ export default function PlanetCarousel({ prev, next, onPrev, onNext }) {
             className="carousel carousel-right"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, pointerEvents: "none" }} // ВАЖНО: фикс призрачной кнопки
+            exit={{ opacity: 0, pointerEvents: "none" }}
             transition={{ duration: 0.3 }}
           >
             <h1 className="arrow-area">{next.name}</h1>

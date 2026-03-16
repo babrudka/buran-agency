@@ -1,13 +1,10 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import usePopulationCounter from './usePopulationCounter'
 
-// Угол линии от центра планеты к подписи (в градусах)
 const ANGLE_DEG = 210
-// Длина линии (доля от радиуса)
 const LINE_LENGTH = 0.85
 
 export default function PlanetNameLine({ size, name, id, subtitle, showPin, facts }) {
-	// Проверяем, есть ли факт со счётчиком населения
 	const hasPopulationCounter = facts?.some(fact => fact.counter)
 	const populationText = usePopulationCounter(hasPopulationCounter)
 
@@ -17,15 +14,12 @@ export default function PlanetNameLine({ size, name, id, subtitle, showPin, fact
 	const center = radius
 	const angleRad = (ANGLE_DEG * Math.PI) / 180
 
-	// Начало линии — на краю планеты
 	const startX = center + radius * Math.cos(angleRad)
 	const startY = center + radius * Math.sin(angleRad)
 
-	// Конец линии — дальше от планеты
 	const endX = startX + LINE_LENGTH * radius * Math.cos(angleRad)
 	const endY = startY + LINE_LENGTH * radius * Math.sin(angleRad)
 
-	// Размеры блока с названием
 	const blockWidth = Math.round(size * 0.4)
 	const titleHeight = Math.round(size * 0.12)
 	const subtitleHeight = Math.round(size * 0.08)
@@ -50,7 +44,6 @@ export default function PlanetNameLine({ size, name, id, subtitle, showPin, fact
 				strokeWidth="1.5"
 			/>
 
-			{/* Горизонтальная линия под названием */}
 			<line
 				x1={endX - blockWidth}
 				y1={endY}

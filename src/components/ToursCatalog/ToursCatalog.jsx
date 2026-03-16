@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback } from 'react'
 import { motion, AnimatePresence } from "framer-motion"
 import { planets, moon } from '../../data/planets'
 import ModalTours from '../Modal/ModalTours'
+import Footer from '../Footer/Footer'
 import './ToursCatalog.css'
 
 const SPEED = 578
@@ -19,6 +20,9 @@ const tours = allPlanets.flatMap(p =>
         desc: p.tourDescs?.length > 1 ? p.tourDescs[i] : p.tourDescs?.[0],
         temp: p.temp,
         flyTime: p.distance / SPEED,
+        travelTime: p.travelTime,
+        stayTime: p.stayTime,
+        totalDuration: p.totalDuration,
     }))
 )
 
@@ -251,6 +255,8 @@ export default function ToursCatalog() {
                 </div>
 
             )}
+
+            <Footer />
 
             <AnimatePresence>
                 {tourModalOpen && (

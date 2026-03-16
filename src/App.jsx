@@ -5,6 +5,7 @@ import HeroSection from "./components/HeroSection/HeroSection"
 import PlanetCarousel from "./components/PlanetCarousel/PlanetCarousel"
 import Modal from "./components/Modal/Modal"
 import ComingSoon from "./components/ComingSoon/ComingSoon"
+import Shop from "./components/Shop/Shop"
 import AboutUs from "./components/AboutUs/AboutUs"
 import ToursCatalog from "./components/ToursCatalog/ToursCatalog"
 import { planets, moon } from "./data/planets"
@@ -64,11 +65,14 @@ function App() {
                 setSelectedTour({
                   name: tourName,
                   planetName: planet.name,
-                  tourImage: planet.tourImages?.[i], // <-- ИСПРАВЛЕНИЕ ЗДЕСЬ
+                  tourImage: planet.tourImages?.[i],
                   score: planet.score,
                   desc: planet.tourDescs?.length > 1
                     ? planet.tourDescs[i]
-                    : planet.tourDescs?.[0]
+                    : planet.tourDescs?.[0],
+                  travelTime: planet.travelTime,
+                  stayTime: planet.stayTime,
+                  totalDuration: planet.totalDuration
                 })
                 setModalScreen("tour")
                 setModalOpen(true)
@@ -104,6 +108,17 @@ function App() {
             transition={{ duration: 0.25 }}
           >
             <AboutUs />
+          </motion.div>
+        ) : page === 'shop' ? (
+          <motion.div
+            key='shop'
+            style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30 }}
+            transition={{ duration: 0.25 }}
+          >
+            <Shop />
           </motion.div>
         ) : (
           <motion.div

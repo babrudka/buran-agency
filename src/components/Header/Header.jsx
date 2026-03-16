@@ -47,9 +47,7 @@ export default function Header({ currentView, onNavigate }) {
 						экипировка
 					</a>
 
-					<a href='#' id='basket-link' onClick={(e) => { e.preventDefault(); onNavigate('shop') }}>
-						<img src='/img/icons/basket.svg' alt='корзина' />
-					</a>
+
 				</nav>
 
 				<button
