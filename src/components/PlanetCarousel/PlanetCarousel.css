@@ -108,20 +108,3 @@
         height: 520px;
     }
 }
-
-@media (min-width: 3840px) {
-    .arrow {
-        height: 220px;
-        width: 220px;
-    }
-
-    .arrow img {
-        width: 180px;
-    }
-
-    .planet-left,
-    .planet-right {
-        width: 700px;
-        height: 700px;
-    }
-}

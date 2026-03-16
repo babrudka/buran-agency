@@ -91,12 +91,3 @@ main {
     }
 }
 
-@media (min-width: 3840px) {
-    p, a {
-        font-size: 46px;
-    }
-
-    main {
-        padding-top: 280px;
-    }
-}
