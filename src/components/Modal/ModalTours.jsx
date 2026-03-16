@@ -51,7 +51,7 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
 
     if (!tour) return null
 
-    // Если компонент вложен в Modal — форму контролирует родитель, иначе — локальный стейт
+
     const showForm = isNested ? isFormOpen : localFormOpen
     const setShowForm = isNested ? setIsFormOpen : setLocalFormOpen
 

@@ -24,7 +24,7 @@ function App() {
 
   const currentPlanet = isOnMoon ? moon : planets[planetIndex]
 
-  // Навигация по планетам: предыдущая/следующая
+
   const hasPrev = !isOnMoon && planetIndex > 0
   const hasNext = !isOnMoon && planetIndex < planets.length - 1
 
@@ -57,7 +57,7 @@ function App() {
     }
   }
 
-  // Содержимое страницы в зависимости от текущего раздела
+
   function renderPage() {
     if (page === 'planets') {
       return (

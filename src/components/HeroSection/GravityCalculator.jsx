@@ -15,11 +15,10 @@ export default function GravityCalculator({ size, id }) {
 	const centerY = radius
 	const angleRad = (LINE_ANGLE_DEG * Math.PI) / 180
 
-	// Точка на краю планеты (начало линии)
+
 	const borderX = centerX + radius * Math.cos(angleRad)
 	const borderY = centerY + radius * Math.sin(angleRad)
 
-	// Конец линии (где будет калькулятор)
 	const lineEndX = centerX + LINE_DISTANCE * radius * Math.cos(angleRad)
 	const lineEndY = centerY + LINE_DISTANCE * radius * Math.sin(angleRad)
 
