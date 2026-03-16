@@ -246,15 +246,7 @@ export default function AboutUs() {
 				</SlideIn>
 
 				<div className='equip-list'>
-					{[
-						{ icon: '/img/icons/spaceman.svg', name: 'Защитные костюмы' },
-						{ icon: '/img/icons/helmet.svg', name: 'Герметичные шлемы' },
-						{ icon: '/img/icons/tools.svg', name: 'Оборудование для экспедиций' },
-						{ icon: '/img/icons/jetpack.svg', name: 'Реактивные ранцы' },
-						{ icon: '/img/icons/boots.svg', name: 'Обувь для различных гравитационных условий' },
-						{ icon: '/img/icons/wind.svg', name: 'Кислородные баллоны разных объемов' },
-						{ icon: '/img/icons/food.svg', name: 'Наборы еды в удобных тюбиках' },
-					].map((item, itemIndex) => (
+					{equipment.map((item, itemIndex) => (
 						<SlideIn key={itemIndex} from='left' delay={0.12 * itemIndex} className='equip-item'>
 							<span className='equip-icon'><img src={item.icon} alt='' /></span>
 							<span className='equip-name'>{item.name}</span>
