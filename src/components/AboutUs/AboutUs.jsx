@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Footer from '../Footer/Footer'
 import './AboutUs.css'
 
@@ -93,6 +94,21 @@ function AnimatedCounter({ end, suffix = '' }) {
 }
 
 export default function AboutUs() {
+	const equipment =  [
+			{ icon: '/img/icons/spaceman.svg', name: 'Защитные костюмы' },
+			{ icon: '/img/icons/helmet.svg', name: 'Герметичные шлемы' },
+			{ icon: '/img/icons/tools.svg', name: 'Оборудование для экспедиций' },
+			{ icon: '/img/icons/jetpack.svg', name: 'Реактивные ранцы' },
+			{ icon: '/img/icons/boots.svg', name: 'Обувь для различных гравитационных условий' },
+			{ icon: '/img/icons/wind.svg', name: 'Кислородные баллоны разных объемов' },
+			{ icon: '/img/icons/food.svg', name: 'Наборы еды в удобных тюбиках' },
+		];
+	const bullets = [
+		{ icon: '/img/icons/home.svg', title: 'Жилые модули', desc: 'С искусственной гравитацией для комфортного проживания' },
+		{ icon: '/img/icons/telescope.svg', title: 'Обзорные палубы', desc: 'Панорамные окна для наблюдения за космосом' },
+		{ icon: '/img/icons/microscope.svg', title: 'Научные лаборатории', desc: 'Для исследований прямо на борту корабля' },
+		{ icon: '/img/icons/orbit.svg', title: 'Зоны невесомости', desc: 'Подготовка и тренировки в условиях невесомости' },
+	];
 	return (
 		<div className='about-wrap'>
 
@@ -196,12 +212,7 @@ export default function AboutUs() {
 				</SlideIn>
 
 				<div className='bullets-grid'>
-					{[
-						{ icon: '/img/icons/home.svg', title: 'Жилые модули', desc: 'С искусственной гравитацией для комфортного проживания' },
-						{ icon: '/img/icons/telescope.svg', title: 'Обзорные палубы', desc: 'Панорамные окна для наблюдения за космосом' },
-						{ icon: '/img/icons/microscope.svg', title: 'Научные лаборатории', desc: 'Для исследований прямо на борту корабля' },
-						{ icon: '/img/icons/orbit.svg', title: 'Зоны невесомости', desc: 'Подготовка и тренировки в условиях невесомости' },
-					].map((item, itemIndex) => (
+					{bullets.map((item, itemIndex) => (
 						<FadeUp key={itemIndex} delay={0.15 * itemIndex} className='bullet-card'>
 							<div className='bullet-icon'><img src={item.icon} alt='' /></div>
 							<div className='bullet-info'>
