@@ -4,7 +4,6 @@ import Header from "./components/Header/Header"
 import HeroSection from "./components/HeroSection/HeroSection"
 import PlanetCarousel from "./components/PlanetCarousel/PlanetCarousel"
 import Modal from "./components/Modal/Modal"
-import ComingSoon from "./components/ComingSoon/ComingSoon"
 import Shop from "./components/Shop/Shop"
 import AboutUs from "./components/AboutUs/AboutUs"
 import ToursCatalog from "./components/ToursCatalog/ToursCatalog"
@@ -110,11 +109,7 @@ function App() {
       )
     }
 
-    return (
-      <motion.div key='other' initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={pageTransition}>
-        <ComingSoon />
-      </motion.div>
-    )
+    return null
   }
 
   return (
