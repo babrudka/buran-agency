@@ -92,8 +92,8 @@ export default function HeroSection({ planet, onModal, onTourClick, onGoToMoon, 
       <a
         href="#"
         className="details-btn"
-        onClick={(e) => {
-          e.preventDefault()
+        onClick={(event) => {
+          event.preventDefault()
           onModal()
         }}
       >

@@ -19,7 +19,7 @@ export default function usePopulationCounter(active) {
 		timerRef.current = setInterval(() => {
 			const direction = Math.random() < 0.55 ? 1 : -1
 			const step = 1 + Math.floor(Math.random() * 3)
-			setCount(prev => prev + direction * step)
+			setCount(previousCount => previousCount + direction * step)
 		}, 150)
 
 		return () => clearInterval(timerRef.current)

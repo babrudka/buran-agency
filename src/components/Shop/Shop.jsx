@@ -10,12 +10,8 @@ function formatPrice(price) {
 }
 
 function loadCart() {
-    try {
-        const saved = localStorage.getItem('buran-cart')
-        if (saved) return JSON.parse(saved)
-    } catch {
-        // Если localStorage повреждён — начинаем с пустой корзины
-    }
+    const saved = localStorage.getItem('buran-cart')
+    if (saved) return JSON.parse(saved)
     return []
 }
 
@@ -43,14 +39,14 @@ export default function Shop() {
 
     function addToCart(item, size) {
         const key = item.id + (size || '')
-        setCart(prev => {
-            const exists = prev.find(c => c.key === key)
-            if (exists) {
-                return prev.map(c =>
-                    c.key === key ? { ...c, qty: c.qty + 1 } : c
+        setCart(previousCart => {
+            const existingItem = previousCart.find(cartItem => cartItem.key === key)
+            if (existingItem) {
+                return previousCart.map(cartItem =>
+                    cartItem.key === key ? { ...cartItem, qty: cartItem.qty + 1 } : cartItem
                 )
             }
-            return [...prev, {
+            return [...previousCart, {
                 key,
                 id: item.id,
                 name: item.name,
@@ -67,26 +63,26 @@ export default function Shop() {
     }
 
     function addOneMore(cartItem) {
-        const originalItem = items.find(it => it.id === cartItem.id)
+        const originalItem = items.find(storeItem => storeItem.id === cartItem.id)
         if (originalItem) {
             addToCart(originalItem, cartItem.size)
         }
     }
 
     function removeOne(key) {
-        setCart(prev => {
-            const item = prev.find(c => c.key === key)
-            if (item && item.qty > 1) {
-                return prev.map(c =>
-                    c.key === key ? { ...c, qty: c.qty - 1 } : c
+        setCart(previousCart => {
+            const foundItem = previousCart.find(cartItem => cartItem.key === key)
+            if (foundItem && foundItem.qty > 1) {
+                return previousCart.map(cartItem =>
+                    cartItem.key === key ? { ...cartItem, qty: cartItem.qty - 1 } : cartItem
                 )
             }
-            return prev.filter(c => c.key !== key)
+            return previousCart.filter(cartItem => cartItem.key !== key)
         })
     }
 
     function removeAll(key) {
-        setCart(prev => prev.filter(c => c.key !== key))
+        setCart(previousCart => previousCart.filter(cartItem => cartItem.key !== key))
     }
 
     function clearCart() {
@@ -103,22 +99,22 @@ export default function Shop() {
         setOrderErrors({})
     }
 
-    function handleOrderInput(e) {
-        setOrderData({ ...orderData, [e.target.name]: e.target.value })
-        setOrderErrors({ ...orderErrors, [e.target.name]: '' })
+    function handleOrderInput(event) {
+        setOrderData({ ...orderData, [event.target.name]: event.target.value })
+        setOrderErrors({ ...orderErrors, [event.target.name]: '' })
     }
 
     function validateOrder() {
-        const errors = {}
-        if (orderData.name.trim().length < 2) errors.name = 'введите ваше имя'
-        if (orderData.phone.trim().length < 6) errors.phone = 'введите ваш номер телефона'
-        if (!orderData.email.includes('@') || !orderData.email.includes('.')) errors.email = 'введите вашу электронную почту'
-        setOrderErrors(errors)
-        return Object.keys(errors).length === 0
+        const validationErrors = {}
+        if (orderData.name.trim().length < 2) validationErrors.name = 'введите ваше имя'
+        if (orderData.phone.trim().length < 6) validationErrors.phone = 'введите ваш номер телефона'
+        if (!orderData.email.includes('@') || !orderData.email.includes('.')) validationErrors.email = 'введите вашу электронную почту'
+        setOrderErrors(validationErrors)
+        return Object.keys(validationErrors).length === 0
     }
 
-    function handleOrderSubmit(e) {
-        e.preventDefault()
+    function handleOrderSubmit(event) {
+        event.preventDefault()
         if (validateOrder()) {
             setOrderSubmitted(true)
             clearCart()
@@ -157,11 +153,11 @@ export default function Shop() {
             </div>
 
             <div className='shop-grid'>
-                {filteredItems.map((item, i) => (
+                {filteredItems.map((item, itemIndex) => (
                     <ShopCard
                         key={item.id}
                         item={item}
-                        index={i}
+                        index={itemIndex}
                         onAdd={addToCart}
                         justAddedKey={justAddedKey}
                         cart={cart}
@@ -264,7 +260,7 @@ export default function Shop() {
                             initial={{ opacity: 0, scale: 0.9 }}
                             animate={{ opacity: 1, scale: 1, transition: { duration: 0.2 } }}
                             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={(event) => event.stopPropagation()}
                         >
                             <button
                                 className='modal-back'

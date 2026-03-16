@@ -19,14 +19,14 @@ export default function TourLines({ tours, planetId, size, onTourClick }) {
         if (count === 0) return
 
         let step = 0
-        const phaseShifts = tours.map((_, i) => (i / count) * Math.PI * 2)
+        const phaseShifts = tours.map((_, tourIndex) => (tourIndex / count) * Math.PI * 2)
 
         timerRef.current = setInterval(() => {
             step += 1
             setOffsets(
-                tours.map((_, i) => ({
-                    x: 8 * Math.sin(step * 0.07 + phaseShifts[i]),
-                    y: 12 * Math.cos(step * 0.07 + phaseShifts[i]),
+                tours.map((_, tourIndex) => ({
+                    x: 8 * Math.sin(step * 0.07 + phaseShifts[tourIndex]),
+                    y: 12 * Math.cos(step * 0.07 + phaseShifts[tourIndex]),
                 })),
             )
         }, 30)
@@ -49,15 +49,15 @@ export default function TourLines({ tours, planetId, size, onTourClick }) {
                 animate={{ opacity: 1, transition: { duration: 0.35, delay: 0.2 } }}
                 exit={{ opacity: 0, transition: { duration: 0.2 } }}
             >
-            {tours.map((name, i) => {
-                const angleDeg = angles[i] ?? 30
+            {tours.map((tourName, tourIndex) => {
+                const angleDeg = angles[tourIndex] ?? 30
                 const angleRad = (angleDeg * Math.PI) / 180
 
                 const startX = center + radius * Math.cos(angleRad)
                 const startY = center + radius * Math.sin(angleRad)
 
-                const endX = startX + LINE_LENGTH * radius * Math.cos(angleRad) + (offsets[i]?.x ?? 0)
-                const endY = startY + LINE_LENGTH * radius * Math.sin(angleRad) + (offsets[i]?.y ?? 0)
+                const endX = startX + LINE_LENGTH * radius * Math.cos(angleRad) + (offsets[tourIndex]?.x ?? 0)
+                const endY = startY + LINE_LENGTH * radius * Math.sin(angleRad) + (offsets[tourIndex]?.y ?? 0)
 
                 const tagWidth = 800
                 const tagHeight = 150
@@ -67,7 +67,7 @@ export default function TourLines({ tours, planetId, size, onTourClick }) {
                 const tagY = endY - 35
 
                 return (
-                    <g key={name}>
+                    <g key={tourName}>
                         <line
                             x1={startX}
                             y1={startY}
@@ -88,9 +88,9 @@ export default function TourLines({ tours, planetId, size, onTourClick }) {
                             <div
                                 xmlns='http://www.w3.org/1999/xhtml'
                                 className={`tour-tag${isRight ? ' tour-tag--right' : ''}`}
-                                onClick={() => onTourClick?.(name, i)}
+                                onClick={() => onTourClick?.(tourName, tourIndex)}
                             >
-                                Тур «{name}»
+                                Тур «{tourName}»
                             </div>
                         </foreignObject>
                     </g>

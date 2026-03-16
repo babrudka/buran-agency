@@ -87,7 +87,7 @@ export default function Modal({
             initial="hidden"
             animate="visible"
             exit="exit"
-            onClick={(e) => e.stopPropagation()}
+            onClick={(event) => event.stopPropagation()}
           >
 
             <button
@@ -183,25 +183,25 @@ export default function Modal({
                     <h1 className="modal-heading">доступные туры</h1>
 
                     <div className="modal-cards">
-                      {planet.tours?.map((tour, i) => (
+                      {planet.tours?.map((tourName, tourIndex) => (
 
                         <motion.button
                           variants={fadeInAnimation}
                           className="modal-card"
                           style={{
-                            backgroundImage: `url(${planet.tourImages?.[i]})`,
+                            backgroundImage: `url(${planet.tourImages?.[tourIndex]})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                             backgroundRepeat: "no-repeat"
                           }}
-                          key={i}
+                          key={tourIndex}
                           onClick={() => {
-                            setSelectedTour(buildTourData(planet, tour, i))
+                            setSelectedTour(buildTourData(planet, tourName, tourIndex))
                             setModalScreen("tour")
                             setIsFormOpen(false)
                           }}
                         >
-                          <h1 className="modal-name">{tour}</h1>
+                          <h1 className="modal-name">{tourName}</h1>
                         </motion.button>
 
                       ))}

@@ -9,7 +9,7 @@ import AboutUs from "./components/AboutUs/AboutUs"
 import ToursCatalog from "./components/ToursCatalog/ToursCatalog"
 import { planets, moon, buildTourData } from "./data/planets"
 
-const EARTH_INDEX = planets.findIndex(p => p.id === 'earth')
+const EARTH_INDEX = planets.findIndex(planet => planet.id === 'earth')
 
 const pageStyle = { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }
 const pageTransition = { duration: 0.25 }
@@ -35,12 +35,12 @@ function App() {
     if (isOnMoon) {
       setIsOnMoon(false)
     } else {
-      setPlanetIndex(i => i - 1)
+      setPlanetIndex(currentIndex => currentIndex - 1)
     }
   }
 
   function goNext() {
-    setPlanetIndex(i => i + 1)
+    setPlanetIndex(currentIndex => currentIndex + 1)
   }
 
   function openTourModal(tourName, tourIndex) {

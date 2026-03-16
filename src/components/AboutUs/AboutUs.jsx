@@ -210,8 +210,8 @@ export default function AboutUs() {
 						{ icon: '/img/icons/telescope.svg', title: 'Обзорные палубы', desc: 'Панорамные окна для наблюдения за космосом' },
 						{ icon: '/img/icons/microscope.svg', title: 'Научные лаборатории', desc: 'Для исследований прямо на борту корабля' },
 						{ icon: '/img/icons/orbit.svg', title: 'Зоны невесомости', desc: 'Подготовка и тренировки в условиях невесомости' },
-					].map((item, i) => (
-						<FadeUp key={i} delay={0.15 * i} className='bullet-card'>
+					].map((item, itemIndex) => (
+						<FadeUp key={itemIndex} delay={0.15 * itemIndex} className='bullet-card'>
 							<div className='bullet-icon'><img src={item.icon} alt='' /></div>
 							<div className='bullet-info'>
 								<div className='bullet-title'>{item.title}</div>
@@ -253,8 +253,8 @@ export default function AboutUs() {
 						{ icon: '/img/icons/boots.svg', name: 'Обувь для различных гравитационных условий' },
 						{ icon: '/img/icons/wind.svg', name: 'Кислородные баллоны разных объемов' },
 						{ icon: '/img/icons/food.svg', name: 'Наборы еды в удобных тюбиках' },
-					].map((item, i) => (
-						<SlideIn key={i} from='left' delay={0.12 * i} className='equip-item'>
+					].map((item, itemIndex) => (
+						<SlideIn key={itemIndex} from='left' delay={0.12 * itemIndex} className='equip-item'>
 							<span className='equip-icon'><img src={item.icon} alt='' /></span>
 							<span className='equip-name'>{item.name}</span>
 						</SlideIn>

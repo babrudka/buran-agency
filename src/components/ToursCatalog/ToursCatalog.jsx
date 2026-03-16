@@ -9,22 +9,22 @@ const SPEED = 578
 
 const allPlanets = [moon, ...planets]
 
-const tours = allPlanets.flatMap(p =>
-    (p.tours || []).map((name, i) => ({
-        ...buildTourData(p, name, i),
-        planet: p.id,
-        img: p.image,
-        temp: p.temp,
-        flyTime: p.distance / SPEED,
+const tours = allPlanets.flatMap(planet =>
+    (planet.tours || []).map((tourName, tourIndex) => ({
+        ...buildTourData(planet, tourName, tourIndex),
+        planet: planet.id,
+        img: planet.image,
+        temp: planet.temp,
+        flyTime: planet.distance / SPEED,
     }))
 )
 
 
-const planetList = allPlanets.filter(p => p.tours && p.tours.length > 0)
+const planetList = allPlanets.filter(planet => planet.tours && planet.tours.length > 0)
 
 const MIN_TEMP = -224
 const MAX_TEMP = 460
-const MAX_FLY_TIME = Math.max(...tours.map(t => t.flyTime))
+const MAX_FLY_TIME = Math.max(...tours.map(tour => tour.flyTime))
 
 function formatFlightTime(seconds) {
     if (seconds === 0) return 'Вы здесь'
@@ -43,26 +43,26 @@ function formatTemperature(degrees) {
 }
 
 function Slider({ min, max, value, onChange, step = 1 }) {
-    const [low, high] = value
-    const left = ((low - min) / (max - min)) * 100
-    const right = ((high - min) / (max - min)) * 100
+    const [lowValue, highValue] = value
+    const leftPercent = ((lowValue - min) / (max - min)) * 100
+    const rightPercent = ((highValue - min) / (max - min)) * 100
 
     return (
         <div className='range'>
             <div className='range-track' />
             <div
                 className='range-fill'
-                style={{ left: `${left}%`, right: `${100 - right}%` }}
+                style={{ left: `${leftPercent}%`, right: `${100 - rightPercent}%` }}
             />
             <input
                 type='range'
                 min={min}
                 max={max}
                 step={step}
-                value={low}
-                onChange={e => {
-                    const newLow = Number(e.target.value)
-                    if (newLow <= high) onChange([newLow, high])
+                value={lowValue}
+                onChange={event => {
+                    const newLowValue = Number(event.target.value)
+                    if (newLowValue <= highValue) onChange([newLowValue, highValue])
                 }}
             />
             <input
@@ -70,10 +70,10 @@ function Slider({ min, max, value, onChange, step = 1 }) {
                 min={min}
                 max={max}
                 step={step}
-                value={high}
-                onChange={e => {
-                    const newHigh = Number(e.target.value)
-                    if (newHigh >= low) onChange([low, newHigh])
+                value={highValue}
+                onChange={event => {
+                    const newHighValue = Number(event.target.value)
+                    if (newHighValue >= lowValue) onChange([lowValue, newHighValue])
                 }}
             />
         </div>
@@ -82,10 +82,10 @@ function Slider({ min, max, value, onChange, step = 1 }) {
 
 const cardAnimation = {
     hidden: { opacity: 0, y: 20 },
-    visible: i => ({
+    visible: cardIndex => ({
         opacity: 1,
         y: 0,
-        transition: { delay: i * 0.04, duration: 0.3 },
+        transition: { delay: cardIndex * 0.04, duration: 0.3 },
     }),
 }
 
@@ -103,15 +103,15 @@ export default function ToursCatalog() {
         setTourModalOpen(true)
     }
 
-    const togglePlanet = useCallback(id => {
-        setSelectedPlanets(prev => {
-            const updated = new Set(prev)
-            if (updated.has(id)) {
-                updated.delete(id)
+    const togglePlanet = useCallback(planetId => {
+        setSelectedPlanets(previousSelection => {
+            const updatedSelection = new Set(previousSelection)
+            if (updatedSelection.has(planetId)) {
+                updatedSelection.delete(planetId)
             } else {
-                updated.add(id)
+                updatedSelection.add(planetId)
             }
-            return updated
+            return updatedSelection
         })
     }, [])
 
@@ -194,12 +194,12 @@ export default function ToursCatalog() {
 
                 <div className='grid'>
 
-                    {filteredTours.map((tour, i) => (
+                    {filteredTours.map((tour, cardIndex) => (
 
                         <motion.div
                             key={`${tour.planet}-${tour.name}`}
                             className='card'
-                            custom={i}
+                            custom={cardIndex}
                             initial='hidden'
                             animate='visible'
                             variants={cardAnimation}

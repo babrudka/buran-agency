@@ -83,7 +83,7 @@ export default function GravityCalculator({ size, id }) {
 										className='gravity-input'
 										placeholder='70'
 										value={weight}
-										onChange={e => setWeight(e.target.value)}
+										onChange={event => setWeight(event.target.value)}
 									/>
 									<span className='gravity-unit'>кг</span>
 								</div>

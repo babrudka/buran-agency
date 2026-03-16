@@ -50,7 +50,7 @@ export default function Header({ currentView, onNavigate }) {
 							key={item.id}
 							href='#'
 							className={`nav-link${currentView === item.id ? ' active' : ''}`}
-							onClick={(e) => { e.preventDefault(); handleNav(item.id) }}
+							onClick={(event) => { event.preventDefault(); handleNav(item.id) }}
 						>
 							{item.label}
 						</a>
@@ -59,7 +59,7 @@ export default function Header({ currentView, onNavigate }) {
 
 				<button
 					className={`menu-btn ${menuOpen ? 'active' : ''}`}
-					onClick={() => setMenuOpen(prev => !prev)}
+					onClick={() => setMenuOpen(previousState => !previousState)}
 				>
 					<span className='line line-1'></span>
 					<span className='line line-2'></span>
@@ -81,7 +81,7 @@ export default function Header({ currentView, onNavigate }) {
 										key={item.id}
 										href='#'
 										className={`menu-link${currentView === item.id ? ' active' : ''}`}
-										onClick={(e) => { e.preventDefault(); handleNav(item.id) }}
+										onClick={(event) => { event.preventDefault(); handleNav(item.id) }}
 									>
 										{item.label}
 									</a>

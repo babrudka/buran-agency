@@ -56,9 +56,9 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
     const setShowForm = isNested ? setIsFormOpen : setLocalFormOpen
 
 
-    function handleInputChange(e) {
-        setFormData({ ...formData, [e.target.name]: e.target.value })
-        setErrors({ ...errors, [e.target.name]: '' })
+    function handleInputChange(event) {
+        setFormData({ ...formData, [event.target.name]: event.target.value })
+        setErrors({ ...errors, [event.target.name]: '' })
     }
 
     function validateForm() {
@@ -77,8 +77,8 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
         return Object.keys(newErrors).length === 0
     }
 
-    function handleSubmit(e) {
-        e.preventDefault()
+    function handleSubmit(event) {
+        event.preventDefault()
         if (validateForm()) setSubmitted(true)
     }
 
@@ -244,7 +244,7 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(event) => event.stopPropagation()}
             >
                 {showForm ? formContent : content}
             </motion.div>
@@ -266,13 +266,13 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(event) => event.stopPropagation()}
             >
 
                 <button
                     className="modal-back"
-                    onClick={(e) => {
-                        e.stopPropagation()
+                    onClick={(event) => {
+                        event.stopPropagation()
                         if (showForm) {
                             setShowForm(false)
                             setSubmitted(false)

@@ -88,8 +88,8 @@ export default function PlanetNameLine({ size, name, id, subtitle, showPin, fact
 						className="display-overlay"
 					>
 						<div xmlns="http://www.w3.org/1999/xhtml" className="facts">
-							{facts.map((fact, i) => (
-								<div key={i} className="fact">
+							{facts.map((fact, factIndex) => (
+								<div key={factIndex} className="fact">
 									<img
 										src={`/img/icons/${fact.icon}`}
 										className="fact-icon"
