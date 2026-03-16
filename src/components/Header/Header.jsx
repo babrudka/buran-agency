@@ -18,7 +18,7 @@ export default function Header({ currentView, onNavigate }) {
 	}
 
 	return (
-		<>
+		<div className='header-wrapper'>
 			<div className='location'>
 				<svg
 					width='12'
@@ -92,6 +92,6 @@ export default function Header({ currentView, onNavigate }) {
 				</AnimatePresence>
 			</header>
 			<p className='subtitle'>межпланетное туристическое агентство</p>
-		</>
+		</div>
 	)
 }

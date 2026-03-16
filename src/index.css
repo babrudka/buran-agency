@@ -58,6 +58,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    padding-top: 155px;
 }
 
 main {
@@ -68,14 +69,34 @@ main {
     flex: 1;
 }
 
+@media (max-width: 1200px) {
+    #root > div {
+        padding-top: 120px;
+    }
+}
+
+@media (max-width: 790px) {
+    #root > div {
+        padding-top: 105px;
+    }
+}
+
 @media (min-width: 2560px) {
     p, a {
         font-size: 28px;
+    }
+
+    #root > div {
+        padding-top: 200px;
     }
 }
 
 @media (min-width: 3840px) {
     p, a {
         font-size: 46px;
+    }
+
+    #root > div {
+        padding-top: 280px;
     }
 }
