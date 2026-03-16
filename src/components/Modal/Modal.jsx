@@ -1,7 +1,7 @@
 import "./Modal.css"
 import ModalTours from "./ModalTours"
 import { AnimatePresence, motion } from "framer-motion"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { buildTourData, getScoreColor, getStatColor } from "../../data/planets"
 
 const popupAnimation = {
@@ -52,11 +52,14 @@ export default function Modal({
   setSelectedTour
 }) {
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const [previousIsOpen, setPreviousIsOpen] = useState(isOpen)
+  const [previousSelectedTour, setPreviousSelectedTour] = useState(selectedTour)
 
-  // Когда модалка открывается/закрывается или меняется тур — сбрасываем форму
-  useEffect(() => {
+  if (previousIsOpen !== isOpen || previousSelectedTour !== selectedTour) {
+    setPreviousIsOpen(isOpen)
+    setPreviousSelectedTour(selectedTour)
     setIsFormOpen(false)
-  }, [isOpen, selectedTour])
+  }
 
   if (!planet) return null
 
