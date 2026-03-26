@@ -8,22 +8,28 @@ import './ToursCatalog.css'
 const allPlanets = [moon, ...planets]
 
 const tours = allPlanets.flatMap(planet =>
-    (planet.tours || []).map((tourName, tourIndex) => ({
-        ...buildTourData(planet, tourName, tourIndex)
-    }))
+    (planet.tours || []).map((tourName, tourIndex) => {
+        const data = buildTourData(planet, tourName, tourIndex)
+        return {
+            ...data,
+            planetId: planet.id,
+            temp: Number(data.temp),
+            flyTime: Number(data.flyTime),
+            stayTime: Number(data.stayTime || 0),
+            totalDuration: Number(data.totalDuration || 0)
+        }
+    })
 )
 
 const planetList = allPlanets.filter(planet => planet.tours && planet.tours.length > 0)
 
-const MIN_TEMP = -224
-const MAX_TEMP = 460
-const MAX_FLY_TIME = Math.max(...tours.map(tour => tour.flyTime))
-
-const MIN_STAY = Math.min(...tours.map(tour => tour.stayTime || 0))
-const MAX_STAY = Math.max(...tours.map(tour => tour.stayTime || 0))
-
-const MIN_TOTAL = Math.min(...tours.map(tour => tour.totalDuration || 0))
-const MAX_TOTAL = Math.max(...tours.map(tour => tour.totalDuration || 0))
+const MIN_TEMP = Math.min(...tours.map(t => t.temp))
+const MAX_TEMP = Math.max(...tours.map(t => t.temp))
+const MAX_FLY_TIME = Math.ceil(Math.max(...tours.map(t => t.flyTime)))
+const MIN_STAY = Math.floor(Math.min(...tours.map(t => t.stayTime)))
+const MAX_STAY = Math.ceil(Math.max(...tours.map(t => t.stayTime)))
+const MIN_TOTAL = Math.floor(Math.min(...tours.map(t => t.totalDuration)))
+const MAX_TOTAL = Math.ceil(Math.max(...tours.map(t => t.totalDuration)))
 
 function formatTemperature(degrees) {
     return `${degrees > 0 ? '+' : ''}${degrees}°C`
@@ -47,9 +53,11 @@ function Slider({ min, max, value, onChange, step = 1 }) {
                 max={max}
                 step={step}
                 value={lowValue}
+                className="range-input"
+                style={{ zIndex: lowValue > max / 2 ? 5 : 4 }}
                 onChange={event => {
-                    const newLowValue = Number(event.target.value)
-                    if (newLowValue <= highValue) onChange([newLowValue, highValue])
+                    const val = Number(event.target.value)
+                    if (val <= highValue) onChange([val, highValue])
                 }}
             />
             <input
@@ -58,9 +66,11 @@ function Slider({ min, max, value, onChange, step = 1 }) {
                 max={max}
                 step={step}
                 value={highValue}
+                className="range-input"
+                style={{ zIndex: highValue < max / 2 ? 5 : 4 }}
                 onChange={event => {
-                    const newHighValue = Number(event.target.value)
-                    if (newHighValue >= lowValue) onChange([lowValue, newHighValue])
+                    const val = Number(event.target.value)
+                    if (val >= lowValue) onChange([lowValue, val])
                 }}
             />
         </div>
@@ -77,7 +87,6 @@ const cardAnimation = {
 }
 
 export default function ToursCatalog() {
-
     const [selectedPlanets, setSelectedPlanets] = useState(new Set())
     const [temperatureRange, setTemperatureRange] = useState([MIN_TEMP, MAX_TEMP])
     const [flyTimeRange, setFlyTimeRange] = useState([0, MAX_FLY_TIME])
@@ -106,25 +115,18 @@ export default function ToursCatalog() {
 
     const filteredTours = useMemo(() => {
         return tours.filter(tour => {
-            if (selectedPlanets.size > 0 && !selectedPlanets.has(tour.planet)) return false
+            if (selectedPlanets.size > 0 && !selectedPlanets.has(tour.planetId)) return false
             if (tour.temp < temperatureRange[0] || tour.temp > temperatureRange[1]) return false
             if (tour.flyTime < flyTimeRange[0] || tour.flyTime > flyTimeRange[1]) return false
-
-            const stay = tour.stayTime || 0
-            if (stay < stayRange[0] || stay > stayRange[1]) return false
-
-            const total = tour.totalDuration || 0
-            if (total < totalRange[0] || total > totalRange[1]) return false
-
+            if (tour.stayTime < stayRange[0] || tour.stayTime > stayRange[1]) return false
+            if (tour.totalDuration < totalRange[0] || tour.totalDuration > totalRange[1]) return false
             return true
         })
     }, [selectedPlanets, temperatureRange, flyTimeRange, stayRange, totalRange])
 
     return (
         <div className='catalog'>
-
             <div className='filters'>
-
                 <div className='chips'>
                     {planetList.map(planet => (
                         <button
@@ -138,7 +140,6 @@ export default function ToursCatalog() {
                 </div>
 
                 <div className='filters-row'>
-
                     <div className='slider-box'>
                         <span className='slider-name'>Температура</span>
                         <Slider
@@ -160,20 +161,18 @@ export default function ToursCatalog() {
                             max={MAX_FLY_TIME}
                             value={flyTimeRange}
                             onChange={setFlyTimeRange}
-                            step={60}
+                            step={1}
                         />
                         <div className='slider-nums'>
                             <span>{formatDuration(flyTimeRange[0])}</span>
                             <span>{formatDuration(flyTimeRange[1])}</span>
                         </div>
-
                         <div className='hint'>
                             <span className='hint-icon'>i</span>
                             <span className='hint-text'>
                                 Скорость полёта на сверхбыстрой ракете ТАЙФУН 578 км/с
                             </span>
                         </div>
-
                     </div>
 
                     <div className='slider-box'>
@@ -203,25 +202,18 @@ export default function ToursCatalog() {
                             <span>{formatDuration(totalRange[1])}</span>
                         </div>
                     </div>
-
                 </div>
-
             </div>
 
             {filteredTours.length === 0 ? (
-
                 <div className='empty'>
                     Нет туров по заданным фильтрам
                 </div>
-
             ) : (
-
                 <div className='grid'>
-
                     {filteredTours.map((tour, cardIndex) => (
-
                         <motion.div
-                            key={`${tour.planet}-${tour.name}`}
+                            key={`${tour.planetId}-${tour.name}-${tour.totalDuration}`}
                             className='card'
                             custom={cardIndex}
                             initial='hidden'
@@ -229,48 +221,27 @@ export default function ToursCatalog() {
                             variants={cardAnimation}
                             onClick={() => openTour(tour)}
                         >
-
                             <img
                                 className='card-img'
                                 src={tour.img}
                                 alt={tour.planetName}
                             />
-
                             <div className='card-info'>
-
-                                <div className='card-name'>
-                                    {tour.name}
-                                </div>
-
-                                <div className='card-planet'>
-                                    {tour.planetName}
-                                </div>
-
+                                <div className='card-name'>{tour.name}</div>
+                                <div className='card-planet'>{tour.planetName}</div>
                                 <div className='card-meta'>
-
                                     <span className='meta-item'>
-                                        <img
-                                            className='meta-icon'
-                                            src='/img/icons/temp.svg'
-                                            alt=''
-                                        />
+                                        <img className='meta-icon' src='/img/icons/temp.svg' alt='' />
                                         {formatTemperature(tour.temp)}
                                     </span>
-
                                     <span className='meta-item'>
                                         {formatDuration(tour.flyTime)}
                                     </span>
-
                                 </div>
-
                             </div>
-
                         </motion.div>
-
                     ))}
-
                 </div>
-
             )}
 
             <Footer />
@@ -284,7 +255,6 @@ export default function ToursCatalog() {
                     />
                 )}
             </AnimatePresence>
-
         </div>
     )
 }
