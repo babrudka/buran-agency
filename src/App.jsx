@@ -121,6 +121,10 @@ function App() {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onGoToShop={() => {
+          setPage("shop")
+          setIsModalOpen(false)
+        }}
         planet={currentPlanet}
         modalScreen={modalScreen}
         setModalScreen={setModalScreen}

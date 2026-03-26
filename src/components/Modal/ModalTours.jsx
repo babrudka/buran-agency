@@ -1,6 +1,7 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { getScoreColor } from "../../data/planets"
+import { items } from "../../data/items"
 import "./Modal.css"
 
 const popupAnimation = {
@@ -39,7 +40,16 @@ const nestedAnimation = {
     exit: { opacity: 0, y: -10 }
 }
 
-export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsFormOpen }) {
+function formatPrice(price) {
+    return `${price.toLocaleString("ru-RU")} ₽`
+}
+
+function getDefaultSize(item) {
+    if (!item.sizes?.length) return null
+    return item.sizes[Math.floor(item.sizes.length / 2)]
+}
+
+export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsFormOpen, onGoToShop }) {
     const [isLocalFormOpen, setIsLocalFormOpen] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [formData, setFormData] = useState({
@@ -53,6 +63,10 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
 
     const isFormVisible = isNested ? isFormOpen : isLocalFormOpen
     const setFormVisible = isNested ? setIsFormOpen : setIsLocalFormOpen
+    const recommendedGear = (tour.recommendedGearIds || [])
+        .map(itemId => items.find(item => item.id === itemId))
+        .filter(Boolean)
+        .slice(0, 3)
 
     function handleInputChange(event) {
         setFormData({ ...formData, [event.target.name]: event.target.value })
@@ -85,6 +99,40 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
         setIsSubmitted(false)
         setFormData({ name: '', phone: '', email: '' })
         setFormErrors({})
+    }
+
+    function addToCart(item) {
+        const size = getDefaultSize(item)
+        const key = `${item.id}${size || ""}`
+        let savedCart = []
+
+        try {
+            const saved = localStorage.getItem("buran-cart")
+            savedCart = saved ? JSON.parse(saved) : []
+        } catch {
+            savedCart = []
+        }
+
+        const existingItem = savedCart.find(cartItem => cartItem.key === key)
+        const nextCart = existingItem
+            ? savedCart.map(cartItem =>
+                cartItem.key === key ? { ...cartItem, qty: cartItem.qty + 1 } : cartItem
+            )
+            : [
+                ...savedCart,
+                {
+                    key,
+                    id: item.id,
+                    name: item.name,
+                    icon: item.icon,
+                    img: item.img,
+                    price: item.price,
+                    size,
+                    qty: 1
+                }
+            ]
+
+        localStorage.setItem("buran-cart", JSON.stringify(nextCart))
     }
 
     const formContent = (
@@ -213,6 +261,37 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                                 <span>Время на планете: {tour.stayTimeStr}</span>
                             </div>
                         </motion.div>
+                    )}
+
+                    {recommendedGear.length > 0 && (
+                        <motion.section variants={fadeInAnimation} className="modal-gear">
+                            <h2 className="modal-gear-title">Рекомендуемая экипировка</h2>
+                            <div className="modal-gear-grid">
+                                {recommendedGear.map(gearItem => (
+                                    <article key={gearItem.id} className="modal-gear-card">
+                                        <p className="modal-gear-name">{gearItem.name}</p>
+                                        <p className="modal-gear-meta">{gearItem.category}</p>
+                                        <p className="modal-gear-price">{formatPrice(gearItem.price)}</p>
+                                        <button
+                                            type="button"
+                                            className="modal-gear-add-btn"
+                                            onClick={() => addToCart(gearItem)}
+                                        >
+                                            в корзину
+                                        </button>
+                                    </article>
+                                ))}
+                            </div>
+                            {typeof onGoToShop === "function" && (
+                                <button
+                                    type="button"
+                                    className="modal-gear-catalog-btn"
+                                    onClick={onGoToShop}
+                                >
+                                    перейти в каталог экипировки
+                                </button>
+                            )}
+                        </motion.section>
                     )}
                     
                     <motion.button 

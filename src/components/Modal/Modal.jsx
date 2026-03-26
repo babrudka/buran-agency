@@ -42,9 +42,35 @@ const screenAnimation = {
   exit: { opacity: 0, transition: { duration: 0.15 } }
 }
 
+const scienceListAnimation = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.08
+    }
+  }
+}
+
+const scienceItemAnimation = {
+  hidden: () => ({
+    opacity: 0,
+    y: 12
+  }),
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.35,
+      ease: "easeOut"
+    }
+  }
+}
+
 export default function Modal({
   isOpen,
   onClose,
+  onGoToShop,
   planet,
   modalScreen,
   setModalScreen,
@@ -74,6 +100,25 @@ export default function Modal({
     { key: "temperatureRange", label: "Температурный режим", value: planet.details?.temperatureRange },
     { key: "features", label: "Особенности", value: planet.details?.features }
   ].filter(detail => detail.value)
+
+  function renderScienceValue(detail) {
+    if (Array.isArray(detail.value)) {
+      return (
+        <ul className="modal-science-chem-list">
+          {detail.value.map((item, itemIndex) => (
+            <li
+              key={`${detail.key}-${itemIndex}`}
+              className={`modal-science-chem-item ${item?.tone ? `is-${item.tone}` : ""}`}
+            >
+              {typeof item === "string" ? item : item.text}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    return <p className="modal-science-value">{detail.value}</p>
+  }
 
   return (
     <AnimatePresence>
@@ -190,15 +235,28 @@ export default function Modal({
                   <motion.section variants={fadeInAnimation} className="modal-tours">
                     {scientificDetails.length > 0 && (
                       <motion.section variants={fadeInAnimation} className="modal-science">
-                        <h1 className="modal-heading">научная справка</h1>
-                        <div className="modal-science-list">
-                          {scientificDetails.map((detail) => (
-                            <article key={detail.key} className="modal-science-item">
+                        <h1 className="modal-heading modal-heading-science">научная справка</h1>
+                        <motion.div
+                          className="modal-science-list"
+                          variants={scienceListAnimation}
+                          initial="hidden"
+                          whileInView="visible"
+                          viewport={{ once: true, amount: 0.25 }}
+                        >
+                          {scientificDetails.map((detail, index) => (
+                            <motion.article
+                              key={detail.key}
+                              className="modal-science-item"
+                              variants={scienceItemAnimation}
+                              custom={index}
+                              whileHover={{ y: -2 }}
+                              transition={{ duration: 0.2 }}
+                            >
                               <h2 className="modal-science-label">{detail.label}</h2>
-                              <p className="modal-science-value">{detail.value}</p>
-                            </article>
+                              {renderScienceValue(detail)}
+                            </motion.article>
                           ))}
-                        </div>
+                        </motion.div>
                       </motion.section>
                     )}
 
@@ -245,6 +303,7 @@ export default function Modal({
                   <ModalTours
                     key={selectedTour?.name}
                     tour={selectedTour}
+                    onGoToShop={onGoToShop}
                     isNested={true}
                     isFormOpen={isFormOpen}
                     setIsFormOpen={setIsFormOpen}

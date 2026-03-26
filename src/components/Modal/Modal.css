@@ -167,26 +167,112 @@
 .modal-science {
     width: 100%;
     margin-bottom: 22px;
+    border: 1px solid rgba(184, 192, 201, 0.34);
+    border-radius: 14px;
+    padding: 14px;
+    background:
+        linear-gradient(rgba(20, 18, 12, 0.72), rgba(20, 18, 12, 0.72)),
+        repeating-linear-gradient(
+            to bottom,
+            rgba(180, 188, 198, 0.11) 0px,
+            rgba(180, 188, 198, 0.11) 1px,
+            transparent 1px,
+            transparent 26px
+        ),
+        radial-gradient(130% 100% at 50% 0%, rgba(166, 176, 188, 0.18) 0%, rgba(92, 100, 110, 0.1) 46%, rgba(20, 22, 24, 0.18) 100%);
+    box-shadow:
+        inset 0 0 0 1px rgba(213, 220, 230, 0.08),
+        0 10px 24px rgba(0, 0, 0, 0.35);
+    position: relative;
+}
+
+.modal-science::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 34px;
+    width: 1px;
+    background: rgba(255, 110, 110, 0.22);
+    pointer-events: none;
+}
+
+.modal-science::after {
+    content: "актуальные данные";
+    position: absolute;
+    right: 12px;
+    top: 10px;
+    font-family: 'UNCAGE';
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: rgba(211, 219, 227, 0.52);
 }
 
 .modal-science-list {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
     width: 100%;
 }
 
 .modal-science-item {
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(188, 198, 210, 0.34);
+    background:
+        linear-gradient(0deg, rgba(28, 24, 18, 0.82), rgba(28, 24, 18, 0.82)),
+        linear-gradient(120deg, rgba(184, 195, 208, 0.1), rgba(95, 106, 118, 0.08));
     border-radius: 10px;
-    padding: 12px 14px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        inset 0 1px 0 rgba(221, 229, 239, 0.16),
+        inset 0 -1px 0 rgba(14, 12, 9, 0.75),
+        0 8px 18px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+
+
+
+
+.modal-science-item > * {
+    position: relative;
+    z-index: 1;
+}
+
+.modal-science-item:hover {
+    border-color: rgba(218, 228, 238, 0.58);
+    box-shadow:
+        inset 0 1px 0 rgba(230, 237, 246, 0.2),
+        inset 0 -1px 0 rgba(12, 10, 7, 0.85),
+        0 10px 24px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(216, 225, 235, 0.2);
+    transform: translateY(-2px);
+}
+
+.modal-science-item:nth-child(odd) {
+    transform: rotate(-0.35deg);
+}
+
+.modal-science-item:nth-child(even) {
+    transform: rotate(0.35deg);
+}
+
+.modal-science-item:nth-child(odd):hover,
+.modal-science-item:nth-child(even):hover {
+    transform: translateY(-2px) rotate(0deg);
 }
 
 .modal-science-label {
     font-family: 'Widock';
     font-size: 19px;
-    margin: 0 0 4px;
+    margin: 0 0 10px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #d2dbe4;
+
     font-weight: 400;
 }
 
@@ -195,14 +281,68 @@
     font-size: 14px;
     line-height: 1.45;
     margin: 0;
-    opacity: 0.9;
+    opacity: 0.95;
+    text-align: left;
+    color: #dfe6ee;
+}
+
+.modal-science-chem-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.modal-science-chem-item {
+    font-family: 'UNCAGE';
+    font-size: 14px;
+    line-height: 1.35;
+    opacity: 0.95;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #dfe6ee;
+}
+
+.modal-science-chem-item::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    margin-top: 5px;
+    background: #57d7ff;
+    box-shadow: 0 0 10px rgba(87, 215, 255, 0.7);
+    flex-shrink: 0;
+}
+
+.modal-science-chem-item.is-hot::before {
+    background: #ff5555;
+    box-shadow: 0 0 10px rgba(255, 85, 85, 0.75);
+}
+
+.modal-science-chem-item.is-cold::before {
+    background: #57d7ff;
+    box-shadow: 0 0 10px rgba(87, 215, 255, 0.75);
 }
 
 .modal-heading {
     font-family: 'Widock';
     font-size: 24px;
-    margin-bottom: 14px;
+    margin-top: 12px;
+    margin-bottom: 24px;
     text-align: center;
+}
+
+.modal-heading-science {
+    font-family: 'UNCAGE';
+    font-size: 22px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #d6dee8;
+    text-shadow: 0 0 10px rgba(194, 206, 220, 0.22);
+    margin-top: 4px;
 }
 
 .modal-cards {
@@ -328,6 +468,92 @@ align-self: center;
     line-height: 1.6;
     opacity: 0.85;
     margin: 0;
+}
+
+.modal-gear {
+    margin-top: 8px;
+}
+
+.modal-gear-title {
+    margin: 0 0 10px;
+    font-family: 'Widock';
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.modal-gear-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.modal-gear-card {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.modal-gear-name {
+    margin: 0;
+    font-family: 'Widock';
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+.modal-gear-meta {
+    margin: 0;
+    font-family: 'UNCAGE';
+    font-size: 12px;
+    opacity: 0.75;
+    text-transform: lowercase;
+}
+
+.modal-gear-price {
+    margin: 0;
+    font-family: 'UNCAGE';
+    font-size: 16px;
+}
+
+.modal-gear-add-btn {
+    margin-top: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.26);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    font-family: 'UNCAGE';
+    font-size: 13px;
+    text-transform: lowercase;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.modal-gear-add-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+.modal-gear-catalog-btn {
+    margin-top: 12px;
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    font-family: 'UNCAGE';
+    font-size: 14px;
+    text-transform: lowercase;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.modal-gear-catalog-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: translateY(-1px);
 }
 
 .modal-btn {
@@ -463,14 +689,26 @@ align-self: center;
     .modal-popup {
         width: 340px;
     }
+    .modal-science-list {
+        grid-template-columns: 1fr;
+    }
     .modal-card {
         width: 200px;
+    }
+    .modal-gear-grid {
+        grid-template-columns: 1fr;
     }
 }
 
 @media (min-width: 824px) {
     .modal-popup {
         width: 700px;
+    }
+}
+
+@media (max-width: 934px) {
+    .modal-gear-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
