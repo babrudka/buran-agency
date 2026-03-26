@@ -66,6 +66,14 @@ export default function Modal({
   const climatePercent = planet.stats?.climate
   const temperaturePercent = planet.stats?.temperature
   const distancePercent = planet.stats?.distance
+  const scientificDetails = [
+    { key: "area", label: "Площадь", value: planet.details?.area },
+    { key: "atmosphere", label: "Состав атмосферы", value: planet.details?.atmosphere },
+    { key: "composition", label: "Состав планеты", value: planet.details?.composition },
+    { key: "gravity", label: "Гравитация", value: planet.details?.gravity },
+    { key: "temperatureRange", label: "Температурный режим", value: planet.details?.temperatureRange },
+    { key: "features", label: "Особенности", value: planet.details?.features }
+  ].filter(detail => detail.value)
 
   return (
     <AnimatePresence>
@@ -180,6 +188,20 @@ export default function Modal({
                   </motion.div>
 
                   <motion.section variants={fadeInAnimation} className="modal-tours">
+                    {scientificDetails.length > 0 && (
+                      <motion.section variants={fadeInAnimation} className="modal-science">
+                        <h1 className="modal-heading">научная справка</h1>
+                        <div className="modal-science-list">
+                          {scientificDetails.map((detail) => (
+                            <article key={detail.key} className="modal-science-item">
+                              <h2 className="modal-science-label">{detail.label}</h2>
+                              <p className="modal-science-value">{detail.value}</p>
+                            </article>
+                          ))}
+                        </div>
+                      </motion.section>
+                    )}
+
                     <h1 className="modal-heading">доступные туры</h1>
 
                     <div className="modal-cards">

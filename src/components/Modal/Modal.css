@@ -164,6 +164,40 @@
     margin-top: 20px;
 }
 
+.modal-science {
+    width: 100%;
+    margin-bottom: 22px;
+}
+
+.modal-science-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    width: 100%;
+}
+
+.modal-science-item {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    padding: 12px 14px;
+}
+
+.modal-science-label {
+    font-family: 'Widock';
+    font-size: 19px;
+    margin: 0 0 4px;
+    font-weight: 400;
+}
+
+.modal-science-value {
+    font-family: 'UNCAGE';
+    font-size: 14px;
+    line-height: 1.45;
+    margin: 0;
+    opacity: 0.9;
+}
+
 .modal-heading {
     font-family: 'Widock';
     font-size: 24px;
