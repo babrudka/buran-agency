@@ -195,7 +195,7 @@ export const planets = [
             {
                 icon: 'temp.svg',
                 title: 'Лучшая для жизни планета',
-                description: 'Температура всреднем 15°C',
+                description: 'Температура в среднем 15°C',
             },
             {
                 icon: 'messages.svg',
