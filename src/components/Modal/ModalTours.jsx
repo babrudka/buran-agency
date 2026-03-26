@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { getScoreColor } from "../../data/planets"
 import { items } from "../../data/items"
 import "./Modal.css"
@@ -58,6 +58,7 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
         email: ''
     })
     const [formErrors, setFormErrors] = useState({})
+    const [cartItems, setCartItems] = useState([])
 
     if (!tour) return null
 
@@ -67,6 +68,15 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
         .map(itemId => items.find(item => item.id === itemId))
         .filter(Boolean)
         .slice(0, 3)
+
+    useEffect(() => {
+        try {
+            const saved = localStorage.getItem("buran-cart")
+            setCartItems(saved ? JSON.parse(saved) : [])
+        } catch {
+            setCartItems([])
+        }
+    }, [])
 
     function handleInputChange(event) {
         setFormData({ ...formData, [event.target.name]: event.target.value })
@@ -104,22 +114,13 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
     function addToCart(item) {
         const size = getDefaultSize(item)
         const key = `${item.id}${size || ""}`
-        let savedCart = []
-
-        try {
-            const saved = localStorage.getItem("buran-cart")
-            savedCart = saved ? JSON.parse(saved) : []
-        } catch {
-            savedCart = []
-        }
-
-        const existingItem = savedCart.find(cartItem => cartItem.key === key)
+        const existingItem = cartItems.find(cartItem => cartItem.key === key)
         const nextCart = existingItem
-            ? savedCart.map(cartItem =>
+            ? cartItems.map(cartItem =>
                 cartItem.key === key ? { ...cartItem, qty: cartItem.qty + 1 } : cartItem
             )
             : [
-                ...savedCart,
+                ...cartItems,
                 {
                     key,
                     id: item.id,
@@ -133,6 +134,31 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
             ]
 
         localStorage.setItem("buran-cart", JSON.stringify(nextCart))
+        setCartItems(nextCart)
+    }
+
+    function removeOneFromCart(item) {
+        const size = getDefaultSize(item)
+        const key = `${item.id}${size || ""}`
+        const foundItem = cartItems.find(cartItem => cartItem.key === key)
+
+        if (!foundItem) return
+
+        const nextCart = foundItem.qty > 1
+            ? cartItems.map(cartItem =>
+                cartItem.key === key ? { ...cartItem, qty: cartItem.qty - 1 } : cartItem
+            )
+            : cartItems.filter(cartItem => cartItem.key !== key)
+
+        localStorage.setItem("buran-cart", JSON.stringify(nextCart))
+        setCartItems(nextCart)
+    }
+
+    function getGearQuantity(item) {
+        const size = getDefaultSize(item)
+        const key = `${item.id}${size || ""}`
+        const foundItem = cartItems.find(cartItem => cartItem.key === key)
+        return foundItem ? foundItem.qty : 0
     }
 
     const formContent = (
@@ -269,16 +295,57 @@ export default function ModalTours({ tour, onClose, isNested, isFormOpen, setIsF
                             <div className="modal-gear-grid">
                                 {recommendedGear.map(gearItem => (
                                     <article key={gearItem.id} className="modal-gear-card">
+                                        {gearItem.img ? (
+                                            <img
+                                                className="modal-gear-img"
+                                                src={gearItem.img}
+                                                alt={gearItem.name}
+                                                loading="lazy"
+                                            />
+                                        ) : (
+                                            <div className="modal-gear-placeholder">
+                                                {gearItem.icon ? (
+                                                    <img
+                                                        className="modal-gear-placeholder-icon"
+                                                        src={gearItem.icon}
+                                                        alt=""
+                                                        loading="lazy"
+                                                    />
+                                                ) : (
+                                                    <span className="modal-gear-placeholder-text">нет фото</span>
+                                                )}
+                                            </div>
+                                        )}
                                         <p className="modal-gear-name">{gearItem.name}</p>
                                         <p className="modal-gear-meta">{gearItem.category}</p>
                                         <p className="modal-gear-price">{formatPrice(gearItem.price)}</p>
-                                        <button
-                                            type="button"
-                                            className="modal-gear-add-btn"
-                                            onClick={() => addToCart(gearItem)}
-                                        >
-                                            в корзину
-                                        </button>
+                                        {getGearQuantity(gearItem) > 0 ? (
+                                            <div className="modal-gear-qty-row">
+                                                <button
+                                                    type="button"
+                                                    className="modal-gear-qty-btn"
+                                                    onClick={() => removeOneFromCart(gearItem)}
+                                                >
+                                                    −
+                                                </button>
+                                                <span className="modal-gear-qty-num">{getGearQuantity(gearItem)}</span>
+                                                <button
+                                                    type="button"
+                                                    className="modal-gear-qty-btn"
+                                                    onClick={() => addToCart(gearItem)}
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <button
+                                                type="button"
+                                                className="modal-gear-add-btn"
+                                                onClick={() => addToCart(gearItem)}
+                                            >
+                                                в корзину
+                                            </button>
+                                        )}
                                     </article>
                                 ))}
                             </div>

@@ -262,8 +262,8 @@ export const planets = [
         ],
         tourImages: ['/img/tours/earth_tour_one.svg', '/img/tours/earth_tour_two.svg'],
         tourGear: [
-            [13, 15, 7],
-            [10, 16, 8]
+            [],
+            []
         ],
         facts: [
             {
