@@ -60,7 +60,7 @@ export default function MoonLine({ circleSize, onGoToMoon }) {
 				style={{ left: moonX, top: moonY, width: moonButtonSize, height: moonButtonSize }}
 			>
 					<img
-						src='/img/planets/themoon.png'
+						src='/img/planets/themoon.webp'
 						alt='Луна'
 						className="space-img"
 					/>
