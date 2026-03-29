@@ -1,0 +1,371 @@
+.tour-wrap {
+    font-family: 'VCR OSD Mono', monospace;
+}
+
+.tour-wrap .rating-number {
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 16px;
+}
+
+.tour-wrap .reviews-title {
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 15px;
+}
+
+.tour-wrap .reviews-info-text {
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 16px;
+}
+
+.tour-wrap .review-text {
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 15px;
+}
+
+.tour-banner {
+    position: relative;
+    margin: 8px -28px 0;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.tour-banner-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 12;
+    object-fit: cover;
+}
+
+.tour-banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 30%,
+        rgba(0, 0, 0, 0.55) 65%,
+        rgba(0, 0, 0, 0.95) 100%
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: 0 28px 22px;
+}
+
+.tour-title {
+    font-family: 'Widock', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin: 0;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
+}
+
+.tour-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 18px 0 6px;
+    margin-bottom: 4px;
+}
+
+.tour-planet {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tour-planet-label {
+    font-family: 'UNCAGE';
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.tour-planet-name {
+    font-family: 'Widock';
+    font-size: 30px;
+    color: #c8ebf5;
+}
+
+.tour-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.tour-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+
+
+.review-author {
+    font-family: 'UNCAGE', sans-serif;
+    font-size: 16px;
+    color: rgb(203, 242, 255);
+}
+
+
+.tour-description {
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.926);
+    margin: 0 0 26px;
+    white-space: pre-line;
+}
+
+.tour-timing {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid rgba(200, 235, 245, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    background: rgba(200, 235, 245, 0.03);
+}
+
+.tour-timing-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 18px 10px;
+    position: relative;
+}
+
+.tour-timing-item + .tour-timing-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background: rgba(200, 235, 245, 0.1);
+}
+
+.tour-timing-value {
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 19px;
+    font-weight: 800;
+    color: #c8ebf5;
+    letter-spacing: -0.02em;
+}
+
+.tour-timing-label {
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.tour-section-title {
+    font-family: 'Widock';
+    font-size: 20px;
+
+    color: rgba(255, 255, 255, 0.901);
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tour-section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.459);
+}
+
+.tour-reviews-wrap {
+    margin-bottom: 30px;
+}
+
+.tour-gear-wrap {
+    margin-bottom: 30px;
+}
+
+.tour-gear-list {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 0 2px 12px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(200, 235, 245, 0.15) transparent;
+}
+
+.tour-gear-list::-webkit-scrollbar {
+    height: 6px;
+}
+
+.tour-gear-list::-webkit-scrollbar-thumb {
+    background: rgba(200, 235, 245, 0.15);
+    border-radius: 3px;
+}
+
+.tour-gear-list .shop-card {
+    flex: 0 0 min(280px, 82vw);
+    max-width: 300px;
+    min-width: 0;
+}
+
+.tour-gear-list .shop-card-name {
+    font-size: 13px;
+    line-height: 1.25;
+}
+
+.tour-catalog-btn {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-radius: 50px;
+    background: transparent;
+    font-family: 'UNCAGE', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.916);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    letter-spacing: 0.01em;
+}
+
+.tour-catalog-btn:hover {
+    color: rgba(255, 255, 255, 0.8);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+.booking-title {
+    font-family: 'Widock', sans-serif;
+    font-size: 28px;
+    text-align: center;
+    margin: 0 0 24px;
+}
+
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.booking-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.booking-label {
+    font-family: 'UNCAGE', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.booking-input {
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: white;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 17px;
+    font-weight: 500;
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+}
+
+.booking-input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.booking-input:focus {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(200, 235, 245, 0.35);
+}
+
+.booking-input.error {
+    border-color: #ff4444;
+    background: rgba(255, 68, 68, 0.05);
+}
+
+.booking-error {
+    font-family: 'VCR OSD Mono', monospace;
+    color: #ff5555;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.booking-success {
+    text-align: center;
+    padding: 36px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.booking-success-title {
+    font-family: 'Widock', sans-serif;
+    font-size: 28px;
+    margin: 0;
+    color: #44dd66;
+}
+
+.booking-success-text {
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.55;
+    opacity: 0.72;
+    margin: 0;
+    max-width: 380px;
+}
+
+@media (max-width: 500px) {
+    .tour-banner {
+        margin: -28px -20px 0;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .tour-banner-overlay {
+        padding: 0 20px 18px;
+    }
+
+    .tour-title {
+        font-size: 22px;
+    }
+
+    .tour-info-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .tour-timing {
+        grid-template-columns: 1fr;
+    }
+
+    .tour-timing-item + .tour-timing-item::before {
+        left: 20%;
+        top: 0;
+        width: 60%;
+        height: 1px;
+    }
+
+    .tour-gear-list .shop-card {
+        flex: 0 0 min(260px, 88vw);
+    }
+}

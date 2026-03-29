@@ -265,8 +265,7 @@ export default function Shop() {
                                 className='modal-back'
                                 onClick={() => setIsOrderOpen(false)}
                             >
-                                <img src='/img/icons/back_btn.svg' alt='назад' />
-                                назад
+                                <img src='/img/icons/Arrow-btn.svg' alt='Назад' />
                             </button>
 
                             <motion.h1
@@ -357,7 +356,7 @@ export default function Shop() {
     )
 }
 
-function ShopCard({ item, index, onAdd, cart, onRemoveOne, onRemoveAll }) {
+export function ShopCard({ item, index, onAdd, cart, onRemoveOne, onRemoveAll }) {
     const [selectedSize, setSelectedSize] = useState(
         item.sizes ? item.sizes[Math.floor(item.sizes.length / 2)] : null
     )

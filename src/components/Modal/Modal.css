@@ -25,13 +25,17 @@
     max-height: 90vh;
     border-radius: 20px;
     position: relative;
-    background: linear-gradient(135deg, #2a2a2a 0%, #1f1f1f 100%);
+    background: #1a1a1a;
     padding: 28px;
     z-index: 101;
     overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    font-family: 'UNCAGE';
+    font-family: 'VCR OSD Mono', monospace;
+}
+
+.modal-popup.modal-popup--tour {
+    background: #121212;
 }
 
 .modal-popup::-webkit-scrollbar {
@@ -54,8 +58,8 @@
     align-items: center;
     background: none;
     border: none;
-    font-family: 'UNCAGE';
-    font-size: 18px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 20px;
     cursor: pointer;
     gap: 8px;
     padding: 8px 0;
@@ -66,12 +70,19 @@
     opacity: 0.7;
 }
 
+.modal-back img {
+    display: block;
+    height: 11px;
+    width: auto;
+}
+
 .modal-location {
+    font-family: 'UNCAGE', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'UNCAGE';
-    font-size: 14px;
+    color: #ffffff51;
+    font-size: 12px;
     text-align: center;
     opacity: 0.7;
     margin-bottom: 10px;
@@ -95,8 +106,8 @@
 }
 
 .modal-stat-label {
-    font-family: 'UNCAGE';
-    font-size: 15px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 17px;
     opacity: 1;
     font-weight: 400;
 }
@@ -167,47 +178,17 @@
 .modal-science {
     width: 100%;
     margin-bottom: 22px;
-    border: 1px solid rgba(184, 192, 201, 0.34);
+
     border-radius: 14px;
     padding: 14px;
-    background:
-        linear-gradient(rgba(20, 18, 12, 0.72), rgba(20, 18, 12, 0.72)),
-        repeating-linear-gradient(
-            to bottom,
-            rgba(180, 188, 198, 0.11) 0px,
-            rgba(180, 188, 198, 0.11) 1px,
-            transparent 1px,
-            transparent 26px
-        ),
-        radial-gradient(130% 100% at 50% 0%, rgba(166, 176, 188, 0.18) 0%, rgba(92, 100, 110, 0.1) 46%, rgba(20, 22, 24, 0.18) 100%);
-    box-shadow:
-        inset 0 0 0 1px rgba(213, 220, 230, 0.08),
-        0 10px 24px rgba(0, 0, 0, 0.35);
+
+
     position: relative;
 }
 
-.modal-science::before {
-    content: "";
-    position: absolute;
-    top: 10px;
-    bottom: 10px;
-    left: 34px;
-    width: 1px;
-    background: rgba(255, 110, 110, 0.22);
-    pointer-events: none;
-}
 
-.modal-science::after {
-    content: "актуальные данные";
-    position: absolute;
-    right: 12px;
-    top: 10px;
-    font-family: 'UNCAGE';
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: rgba(211, 219, 227, 0.52);
-}
+
+
 
 .modal-science-list {
     display: grid;
@@ -217,19 +198,14 @@
 }
 
 .modal-science-item {
-    border: 1px solid rgba(188, 198, 210, 0.34);
-    background:
-        linear-gradient(0deg, rgba(28, 24, 18, 0.82), rgba(28, 24, 18, 0.82)),
-        linear-gradient(120deg, rgba(184, 195, 208, 0.1), rgba(95, 106, 118, 0.08));
+
+    background: rgba(69, 69, 69, 0.334);
+
     border-radius: 10px;
     padding: 16px;
     position: relative;
     overflow: hidden;
-    box-shadow:
-        inset 0 1px 0 rgba(221, 229, 239, 0.16),
-        inset 0 -1px 0 rgba(14, 12, 9, 0.75),
-        0 8px 18px rgba(0, 0, 0, 0.3);
-    transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+
 }
 
 
@@ -242,27 +218,12 @@
 }
 
 .modal-science-item:hover {
-    border-color: rgba(218, 228, 238, 0.58);
-    box-shadow:
-        inset 0 1px 0 rgba(230, 237, 246, 0.2),
-        inset 0 -1px 0 rgba(12, 10, 7, 0.85),
-        0 10px 24px rgba(0, 0, 0, 0.45),
-        0 0 0 1px rgba(216, 225, 235, 0.2);
+    border-color: rgb(39, 39, 39);
+
     transform: translateY(-2px);
 }
 
-.modal-science-item:nth-child(odd) {
-    transform: rotate(-0.35deg);
-}
 
-.modal-science-item:nth-child(even) {
-    transform: rotate(0.35deg);
-}
-
-.modal-science-item:nth-child(odd):hover,
-.modal-science-item:nth-child(even):hover {
-    transform: translateY(-2px) rotate(0deg);
-}
 
 .modal-science-label {
     font-family: 'Widock';
@@ -271,19 +232,19 @@
     text-align: left;
     text-transform: uppercase;
     letter-spacing: 0.6px;
-    color: #d2dbe4;
+    color: #ffffff;
 
     font-weight: 400;
 }
 
 .modal-science-value {
-    font-family: 'UNCAGE';
-    font-size: 14px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 16px;
     line-height: 1.45;
     margin: 0;
     opacity: 0.95;
     text-align: left;
-    color: #dfe6ee;
+    color: #b8e4ffe5;
 }
 
 .modal-science-chem-list {
@@ -296,14 +257,15 @@
 }
 
 .modal-science-chem-item {
-    font-family: 'UNCAGE';
-    font-size: 14px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 16px;
     line-height: 1.35;
     opacity: 0.95;
     display: flex;
     align-items: flex-start;
     gap: 8px;
-    color: #dfe6ee;
+    color: #b8e4ffe5;
+
 }
 
 .modal-science-chem-item::before {
@@ -312,19 +274,19 @@
     height: 8px;
     border-radius: 999px;
     margin-top: 5px;
-    background: #57d7ff;
-    box-shadow: 0 0 10px rgba(87, 215, 255, 0.7);
+    background: #b8e4ffe5;
+
     flex-shrink: 0;
 }
 
 .modal-science-chem-item.is-hot::before {
     background: #ff5555;
-    box-shadow: 0 0 10px rgba(255, 85, 85, 0.75);
+
 }
 
 .modal-science-chem-item.is-cold::before {
-    background: #57d7ff;
-    box-shadow: 0 0 10px rgba(87, 215, 255, 0.75);
+    background: #b8e4ffe5;
+
 }
 
 .modal-heading {
@@ -336,8 +298,8 @@
 }
 
 .modal-heading-science {
-    font-family: 'UNCAGE';
-    font-size: 22px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 24px;
     letter-spacing: 1.4px;
     text-transform: uppercase;
     color: #d6dee8;
@@ -416,9 +378,9 @@
 }
 
 .modal-label {
-    font-family: 'Uncage';
+    font-family: 'VCR OSD Mono', monospace;
     text-align: center;
-    font-size: 16px;
+    font-size: 18px;
     margin: 0;
     opacity: 0.9;
 }
@@ -436,14 +398,14 @@ align-self: center;
 }
 
 .modal-hours {
-    font-family: 'UNCAGE';
+    font-family: 'VCR OSD Mono', monospace;
     font-weight: 100;
     margin-left: 8px;
 }
 .modal-hours-label {
     margin-top: 0;
     text-align: center;
-    font-size: 22px;
+    font-size: 24px;
 }
 .modal-duration-block {
     margin-top: 20px;
@@ -457,14 +419,14 @@ align-self: center;
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    font-family: 'UNCAGE';
-    font-size: 13px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 15px;
     opacity: 0.55;
 }
 
 .modal-text {
-    font-family: 'Uncage';
-    font-size: 15px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 17px;
     line-height: 1.6;
     opacity: 0.85;
     margin: 0;
@@ -502,8 +464,8 @@ align-self: center;
     border-radius: 999px;
     background: #ff0000;
     border: 1px solid #ff0000;
-    font-family: 'UNCAGE';
-    font-size: 10px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 12px;
     letter-spacing: 1px;
     text-transform: uppercase;
     color: #ffffff;
@@ -584,8 +546,8 @@ align-self: center;
 }
 
 .modal-gear-placeholder-text {
-    font-family: 'UNCAGE';
-    font-size: 12px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 14px;
     opacity: 0.7;
 }
 
@@ -598,16 +560,16 @@ align-self: center;
 
 .modal-gear-meta {
     margin: 0;
-    font-family: 'UNCAGE';
-    font-size: 12px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 14px;
     opacity: 0.75;
     text-transform: lowercase;
 }
 
 .modal-gear-price {
     margin: 0;
-    font-family: 'UNCAGE';
-    font-size: 16px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 18px;
     color: #dfe6ee;
 }
 
@@ -616,8 +578,8 @@ align-self: center;
     border: 1px solid rgba(188, 198, 210, 0.34);
     border-radius: 999px;
     background: rgba(188, 198, 210, 0.12);
-    font-family: 'UNCAGE';
-    font-size: 13px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 15px;
     letter-spacing: 0.2px;
     text-transform: lowercase;
     padding: 8px 10px;
@@ -644,8 +606,8 @@ align-self: center;
     border-radius: 8px;
     border: 1px solid rgba(188, 198, 210, 0.34);
     background: rgba(188, 198, 210, 0.12);
-    font-family: 'UNCAGE';
-    font-size: 18px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 20px;
     cursor: pointer;
     transition: background 0.2s ease, transform 0.2s ease;
 }
@@ -658,8 +620,8 @@ align-self: center;
 .modal-gear-qty-num {
     min-width: 24px;
     text-align: center;
-    font-family: 'UNCAGE';
-    font-size: 18px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 20px;
 }
 
 .modal-gear-catalog-btn {
@@ -668,8 +630,8 @@ align-self: center;
     border: 1px solid rgba(188, 198, 210, 0.34);
     border-radius: 12px;
     background: rgba(188, 198, 210, 0.12);
-    font-family: 'UNCAGE';
-    font-size: 14px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 16px;
     letter-spacing: 0.2px;
     text-transform: lowercase;
     padding: 10px 14px;
@@ -695,12 +657,10 @@ align-self: center;
     padding: 0 20px;
     transition: all 0.3s ease;
     margin-top: 8px;
-    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
 }
 
 .modal-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
     opacity: 0.95;
 }
 
@@ -742,8 +702,8 @@ align-self: center;
 }
 
 .modal-form-label {
-    font-family: 'UNCAGE';
-    font-size: 12px;
+    font-family: 'UNCAGE', sans-serif;
+    font-size: 14px;
     opacity: 0.9;
     margin: 0;
 }
@@ -755,8 +715,8 @@ align-self: center;
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
     color: white;
-    font-family: 'UNCAGE';
-    font-size: 16px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 18px;
     transition: all 0.3s ease;
     outline: none;
 }
@@ -776,9 +736,9 @@ align-self: center;
 }
 
 .modal-error-text {
-    font-family: 'UNCAGE';
+    font-family: 'VCR OSD Mono', monospace;
     color: #ff4444;
-    font-size: 13px;
+    font-size: 15px;
     margin-top: 2px;
 }
 
@@ -803,8 +763,8 @@ align-self: center;
 }
 
 .modal-success-text {
-    font-family: 'UNCAGE';
-    font-size: 18px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 20px;
     line-height: 1.6;
     opacity: 0.9;
     margin: 0;

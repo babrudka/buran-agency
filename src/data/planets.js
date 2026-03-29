@@ -1,3 +1,5 @@
+import { getTourReviews } from './tourReviews'
+
 export function formatDuration(seconds) {
     if (seconds === 0) return 'Вы здесь'
 
@@ -18,8 +20,10 @@ export function buildTourData(planet, tourName, tourIndex) {
 
     const data = {
         name: tourName,
+        tourIndex,
         planetName: planet.name,
         tourImage: planet.tourImages?.[tourIndex],
+        tourReviews: getTourReviews(planet.id, tourIndex),
         recommendedGearIds: planet.tourGear?.[tourIndex] || [],
         score: planet.score,
         desc: planet.tourDescs?.length > 1

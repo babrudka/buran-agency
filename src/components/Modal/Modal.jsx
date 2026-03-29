@@ -135,7 +135,7 @@ export default function Modal({
         >
 
           <motion.div
-            className="modal-popup"
+            className={`modal-popup${modalScreen === "tour" ? " modal-popup--tour" : ""}`}
             variants={popupAnimation}
             initial="hidden"
             animate="visible"
@@ -157,8 +157,7 @@ export default function Modal({
                 }
               }}
             >
-              <img src="/img/icons/back_btn.svg" alt="назад" />
-              назад
+              <img src="/img/icons/Arrow-btn.svg" alt="Назад" />
             </button>
 
             <AnimatePresence mode="wait">
@@ -235,7 +234,7 @@ export default function Modal({
                   <motion.section variants={fadeInAnimation} className="modal-tours">
                     {scientificDetails.length > 0 && (
                       <motion.section variants={fadeInAnimation} className="modal-science">
-                        <h1 className="modal-heading modal-heading-science">научная справка</h1>
+
                         <motion.div
                           className="modal-science-list"
                           variants={scienceListAnimation}

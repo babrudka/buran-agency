@@ -28,8 +28,8 @@
     background: rgba(200, 235, 245, 0.3);
     border: 1px solid rgba(200, 235, 245, 0.3);
     color: #c8ebf5;
-    font-family: UNCAGE;
-    font-size: 14px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 18px;
     padding: 10px 20px;
     border-radius: 999px;
     cursor: pointer;
@@ -53,14 +53,14 @@
 .cart-badge {
     background: #ff4444;
     color: white;
-    font-size: 11px;
     min-width: 20px;
     height: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: UNCAGE;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 13px;
 }
 
 .shop-header {
@@ -76,7 +76,7 @@
 }
 
 .shop-subtitle {
-    font-family: UNCAGE;
+    font-family: 'UNCAGE', sans-serif;
     font-size: 14px;
     color: rgba(255, 255, 255, 0.4);
     display: flex;
@@ -105,8 +105,8 @@
     border-radius: 999px;
     padding: 8px 18px;
     color: rgba(255, 255, 255, 0.6);
-    font-family: UNCAGE;
-    font-size: 13px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 15px;
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
@@ -239,23 +239,24 @@
 
 .shop-card-name {
     font-family: Widock;
-    font-size: 15px;
+    font-size: 16px;
     color: #fff;
     line-height: 1.3;
 }
 
 .shop-card-cat {
-    font-family: UNCAGE;
-    font-size: 11px;
+    font-family: 'UNCAGE', sans-serif;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.35);
     text-transform: uppercase;
 }
 
 .shop-card-price {
-    font-family: UNCAGE;
-    font-size: 16px;
-    color: #c8ebf5;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 22px;
+    color: #b6efff;
     margin-top: 2px;
+    margin-bottom: 8px;
 }
 
 .shop-card-details {
@@ -264,9 +265,9 @@
 }
 
 .shop-card-desc {
-    font-family: UNCAGE;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.678);
     line-height: 1.6;
     padding: 4px 0 8px;
     white-space: pre-line;
@@ -279,13 +280,16 @@
 }
 
 .size-btn {
+    display: block;
+    width: 40px;
+    height: 40px;
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.2);
     color: rgba(255, 255, 255, 0.5);
-    font-family: UNCAGE;
-    font-size: 11px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 13px;
     padding: 4px 10px;
-    border-radius: 6px;
+    border-radius: 100%;
     cursor: pointer;
     transition: all 0.15s;
 }
@@ -305,10 +309,10 @@
     background: rgba(200, 235, 245, 0.1);
     border: 1px solid rgba(200, 235, 245, 0.3);
     color: #c8ebf5;
-    font-family: UNCAGE;
-    font-size: 13px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 15px;
     padding: 10px 16px;
-    border-radius: 8px;
+    border-radius: 50px;
     cursor: pointer;
     transition: all 0.2s;
     text-align: center;
@@ -341,13 +345,13 @@
     border: 1px solid rgba(200, 235, 245, 0.3);
     background: rgba(200, 235, 245, 0.1);
     color: #c8ebf5;
-    font-size: 18px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.15s;
-    font-family: UNCAGE;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 20px;
 }
 
 .card-qty-btn:hover {
@@ -356,8 +360,8 @@
 }
 
 .card-qty-num {
-    font-family: UNCAGE;
-    font-size: 18px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 20px;
     color: #fff;
     min-width: 28px;
     text-align: center;
@@ -367,8 +371,8 @@
     background: rgba(255, 68, 68, 0.08);
     border: 1px solid rgba(255, 68, 68, 0.25);
     color: rgba(255, 68, 68, 0.7);
-    font-family: UNCAGE;
-    font-size: 12px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 14px;
     padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
@@ -460,14 +464,15 @@
 }
 
 .cart-empty p {
-    font-family: UNCAGE;
-    font-size: 16px;
+    font-family: 'UNCAGE', sans-serif;
+    font-size: 18px;
     color: rgba(255, 255, 255, 0.5);
 }
 
 .cart-empty-hint {
     text-align: center;
-    font-size: 12px !important;
+    font-family: 'UNCAGE', sans-serif;
+    font-size: 14px !important;
     color: rgba(255, 255, 255, 0.3) !important;
 }
 
@@ -536,8 +541,8 @@
 }
 
 .cart-item-name {
-    font-family: UNCAGE;
-    font-size: 12px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 14px;
     color: #fff;
     white-space: nowrap;
     overflow: hidden;
@@ -549,8 +554,8 @@
 }
 
 .cart-item-price {
-    font-family: UNCAGE;
-    font-size: 11px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 13px;
     color: #c8ebf5;
     margin-top: 2px;
 }
@@ -569,13 +574,13 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: transparent;
     color: #fff;
-    font-size: 14px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.15s;
-    font-family: UNCAGE;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 16px;
 }
 
 .qty-btn:hover {
@@ -584,8 +589,8 @@
 }
 
 .qty-num {
-    font-family: UNCAGE;
-    font-size: 13px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 15px;
     color: #fff;
     min-width: 20px;
     text-align: center;
@@ -594,13 +599,13 @@
 .del-btn {
     background: none;
     border: none;
-    font-size: 14px;
     cursor: pointer;
     padding: 2px 4px;
     opacity: 0.5;
     transition: opacity 0.15s, color 0.15s;
     color: rgba(255, 255, 255, 0.6);
-    font-family: UNCAGE;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 16px;
 }
 
 .del-btn:hover {
@@ -620,8 +625,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: UNCAGE;
-    font-size: 14px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 16px;
     color: rgba(255, 255, 255, 0.6);
 }
 
@@ -635,8 +640,8 @@
     background: rgba(200, 235, 245, 0.15);
     border: 1px solid #c8ebf5;
     color: #c8ebf5;
-    font-family: UNCAGE;
-    font-size: 15px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 17px;
     padding: 14px 20px;
     border-radius: 10px;
     cursor: pointer;
@@ -661,8 +666,8 @@
     background: transparent;
     border: none;
     color: rgba(255, 255, 255, 0.3);
-    font-family: UNCAGE;
-    font-size: 12px;
+    font-family: 'VCR OSD Mono', monospace;
+    font-size: 14px;
     cursor: pointer;
     padding: 6px;
     transition: color 0.2s;
@@ -687,7 +692,7 @@
     .cart-btn {
         top: 90px;
         right: 16px;
-        font-size: 12px;
+        font-size: 14px;
         padding: 8px 14px;
     }
 
@@ -732,12 +737,12 @@
     .cart-btn {
         top: 170px;
         right: 50px;
-        font-size: 20px;
+        font-size: 22px;
         padding: 14px 28px;
     }
 
     .cart-badge {
-        font-size: 15px;
+        font-size: 17px;
         min-width: 28px;
         height: 28px;
     }
@@ -751,7 +756,7 @@
     }
 
     .shop-category-btn {
-        font-size: 18px;
+        font-size: 20px;
         padding: 12px 26px;
     }
 
@@ -799,39 +804,39 @@
     }
 
     .shop-card-cat {
-        font-size: 15px;
+        font-size: 17px;
     }
 
     .shop-card-price {
-        font-size: 22px;
+        font-size: 24px;
     }
 
     .shop-card-desc {
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .size-btn {
-        font-size: 15px;
+        font-size: 17px;
         padding: 6px 14px;
     }
 
     .add-btn {
-        font-size: 18px;
+        font-size: 20px;
         padding: 14px 20px;
     }
 
     .card-qty-btn {
         width: 44px;
         height: 44px;
-        font-size: 22px;
+        font-size: 24px;
     }
 
     .card-qty-num {
-        font-size: 22px;
+        font-size: 24px;
     }
 
     .card-remove-btn {
-        font-size: 16px;
+        font-size: 18px;
         padding: 10px 16px;
     }
 
@@ -849,11 +854,11 @@
     }
 
     .cart-item-name {
-        font-size: 16px;
+        font-size: 18px;
     }
 
     .cart-item-price {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .cart-total-price {
@@ -861,7 +866,7 @@
     }
 
     .cart-order-btn {
-        font-size: 20px;
+        font-size: 22px;
         padding: 18px 24px;
     }
 

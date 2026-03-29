@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback } from 'react'
 import { motion, AnimatePresence } from "framer-motion"
 import { planets, moon, buildTourData, formatDuration } from '../../data/planets'
 import ModalTours from '../Modal/ModalTours'
+import { TourRatingBadge } from '../TourReviews/TourReviews'
 import Footer from '../Footer/Footer'
 import './ToursCatalog.css'
 
@@ -226,18 +227,26 @@ export default function ToursCatalog() {
                                 src={tour.img}
                                 alt={tour.planetName}
                             />
-                            <div className='card-info'>
-                                <div className='card-name'>{tour.name}</div>
-                                <div className='card-planet'>{tour.planetName}</div>
-                                <div className='card-meta'>
-                                    <span className='meta-item'>
-                                        <img className='meta-icon' src='/img/icons/temp.svg' alt='' />
-                                        {formatTemperature(tour.temp)}
-                                    </span>
-                                    <span className='meta-item'>
-                                        {formatDuration(tour.flyTime)}
-                                    </span>
+                            <div className='card-body'>
+                                <div className='card-info'>
+                                    <div className='card-name'>{tour.name}</div>
+                                    <div className='card-planet'>{tour.planetName}</div>
+                                    <div className='card-meta'>
+                                        <span className='meta-item'>
+                                            <img className='meta-icon' src='/img/icons/temp.svg' alt='' />
+                                            {formatTemperature(tour.temp)}
+                                        </span>
+                                        <span className='meta-item'>
+                                            {formatDuration(tour.flyTime)}
+                                        </span>
+                                    </div>
                                 </div>
+                                {tour.tourReviews?.rating != null && (
+                                    <TourRatingBadge
+                                        rating={tour.tourReviews.rating}
+                                        className='card-rating'
+                                    />
+                                )}
                             </div>
                         </motion.div>
                     ))}

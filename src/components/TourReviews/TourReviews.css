@@ -1,0 +1,160 @@
+.star-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    line-height: 1;
+}
+
+.star-box {
+    position: relative;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    font-size: 18px;
+}
+
+.star-box--sm {
+    font-size: 22px;
+}
+
+.star-box--md {
+    font-size: 26px;
+}
+
+.star-box--lg {
+    font-size: 32px;
+}
+
+.star-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    line-height: 1;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.star-icon--empty {
+    color: rgba(255, 255, 255, 0.12);
+    position: relative;
+    width: 100%;
+}
+
+.star-icon--filled {
+    color: #ffe484;
+    text-shadow:
+        0 0 6px rgba(240, 201, 58, 0.8),
+        0 0 18px rgba(240, 201, 58, 0.4);
+}
+
+.rating-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.rating-number {
+    font-family: 'Space Grotesk', UNCAGE, sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #f0c93a;
+    letter-spacing: 0.01em;
+    text-shadow: 0 0 10px rgba(240, 201, 58, 0.5);
+}
+
+.reviews-panel {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reviews-panel--compact {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+.reviews-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.reviews-title {
+    font-family: 'Space Grotesk', UNCAGE, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: lowercase;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.reviews-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+}
+
+.reviews-info-text {
+    font-family: 'Space Grotesk', UNCAGE, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.reviews-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.review-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: border-color 0.2s;
+}
+
+.review-item:hover {
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+.review-item-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.review-author {
+    font-family: 'Space Grotesk', UNCAGE, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: rgba(200, 235, 245, 0.95);
+}
+
+.review-text {
+    font-family: 'Space Grotesk', UNCAGE, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.78);
+    margin: 0;
+}
+
+@media (max-width: 600px) {
+    .review-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
