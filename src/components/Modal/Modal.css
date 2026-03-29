@@ -186,14 +186,29 @@
     position: relative;
 }
 
+.pluto-text-desc {
+    padding: 5px;
+    background-color: rgba(69, 69, 69, 0.334);
+    border-radius: 10px;
+    text-align: center;
+}
 
+.modal-score-pluto {
+    justify-content: space-around;
+    flex-direction: column;
+}
 
-
+.client-message {
+    font-size: 32px;
+    margin: 10px 0;
+    color: #d3d3d3;
+}
 
 .modal-science-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
+    margin-bottom: 40px;
     width: 100%;
 }
 

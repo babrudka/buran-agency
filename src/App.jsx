@@ -51,9 +51,7 @@ function App() {
   }
 
   function openPlanetModal() {
-    if (currentPlanet.id !== "pluto") {
-      setIsModalOpen(true)
-    }
+    setIsModalOpen(true)
   }
 
   function renderPage() {

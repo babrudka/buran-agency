@@ -17,8 +17,8 @@ const popupAnimation = {
       staggerChildren: 0.05
     }
   },
-  exit: { 
-    opacity: 0, 
+  exit: {
+    opacity: 0,
     scale: 0.9,
     transition: { duration: 0.2 }
   }
@@ -26,8 +26,8 @@ const popupAnimation = {
 
 const fadeInAnimation = {
   hidden: { opacity: 0, y: 15 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { type: "tween", ease: "easeOut", duration: 0.3 }
   }
@@ -35,9 +35,9 @@ const fadeInAnimation = {
 
 const screenAnimation = {
   hidden: { opacity: 0 },
-  visible: { 
-    opacity: 1, 
-    transition: { staggerChildren: 0.05, delayChildren: 0.05 } 
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05, delayChildren: 0.05 }
   },
   exit: { opacity: 0, transition: { duration: 0.15 } }
 }
@@ -181,112 +181,154 @@ export default function Modal({
                     {planet.name}
                   </motion.h1>
 
-                  <motion.div variants={fadeInAnimation} className="modal-score">
-                    <h1 className="modal-score-label">
-                      сложность<br />экспедиций
-                    </h1>
+                  {planet.id !== 'pluto' ? (
+                    <>
+                      <motion.div variants={fadeInAnimation} className="modal-score">
+                        <h1 className="modal-score-label">
+                          сложность<br />экспедиций
+                        </h1>
 
-                    <div className={`modal-score-circle `}
-                    style={{ borderColor: getScoreColor(planet.score) }}>
-                      <h1 className="modal-score-num">{planet.score}</h1>
-                    </div>
-                  </motion.div>
+                        <div className={`modal-score-circle `}
+                          style={{ borderColor: getScoreColor(planet.score) }}>
+                          <h1 className="modal-score-num">{planet.score}</h1>
+                        </div>
+                      </motion.div>
 
-                  <motion.div variants={fadeInAnimation} className="modal-stat-line">
-                    <h1 className="modal-stat-label">агрессивность климата</h1>
-                    <div className="modal-progress">
-                      <div
-                        className="modal-fill"
-                        style={{
-                          width: climatePercent + "%",
-                          background: getStatColor(climatePercent)
-                        }}
-                      />
-                    </div>
-                  </motion.div>
+                      <motion.div variants={fadeInAnimation} className="modal-stat-line">
+                        <h1 className="modal-stat-label">агрессивность климата</h1>
+                        <div className="modal-progress">
+                          <div
+                            className="modal-fill"
+                            style={{
+                              width: climatePercent + "%",
+                              background: getStatColor(climatePercent)
+                            }}
+                          />
+                        </div>
+                      </motion.div>
 
-                  <motion.div variants={fadeInAnimation} className="modal-stat-line">
-                    <h1 className="modal-stat-label">температурный режим</h1>
-                    <div className="modal-progress">
-                      <div
-                        className="modal-fill"
-                        style={{
-                          width: temperaturePercent + "%",
-                          background: getStatColor(temperaturePercent)
-                        }}
-                      />
-                    </div>
-                  </motion.div>
+                      <motion.div variants={fadeInAnimation} className="modal-stat-line">
+                        <h1 className="modal-stat-label">температурный режим</h1>
+                        <div className="modal-progress">
+                          <div
+                            className="modal-fill"
+                            style={{
+                              width: temperaturePercent + "%",
+                              background: getStatColor(temperaturePercent)
+                            }}
+                          />
+                        </div>
+                      </motion.div>
 
-                  <motion.div variants={fadeInAnimation} className="modal-stat-line">
-                    <h1 className="modal-stat-label">удалённость</h1>
-                    <div className="modal-progress">
-                      <div
-                        className="modal-fill"
-                        style={{
-                          width: distancePercent + "%",
-                          background: getStatColor(distancePercent)
-                        }}
-                      />
-                    </div>
-                  </motion.div>
+                      <motion.div variants={fadeInAnimation} className="modal-stat-line">
+                        <h1 className="modal-stat-label">удалённость</h1>
+                        <div className="modal-progress">
+                          <div
+                            className="modal-fill"
+                            style={{
+                              width: distancePercent + "%",
+                              background: getStatColor(distancePercent)
+                            }}
+                          />
+                        </div>
+                      </motion.div>
 
-                  <motion.section variants={fadeInAnimation} className="modal-tours">
-                    {scientificDetails.length > 0 && (
-                      <motion.section variants={fadeInAnimation} className="modal-science">
+                      <motion.section variants={fadeInAnimation} className="modal-tours">
+                        {scientificDetails.length > 0 && (
+                          <motion.section variants={fadeInAnimation} className="modal-science">
 
-                        <motion.div
-                          className="modal-science-list"
-                          variants={scienceListAnimation}
-                          initial="hidden"
-                          whileInView="visible"
-                          viewport={{ once: true, amount: 0.25 }}
-                        >
-                          {scientificDetails.map((detail, index) => (
-                            <motion.article
-                              key={detail.key}
-                              className="modal-science-item"
-                              variants={scienceItemAnimation}
-                              custom={index}
-                              whileHover={{ y: -2 }}
-                              transition={{ duration: 0.2 }}
+                            <motion.div
+                              className="modal-science-list"
+                              variants={scienceListAnimation}
+                              initial="hidden"
+                              whileInView="visible"
+                              viewport={{ once: true, amount: 0.25 }}
                             >
-                              <h2 className="modal-science-label">{detail.label}</h2>
-                              {renderScienceValue(detail)}
-                            </motion.article>
+                              {scientificDetails.map((detail, index) => (
+                                <motion.article
+                                  key={detail.key}
+                                  className="modal-science-item"
+                                  variants={scienceItemAnimation}
+                                  custom={index}
+                                  whileHover={{ y: -2 }}
+                                  transition={{ duration: 0.2 }}
+                                >
+                                  <h2 className="modal-science-label">{detail.label}</h2>
+                                  {renderScienceValue(detail)}
+                                </motion.article>
+                              ))}
+                            </motion.div>
+                          </motion.section>
+                        )}
+
+                        <h1 className="modal-heading">доступные туры</h1>
+
+                        <div className="modal-cards">
+                          {planet.tours?.map((tourName, tourIndex) => (
+                            <motion.button
+                              variants={fadeInAnimation}
+                              className="modal-card"
+                              style={{
+                                backgroundImage: `url(${planet.tourImages?.[tourIndex]})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat"
+                              }}
+                              key={tourIndex}
+                              onClick={() => {
+                                setSelectedTour(buildTourData(planet, tourName, tourIndex))
+                                setModalScreen("tour")
+                                setIsFormOpen(false)
+                              }}
+                            >
+                              <h1 className="modal-name">{tourName}</h1>
+                            </motion.button>
                           ))}
-                        </motion.div>
+                        </div>
+
                       </motion.section>
-                    )}
+                    </>
+                  ) : (
+                    <>
+                    
+                      <motion.div variants={fadeInAnimation} className="modal-score modal-score-pluto">
+                        
+                        <h1 className="client-message">
+                          уважаемые клиенты!
+                        </h1>
+                        <p className="modal-text pluto-text-desc">
+                          К сожалению, на данный момент мы не можем предложить вам экспедиции на Плутон, так как он более не является полноправной планетой и не соответствует нашим критериям. Мы рекомендуем вам исследовать наши уникальные туры на другие планеты, которые обеспечат вам незабываемые впечатления и возможность открыть для себя что-то новое и удивительное в нашей Солнечной системе. Просим отнестись к нам с пониманием и надеемся, что вы найдете идеальное направление для своего следующего космического приключения среди наших тщательно подобранных туров.
+                        </p>
+                      </motion.div>
+                      {scientificDetails.length > 0 && (
+                          <motion.section variants={fadeInAnimation} className="modal-science">
 
-                    <h1 className="modal-heading">доступные туры</h1>
-
-                    <div className="modal-cards">
-                      {planet.tours?.map((tourName, tourIndex) => (
-
-                        <motion.button
-                          variants={fadeInAnimation}
-                          className="modal-card"
-                          style={{
-                            backgroundImage: `url(${planet.tourImages?.[tourIndex]})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                            backgroundRepeat: "no-repeat"
-                          }}
-                          key={tourIndex}
-                          onClick={() => {
-                            setSelectedTour(buildTourData(planet, tourName, tourIndex))
-                            setModalScreen("tour")
-                            setIsFormOpen(false)
-                          }}
-                        >
-                          <h1 className="modal-name">{tourName}</h1>
-                        </motion.button>
-
-                      ))}
-                    </div>
-
-                  </motion.section>
+                            <motion.div
+                              className="modal-science-list"
+                              variants={scienceListAnimation}
+                              initial="hidden"
+                              whileInView="visible"
+                              viewport={{ once: true, amount: 0.25 }}
+                            >
+                              {scientificDetails.map((detail, index) => (
+                                <motion.article
+                                  key={detail.key}
+                                  className="modal-science-item"
+                                  variants={scienceItemAnimation}
+                                  custom={index}
+                                  whileHover={{ y: -2 }}
+                                  transition={{ duration: 0.2 }}
+                                >
+                                  <h2 className="modal-science-label">{detail.label}</h2>
+                                  {renderScienceValue(detail)}
+                                </motion.article>
+                              ))}
+                            </motion.div>
+                            <p className="modal-text pluto-text-desc">К сожалению, Плутон перестал являться планетой, потому что он не смог "навести порядок" на своей орбите — вокруг него вращается множество других ледяных тел в поясе Койпера, и его гравитации недостаточно, чтобы поглотить или отбросить их. С 2006 года Плутон принято считать "карликовой планетой".</p>
+                          </motion.section>
+                        )}
+                    </>
+                  )}
 
                 </motion.div>
               )}
